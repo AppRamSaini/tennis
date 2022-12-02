@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tennis/screens/intro.dart';
+import 'package:tennis/screens/score_card/winner.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
 class Splash extends StatefulWidget {
@@ -15,8 +16,8 @@ class Splash extends StatefulWidget {
 
 class _SplashState extends State<Splash> {
   _startTime() async {
-    var _duration = const Duration(seconds: 5);
-    return Timer(_duration, navigationToScreen);
+    var duration = const Duration(seconds: 5);
+    return Timer(duration, navigationToScreen);
   }
   void navigationToScreen() async{
     try {
@@ -29,12 +30,12 @@ class _SplashState extends State<Splash> {
         if(user_id !=''){
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Intro()),
+            MaterialPageRoute(builder: (context) => Winner()),
           );
         }else{
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Intro()),
+            MaterialPageRoute(builder: (context) => Winner()),
           );
 
         }
@@ -42,17 +43,16 @@ class _SplashState extends State<Splash> {
         await prefs.setBool('seen', true);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Intro()),
+          MaterialPageRoute(builder: (context) => Winner()),
         );
       }
 
     } on Exception catch (e) {
-
     }
   }
   @override
   void initState(){
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: MyAppTheme.whiteColor,
       statusBarBrightness: Brightness.dark,
     ));
@@ -73,7 +73,7 @@ class _SplashState extends State<Splash> {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: MyAppTheme.whiteColor,
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
         child: Image.asset(

@@ -12,7 +12,7 @@ class Intro extends StatefulWidget {
 class _IntroState extends State<Intro> {
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: MyAppTheme.MainColor,
       statusBarBrightness: Brightness.light,
     ));
@@ -20,7 +20,7 @@ class _IntroState extends State<Intro> {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: MyAppTheme.whiteColor,
-      body: Container(
+      body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
       ),
