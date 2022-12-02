@@ -16,7 +16,7 @@ class ScoreCardProvider extends ChangeNotifier {
    }
    void firstTieBreak(String win,String los){
      if(win.isNotEmpty && los.isNotEmpty){
-       if(int.parse(win) > int.parse(los)){
+     /*  if(int.parse(win) > int.parse(los)){
          if(int.parse(win) - int.parse(los) == 1){
            fTB = true;
            notifyListeners();
@@ -32,7 +32,7 @@ class ScoreCardProvider extends ChangeNotifier {
            fTB = false;
            notifyListeners();
          }
-       }else if(int.parse(win) == int.parse(los)){
+       }else*/ if(int.parse(win) == int.parse(los)){
          fTB = true;
          notifyListeners();
        }
@@ -44,7 +44,7 @@ class ScoreCardProvider extends ChangeNotifier {
    }
    void secondTieBreak(String win,String los){
      if(win.isNotEmpty && los.isNotEmpty){
-       if(int.parse(win) > int.parse(los)){
+     /*  if(int.parse(win) > int.parse(los)){
          if(int.parse(win) - int.parse(los) == 1){
            sTB = true;
            notifyListeners();
@@ -60,7 +60,7 @@ class ScoreCardProvider extends ChangeNotifier {
            sTB = false;
            notifyListeners();
          }
-       }else if(int.parse(win) == int.parse(los)){
+       }else*/ if(int.parse(win) == int.parse(los)){
          sTB = true;
          notifyListeners();
        }
@@ -72,7 +72,7 @@ class ScoreCardProvider extends ChangeNotifier {
    }
    void thirdTieBreak(String win,String los){
      if(win.isNotEmpty && los.isNotEmpty){
-       if(int.parse(win) > int.parse(los)){
+  /*     if(int.parse(win) > int.parse(los)){
          if(int.parse(win) - int.parse(los) == 1){
            tTB = true;
            notifyListeners();
@@ -88,7 +88,7 @@ class ScoreCardProvider extends ChangeNotifier {
            tTB = false;
            notifyListeners();
          }
-       }else if(int.parse(win) == int.parse(los)){
+       }else*/ if(int.parse(win) == int.parse(los)){
          tTB = true;
          notifyListeners();
        }
