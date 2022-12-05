@@ -223,6 +223,7 @@ class _AddScoreState extends State<AddScore> {
 
                           ],
                         ),
+
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
                           child: Row(
@@ -743,9 +744,10 @@ class _AddScoreState extends State<AddScore> {
       backgroundColor: MyAppTheme.MainColor,
     );
   }
+void saveData1(BuildContext context,ScoreCardProvider provider){
 
+}
   void saveData(BuildContext context,ScoreCardProvider provider){
-
     if(wSetF.text.isNotEmpty && lSetF.text.isNotEmpty){
       if(provider.fTB == true){
         if(wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty){

@@ -19,7 +19,7 @@ class OnBoardingContent extends StatelessWidget {
     return Column(
       children: <Widget>[
         Container(
-          height: height* 0.45,
+          height: height* 0.60,
           width: width,
           alignment: Alignment.center,
           child: FadeInImage(
@@ -27,11 +27,11 @@ class OnBoardingContent extends StatelessWidget {
             width: width,
             height: height,
             alignment: Alignment.center,
-            placeholder: AssetImage("assets/images/flag_img.png"),
+            placeholder: AssetImage(image!),
             imageErrorBuilder: (context, error, stackTrace)
             {
               return Image.asset(
-                "assets/images/flag_img.png",
+                image!,
                 height: height,
                 width: width,);
             },

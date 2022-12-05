@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tennis/screens/intro.dart';
+import 'package:tennis/screens/onboarding/onboarding.dart';
 import 'package:tennis/screens/score_card/winner.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
@@ -43,12 +44,12 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
         if(user_id !=''){
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Winner()),
+            MaterialPageRoute(builder: (context) => Onboarding()),
           );
         }else{
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Winner()),
+            MaterialPageRoute(builder: (context) => Onboarding()),
           );
 
         }
@@ -56,7 +57,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
         await prefs.setBool('seen', true);
         Navigator.pushReplacement(
           context,
-          MaterialPageRoute(builder: (context) => Winner()),
+          MaterialPageRoute(builder: (context) => Onboarding()),
         );
       }
 
