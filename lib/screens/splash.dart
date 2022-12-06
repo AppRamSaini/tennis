@@ -94,8 +94,8 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
           opacity: _animation,
           child:  Image.asset(
             "assets/images/ball.png",
-            width: height * 0.3,
-            height: width * 0.2,
+            width: height * 0.2,
+            height: width * 0.1,
           ),
         )
 

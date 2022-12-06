@@ -16,55 +16,69 @@ class OnBoardingContent extends StatelessWidget {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    return Column(
-      children: <Widget>[
-        Container(
-          height: height* 0.60,
-          width: width,
-          alignment: Alignment.center,
-          child: FadeInImage(
-            image: NetworkImage(image!),
-            width: width,
-            height: height,
-            alignment: Alignment.center,
-            placeholder: AssetImage(image!),
-            imageErrorBuilder: (context, error, stackTrace)
-            {
-              return Image.asset(
-                image!,
+    return Container(
+        height: height,
+        width: width,
+        child: Stack(
+        children: [
+          Container(
+              height: height* 0.70,
+              width: width,
+              alignment: Alignment.center,
+              child: Image.asset(image!,
                 height: height,
-                width: width,);
-            },
-
+                width: width,
+                fit: BoxFit.cover,)
+          ),
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: height * 0.25,
+              width: width,
+              alignment: Alignment.center,
+              decoration: const BoxDecoration(
+                color: MyAppTheme.whiteColor,
+                borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40.0)),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Container(
+                    padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                    child: Text(
+                      title!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 25,
+                        color: MyAppTheme.black_Color,
+                        fontFamily: Fonts.nunito,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.only(top: 10.0,left: 10.0,right: 10.0),
+                    child: Text(
+                      desc!,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 16,
+                        color: MyAppTheme.black_Color,
+                        fontFamily: Fonts.nunito,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
           )
-        ),
-        Container(
-          padding: EdgeInsets.only(top: 10.0,left: 10.0,right: 10.0),
-          child: Text(
-            title!,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.w700,
-              fontSize: 25,
-              color: MyAppTheme.black_Color,
-              fontFamily: Fonts.poppins,
-            ),
-          ),
-        ),
-        Container(
-          padding: EdgeInsets.only(top: 10.0,left: 10.0,right: 10.0),
-          child: Text(
-            desc!,
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontWeight: FontWeight.w400,
-              fontSize: 16,
-              color: MyAppTheme.black_Color,
-              fontFamily: Fonts.poppins,
-            ),
-          ),
-        ),
-      ],
-    );
+
+        ],
+    ),
+      )
+      ;
   }
 }

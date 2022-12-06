@@ -36,7 +36,7 @@ ScoreInvalideBottomDilog(BuildContext buildContext){
                                 fontWeight: FontWeight.w500,
                                 fontSize: 18,
                                 color: MyAppTheme.black_Color,
-                                fontFamily: Fonts.poppins,
+                                fontFamily: Fonts.nunito,
                               ))),
                       InkWell(
                         onTap: (){
@@ -61,7 +61,7 @@ ScoreInvalideBottomDilog(BuildContext buildContext){
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
                             color: MyAppTheme.black_Color,
-                            fontFamily: Fonts.poppins,
+                            fontFamily: Fonts.nunito,
                           ))),
 
                 ],

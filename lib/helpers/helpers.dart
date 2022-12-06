@@ -161,7 +161,7 @@ class Helpers {
         message,
         style: const TextStyle(
             fontSize: 12.0,
-            fontFamily: Fonts.poppins,
+            fontFamily: Fonts.nunito,
             fontStyle: FontStyle.normal,
             color: MyAppTheme.whiteColor,
             fontWeight: FontWeight.w400),
@@ -176,7 +176,7 @@ class Helpers {
         message,
         style: const TextStyle(
             fontSize: 12.0,
-            fontFamily: Fonts.poppins,
+            fontFamily: Fonts.nunito,
             fontStyle: FontStyle.normal,
             color: MyAppTheme.errorMessageTextColor,
             fontWeight: FontWeight.w400),
@@ -191,7 +191,7 @@ class Helpers {
         message,
         style: const TextStyle(
             fontSize: 12.0,
-            fontFamily: Fonts.poppins,
+            fontFamily: Fonts.nunito,
             fontStyle: FontStyle.normal,
             color: MyAppTheme.whiteColor,
             fontWeight: FontWeight.w400),
@@ -206,7 +206,7 @@ class Helpers {
         message,
         style: const TextStyle(
             fontSize: 12.0,
-            fontFamily: Fonts.poppins,
+            fontFamily: Fonts.nunito,
             fontStyle: FontStyle.normal,
             color: MyAppTheme.whiteColor,
             fontWeight: FontWeight.w400),

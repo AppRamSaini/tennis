@@ -1,11 +1,11 @@
 class Fonts {
 
   Fonts._();
-  static const String poppinsMedium = "Poppins-Medium";
-  static const String poppinsLight = "Poppins-Light";
-  static const String poppinsRegular = "Poppins-Regular";
-  static const String poppinsBold = "Poppins-Bold";
-  static const String poppins = "Poppins";
-  static const String poppinsSemiBold = "Poppins-SemiBold";
+  static const String nunitoMedium = "Nunito-Medium";
+  static const String nunitoLight = "Nunito-Light";
+  static const String nunitoRegular = "Nunito-Regular";
+  static const String nunitoBold = "Nunito-Bold";
+  static const String nunito = "Nunito";
+  static const String nunitoSemiBold = "Nunito-SemiBold";
 
 }

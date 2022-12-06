@@ -3,8 +3,16 @@ import 'package:flutter/material.dart';
 class MyAppTheme {
   MyAppTheme._();
   static const prColor = Color(0xFF063970);
-  static const MainColor = Color(0xFF63AB3B);
+  static const MainColor = Color(0xFF008F70);
   static const BGColor = Color(0xFFf4f4f4);
+  static const GoogleLoginBgColor = Color(0xFFD9D9D9);
+  static const TitleBlackColor = Color(0xFF101B2B);
+  static const TitleTextColor = Color(0xFF83878C);
+  static const LineColor = Color(0xFFF1F1F1);
+  static const DesBlackColor = Color(0xFF4E535A);
+  static const listBorderColor = Color(0xFFD9D9D9);
+  static const listNextBgColor = Color(0xFFCCE9E2);
+  static const listBGColor = Color(0xFFF1F1F1);
   static const welcomeColor = Color(0xfff2af63);
   static const splashColor = Color(0xffeeeee2);
   static const errorMessageBackgroundColor = Color(0xffFFBABA);

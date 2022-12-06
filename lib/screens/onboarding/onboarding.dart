@@ -1,6 +1,7 @@
 import 'dart:async';
-
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/screens/auth/login.dart';
 import 'package:tennis/screens/onboarding/onboarding_content.dart';
@@ -19,21 +20,24 @@ class _OnboardingState extends State<Onboarding> {
   int currentIndex = 0;
   List<Map<String, String>> splashData = [
     {
-      "title": "title1",
-      "image": "assets/images/slider.jpg",
-      "des": "desc",
+      "title": "Tennis Khelo App Title ",
+      "image": "assets/images/slider001.jpg",
+      "des": "tennis khelo app description",
     },
     {
-      "title": "title1",
-      "image": "assets/images/logo.png",
-      "des": "desc",
+      "title": "Tennis Khelo App Title ",
+      "image": "assets/images/slider002.jpg",
+      "des": "tennis khelo app description",
     },
     {
-      "title": "title1",
-      "image": "assets/images/slider.jpg",
-      "des": "desc",
+      "title": "Tennis Khelo App Title ",
+      "image": "assets/images/slider003.jpg",
+      "des": "tennis khelo app description",
     },
   ];
+  void nextPage(int page){
+    _controller = PageController(initialPage: page);
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -63,35 +67,56 @@ class _OnboardingState extends State<Onboarding> {
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    return WillPopScope(
-        onWillPop: () async {
-          return false;
-        },
-        child: Scaffold(
-          backgroundColor: MyAppTheme.whiteColor,
-          body: Container(
-            height: height,
-            width: width,
-            child: Stack(
-              children: [
-                Column(
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+      ),
+      child: Scaffold(
+        backgroundColor: MyAppTheme.whiteColor,
+        body: Container(
+          height: height,
+          width: width,
+          child: Column(
+            children: [
+              Container(
+                height: height * 0.90,
+                width: width,
+                child: PageView.builder(
+                  controller: _controller,
+                  onPageChanged: (value) {
+                    setState(() {
+                      currentIndex = value;
+                    });
+                  },
+                  itemCount: splashData.length,
+                  itemBuilder: (context, index) => OnBoardingContent(
+                    image: splashData[index]["image"],
+                    title: splashData[index]['title'],
+                    desc: splashData[index]['des'],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      height: height * 0.80,
-                      width: width,
-                      alignment: Alignment.center,
-                      child: PageView.builder(
-                        controller: _controller,
-                        onPageChanged: (value) {
-                          setState(() {
-                            currentIndex = value;
-                          });
-                        },
-                        itemCount: splashData.length,
-                        itemBuilder: (context, index) => OnBoardingContent(
-                          image: splashData[index]["image"],
-                          title: splashData[index]['title'],
-                          desc: splashData[index]['des'],
+                    InkWell(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                        );
+                      },
+                      child:  const Text(
+                        'Skip',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: MyAppTheme.black_Color,
+                          fontFamily: Fonts.nunito,
                         ),
                       ),
                     ),
@@ -102,64 +127,77 @@ class _OnboardingState extends State<Onboarding> {
                             (index) => buildDot(index: index),
                       ),
                     ),
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child:  Container(
-                          width: width * 0.60,
-                          margin: EdgeInsets.only(top: height * 0.05),
-                          alignment: Alignment.center,
-                          child: ElevatedButton(
-                            child:
-                            Padding(
-                              padding: const EdgeInsets.all(12.0),
-                              child: Text(
-                                'Next',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  color: MyAppTheme.whiteColor,
-                                  fontFamily: Fonts.poppins,
+                    InkWell(
+                      onTap: (){
+                        setState(() {
+                          if(currentIndex == 2){
+                            currentIndex++;
+                            nextPage(currentIndex);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Login()),
+                            );
+                          }else {
+                            currentIndex++;
+                            nextPage(currentIndex);
+                          }
+                        });
+                      },
+                      child: Stack(
+                        children: [
+                          Container(
+                            height: 55,
+                            width: 55,
+                            decoration: const BoxDecoration(
+                                color: MyAppTheme.MainColor,
+                                shape: BoxShape.circle
+                            ),
+                            child: Center(
+                              child: Container(
+                                height: 35,
+                                width: 35,
+                                decoration: const BoxDecoration(
+                                    color: MyAppTheme.whiteColor,
+                                    shape: BoxShape.circle
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/forword_arrow.svg',
+                                    allowDrawingOutsideViewBox: true,
+                                    height: 20,
+                                    width: 20,
+                                    color: MyAppTheme.MainColor,
+                                  ),
                                 ),
                               ),
+
                             ),
-                            style: ElevatedButton.styleFrom(
-                              primary: MyAppTheme.MainColor,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(5),
-                              ),
-                              elevation: 5.0,
-                            ),
-                            onPressed: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(builder: (context) => Login()),
-                              );
-                            },
                           )
+                        ],
                       ),
                     )
+
                   ],
                 ),
+              )
 
-              ],
-            )
-            ,
-          ),
-        )
-
-
+            ],
+          )
+          ,
+        ),
+      ),
     );
   }
   AnimatedContainer buildDot({int? index}) {
     return AnimatedContainer(
       duration: kAnimationDuration,
       margin: EdgeInsets.only(right: 5),
-      height: 12,
-      width: currentIndex == index ? 35 : 12,
+      height: 10,
+      width: currentIndex == index ? 35 : 10,
       decoration:  currentIndex == index ? BoxDecoration(
-        color: MyAppTheme.black_Color,
-        borderRadius: BorderRadius.circular(12),
+        color: MyAppTheme.MainColor,
+        borderRadius: BorderRadius.circular(10),
       ):BoxDecoration(
         border: Border.all(color: MyAppTheme.black_Color,width: 0.5),
         borderRadius: BorderRadius.all(

@@ -4,27 +4,25 @@ import 'package:provider/provider.dart';
 import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/score_card/add_score.dart';
-import 'package:tennis/screens/score_card/match_status.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class Sets extends StatefulWidget {
-  String cSet;
-  Sets({Key? key,required this.cSet}) : super(key: key);
+class MatchStatus extends StatefulWidget {
+  String cmStatus;
+  MatchStatus({Key? key,required this.cmStatus}) : super(key: key);
 
   @override
-  State<Sets> createState() => _SetsState();
+  State<MatchStatus> createState() => _MatchStatusState();
 }
 
-class _SetsState extends State<Sets> {
-  List<String> setList = [
-    'Set 1',
-    'Set 2',
-    'Set 3',
-    'Set 4',
-    'Set 5',
-    'Set 6',
+class _MatchStatusState extends State<MatchStatus> {
+  List<String> matchStatusList = [
+    'Played Through',
+    'Court Time Expired',
+    'Opponent No Show',
+    'Opponent Forfeited',
+    'Opponent Injured',
   ];
   @override
   Widget build(BuildContext context) {
@@ -52,7 +50,7 @@ class _SetsState extends State<Sets> {
                       Container(
                         width: width,
                         padding: const EdgeInsets.only(top: 5.0,bottom: 5.0),
-                        child:  const Text(selectNumberOfSet,
+                        child:  const Text(selectTheEndResultOfTheMatch,
                           textAlign: TextAlign.left,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,
@@ -65,11 +63,11 @@ class _SetsState extends State<Sets> {
                           physics: const AlwaysScrollableScrollPhysics(),
                           primary: false,
                           shrinkWrap: true,
-                          itemCount: setList.length,
+                          itemCount: matchStatusList.length,
                           itemBuilder: (BuildContext context, int index) {
                             return InkWell(
                               onTap: (){
-                                provider.selectSetsIndex(index,setList[index]);
+                                provider.selectMatchStatusIndex(index,matchStatusList[index]);
                               },
                               child: Container(
                                 padding: const EdgeInsets.all(15),
@@ -79,7 +77,7 @@ class _SetsState extends State<Sets> {
                                   borderRadius: const BorderRadius.all(Radius.circular(5)),
                                   border: Border.all(
                                     width: 1,
-                                    color: provider.selectSIndex == index ? MyAppTheme.MainColor : MyAppTheme.listBorderColor,
+                                    color: provider.selectMSIndex == index ? MyAppTheme.MainColor : MyAppTheme.listBorderColor,
                                     style: BorderStyle.solid,
                                   ),
                                 ),
@@ -88,7 +86,7 @@ class _SetsState extends State<Sets> {
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children:  [
                                     Text(
-                                      setList[index],
+                                      matchStatusList[index],
                                       textAlign: TextAlign.center,
                                       style: const TextStyle(
                                         fontWeight: FontWeight.w400,
@@ -97,7 +95,7 @@ class _SetsState extends State<Sets> {
                                         fontFamily: Fonts.nunito,
                                       ),
                                     ),
-                                    provider.selectSIndex == index ?
+                                    provider.selectMSIndex == index ?
                                     Container(
                                       height: 20,
                                       width: 20,
@@ -143,24 +141,17 @@ class _SetsState extends State<Sets> {
                     alignment: Alignment.bottomCenter,
                     child: InkWell(
                       onTap: (){
-                        if(widget.cSet == 'add'){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MatchStatus(cmStatus: 'add',)),
-                          );
-                        }else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => AddScore()),
-                          );
-                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => AddScore()),
+                        );
                       },
                       child: Container(
                         width: width,
                         height: 50,
                         margin: const EdgeInsets.only(bottom: 15.0),
                         decoration:  BoxDecoration(
-                            color: provider.selectSIndex == -1 ? MyAppTheme.listNextBgColor : MyAppTheme.MainColor,
+                            color: provider.selectMSIndex == -1 ? MyAppTheme.listNextBgColor : MyAppTheme.MainColor,
                             borderRadius: const BorderRadius.all(Radius.circular(5))
                         ),
                         child: const Center(
