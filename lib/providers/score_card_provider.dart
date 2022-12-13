@@ -11,7 +11,7 @@ class ScoreCardProvider extends ChangeNotifier {
    bool fiveTB = false;
    bool sixTB = false;
    int selectWIndex = -1;
-   int selectSIndex = -1;
+   int selectSIndex = 3;
    int selectMSIndex = -1;
    void selectWinnerIndex (int index,String wName){
      selectWIndex = index;

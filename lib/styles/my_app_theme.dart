@@ -7,6 +7,7 @@ class MyAppTheme {
   static const BGColor = Color(0xFFf4f4f4);
   static const GoogleLoginBgColor = Color(0xFFD9D9D9);
   static const TitleBlackColor = Color(0xFF101B2B);
+  static const homeBgColor = Color(0xFF034B3C);
   static const TitleTextColor = Color(0xFF83878C);
   static const LineColor = Color(0xFFF1F1F1);
   static const DesBlackColor = Color(0xFF4E535A);

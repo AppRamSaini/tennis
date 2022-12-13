@@ -10,8 +10,8 @@ import 'package:tennis/styles/my_app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class Sets extends StatefulWidget {
-  String cSet;
-  Sets({Key? key,required this.cSet}) : super(key: key);
+
+  const Sets({Key? key}) : super(key: key);
 
   @override
   State<Sets> createState() => _SetsState();
@@ -143,17 +143,10 @@ class _SetsState extends State<Sets> {
                     alignment: Alignment.bottomCenter,
                     child: InkWell(
                       onTap: (){
-                        if(widget.cSet == 'add'){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => MatchStatus(cmStatus: 'add',)),
-                          );
-                        }else {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => AddScore()),
-                          );
-                        }
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => MatchStatus()),
+                        );
                       },
                       child: Container(
                         width: width,

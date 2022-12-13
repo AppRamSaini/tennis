@@ -6,8 +6,10 @@ import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/helpers/keyboard.dart';
 import 'package:tennis/providers/score_card_provider.dart';
+import 'package:tennis/screens/dashboard/dashboard.dart';
 import 'package:tennis/screens/score_card/match_status.dart';
 import 'package:tennis/screens/score_card/sets.dart';
+import 'package:tennis/screens/score_card/video_player_screen.dart';
 import 'package:tennis/screens/score_card/winner.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
@@ -45,6 +47,54 @@ class _AddScoreState extends State<AddScore> {
   TextEditingController lSetSix =  TextEditingController();
   TextEditingController wTBSetSix =  TextEditingController();
   TextEditingController lTBSetSix =  TextEditingController();
+  String? dropdownValue = 'Raj';
+  String? dropdownSets = 'Set 1';
+  String? dropdownMStatus = 'Played Through';
+  List<Map<String, dynamic>> winnerList = [
+    {
+      "title": 'Raj',
+    },
+    {
+      "title": 'Ram',
+    },
+  ];
+  List<Map<String, dynamic>> setsList = [
+    {
+      "title": 'Set 1',
+    },
+    {
+      "title": 'Set 2',
+    },
+    {
+      "title": 'Set 3',
+    },
+    {
+      "title": 'Set 4',
+    },
+    {
+      "title": 'Set 5',
+    },
+    {
+      "title": 'Set 6',
+    },
+  ];
+  List<Map<String, dynamic>> mStatusList = [
+    {
+      "title": 'Played Through',
+    },
+    {
+      "title": 'Court Time Expired',
+    },
+    {
+      "title": 'Opponent No Show',
+    },
+    {
+      "title": 'Opponent Forfeited',
+    },
+    {
+      "title": 'Opponent Injured',
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -67,7 +117,7 @@ class _AddScoreState extends State<AddScore> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  const Text(challengerName,
+                /*  const Text(challengerName,
                       style: TextStyle(
                         fontWeight: FontWeight.w400,
                         fontSize: 16,
@@ -135,7 +185,7 @@ class _AddScoreState extends State<AddScore> {
                         fontFamily: Fonts.nunito,
                       ),
                     ),
-                  ),
+                  ),*/
                   const Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: Text(winner,
@@ -146,7 +196,46 @@ class _AddScoreState extends State<AddScore> {
                           fontFamily: Fonts.nunito,
                         )),
                   ),
-                  Container(
+            Container(
+                width: width,
+                height: 50,
+                margin: const EdgeInsets.only(top: 5.0),
+                alignment: Alignment.centerLeft,
+                padding: const EdgeInsets.only(left: 15.0,right: 15.0),
+                decoration:   BoxDecoration(
+                  color: MyAppTheme.listBGColor,
+                  borderRadius: const BorderRadius.all(Radius.circular(5)),
+                  border: Border.all(
+                    width: 1,
+                    color: MyAppTheme.listBorderColor,
+                    style: BorderStyle.solid,
+                  ),
+                ),
+                child:
+                  DropdownButtonHideUnderline(
+                    child: DropdownButton<String>(
+                      isExpanded: true,
+                      value: dropdownValue,
+                      icon: const Icon(Icons.arrow_drop_down),
+                      elevation: 16,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w400,
+                        color: MyAppTheme.black_Color,
+                        fontFamily: Fonts.nunito,
+                      ),
+                      items: winnerList.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
+                        return DropdownMenuItem<String>(
+                          value: value['title'],
+                          child: Text(value['title']),
+                        );
+                      }).toList(),
+                      onChanged: (String? newValue) {
+
+                      },
+                    ),
+                  )),
+                  /*Container(
                     width: width,
                     height: 50,
                     margin: const EdgeInsets.only(top: 5.0),
@@ -163,10 +252,10 @@ class _AddScoreState extends State<AddScore> {
                     ),
                     child: InkWell(
                       onTap: (){
-                        Navigator.push(
+                       *//* Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Winner(cWinner: 'edit',)),
-                        );
+                        );*//*
                       },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -182,19 +271,19 @@ class _AddScoreState extends State<AddScore> {
                               fontFamily: Fonts.nunito,
                             ),
                           ),
-                          SvgPicture.asset(
+                         *//* SvgPicture.asset(
                             'assets/icons/forword_arrow.svg',
                             allowDrawingOutsideViewBox: true,
                             height: 15,
                             width: 15,
                             color: MyAppTheme.listBorderColor,
-                          )
+                          )*//*
                         ],
                       ),
                     )
 
                     ,
-                  ),
+                  ),*/
                   const Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: Text(numberOfSets,
@@ -205,7 +294,7 @@ class _AddScoreState extends State<AddScore> {
                           fontFamily: Fonts.nunito,
                         )),
                   ),
-                  Container(
+                 /* Container(
                     width: width,
                     height: 50,
                     margin: const EdgeInsets.only(top: 5.0),
@@ -222,10 +311,10 @@ class _AddScoreState extends State<AddScore> {
                     ),
                     child: InkWell(
                       onTap: (){
-                        Navigator.push(
+                       *//* Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => Sets(cSet: 'edit',)),
-                        );
+                        );*//*
                       },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -241,19 +330,58 @@ class _AddScoreState extends State<AddScore> {
                               fontFamily: Fonts.nunito,
                             ),
                           ),
-                          SvgPicture.asset(
+                          *//*SvgPicture.asset(
                             'assets/icons/forword_arrow.svg',
                             allowDrawingOutsideViewBox: true,
                             height: 15,
                             width: 15,
                             color: MyAppTheme.listBorderColor,
-                          )
+                          )*//*
                         ],
                       ),
                     )
 
                     ,
-                  ),
+                  ),*/
+                  Container(
+                      width: width,
+                      height: 50,
+                      margin: const EdgeInsets.only(top: 5.0),
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: 15.0,right: 15.0),
+                      decoration:   BoxDecoration(
+                        color: MyAppTheme.listBGColor,
+                        borderRadius: const BorderRadius.all(Radius.circular(5)),
+                        border: Border.all(
+                          width: 1,
+                          color: MyAppTheme.listBorderColor,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      child:
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: dropdownSets,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          elevation: 16,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: MyAppTheme.black_Color,
+                            fontFamily: Fonts.nunito,
+                          ),
+                          items: setsList.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
+                            return DropdownMenuItem<String>(
+                              value: value['title'],
+                              child: Text(value['title']),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+                           // provider.selectSetsIndex(index,setList[index]);
+                          },
+                        ),
+                      )),
                   const Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: Text(matchStatus,
@@ -264,7 +392,7 @@ class _AddScoreState extends State<AddScore> {
                           fontFamily: Fonts.nunito,
                         )),
                   ),
-                  Container(
+               /*   Container(
                     width: width,
                     height: 50,
                     margin: const EdgeInsets.only(top: 5.0),
@@ -281,10 +409,10 @@ class _AddScoreState extends State<AddScore> {
                     ),
                     child: InkWell(
                       onTap: (){
-                        Navigator.push(
+                      *//*  Navigator.push(
                           context,
                           MaterialPageRoute(builder: (context) => MatchStatus(cmStatus: 'edit',)),
-                        );
+                        );*//*
                       },
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.center,
@@ -300,19 +428,58 @@ class _AddScoreState extends State<AddScore> {
                               fontFamily: Fonts.nunito,
                             ),
                           ),
-                          SvgPicture.asset(
+                        *//*  SvgPicture.asset(
                             'assets/icons/forword_arrow.svg',
                             allowDrawingOutsideViewBox: true,
                             height: 15,
                             width: 15,
                             color: MyAppTheme.listBorderColor,
-                          )
+                          )*//*
                         ],
                       ),
                     )
 
                     ,
-                  ),
+                  ),*/
+                  Container(
+                      width: width,
+                      height: 50,
+                      margin: const EdgeInsets.only(top: 5.0),
+                      alignment: Alignment.centerLeft,
+                      padding: const EdgeInsets.only(left: 15.0,right: 15.0),
+                      decoration:   BoxDecoration(
+                        color: MyAppTheme.listBGColor,
+                        borderRadius: const BorderRadius.all(Radius.circular(5)),
+                        border: Border.all(
+                          width: 1,
+                          color: MyAppTheme.listBorderColor,
+                          style: BorderStyle.solid,
+                        ),
+                      ),
+                      child:
+                      DropdownButtonHideUnderline(
+                        child: DropdownButton<String>(
+                          isExpanded: true,
+                          value: dropdownMStatus,
+                          icon: const Icon(Icons.arrow_drop_down),
+                          elevation: 16,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: MyAppTheme.black_Color,
+                            fontFamily: Fonts.nunito,
+                          ),
+                          items: mStatusList.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
+                            return DropdownMenuItem<String>(
+                              value: value['title'],
+                              child: Text(value['title']),
+                            );
+                          }).toList(),
+                          onChanged: (String? newValue) {
+
+                          },
+                        ),
+                      )),
                   const Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: Text(matchStatus,
@@ -1430,8 +1597,12 @@ class _AddScoreState extends State<AddScore> {
                           elevation: 5.0,
                         ),
                         onPressed: () {
-                          KeyboardUtil.hideKeyboard(context);
-                          saveData(context,provider);
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => DashBoard(selectedIndex: 0,)),
+                          );
+                          //KeyboardUtil.hideKeyboard(context);
+                         // saveData(context,provider);
                         },
                         child: const Padding(
                           padding: EdgeInsets.all(10.0),

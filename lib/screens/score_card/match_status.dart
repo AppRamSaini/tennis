@@ -9,8 +9,8 @@ import 'package:tennis/styles/my_app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class MatchStatus extends StatefulWidget {
-  String cmStatus;
-  MatchStatus({Key? key,required this.cmStatus}) : super(key: key);
+
+  const MatchStatus({Key? key}) : super(key: key);
 
   @override
   State<MatchStatus> createState() => _MatchStatusState();

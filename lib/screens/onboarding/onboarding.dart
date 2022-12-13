@@ -35,9 +35,7 @@ class _OnboardingState extends State<Onboarding> {
       "des": "tennis khelo app description",
     },
   ];
-  void nextPage(int page){
-    _controller = PageController(initialPage: page);
-  }
+
   @override
   void initState() {
     // TODO: implement initState
@@ -48,7 +46,6 @@ class _OnboardingState extends State<Onboarding> {
       } else {
         currentIndex = 0;
       }
-
       _controller!.animateToPage(
         currentIndex,
         duration: Duration(milliseconds: 350),
@@ -113,8 +110,8 @@ class _OnboardingState extends State<Onboarding> {
                         'Skip',
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          fontSize: 18,
                           color: MyAppTheme.black_Color,
                           fontFamily: Fonts.nunito,
                         ),
@@ -129,19 +126,10 @@ class _OnboardingState extends State<Onboarding> {
                     ),
                     InkWell(
                       onTap: (){
-                        setState(() {
-                          if(currentIndex == 2){
-                            currentIndex++;
-                            nextPage(currentIndex);
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(builder: (context) => Login()),
-                            );
-                          }else {
-                            currentIndex++;
-                            nextPage(currentIndex);
-                          }
-                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Login()),
+                        );
                       },
                       child: Stack(
                         children: [

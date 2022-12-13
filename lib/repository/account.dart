@@ -9,7 +9,7 @@ Future getUpadeBusineesIcon(BuildContext context,File fill) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   var url;
-  url = Uri.parse(ApiUrls.loginUrl);
+  url = Uri.parse(ApiUrls.loginRequest);
   var request = http.MultipartRequest(
     "POST",
     url,
@@ -57,7 +57,7 @@ Future getUpdateBussinessShopIconData(BuildContext context,String user_id,String
  OverlayEntry loader = Helpers.overlayLoader(context);
  Overlay.of(context)!.insert(loader);
   var url;
-  url = Uri.parse(ApiUrls.loginUrl);
+  url = Uri.parse(ApiUrls.loginRequest);
   var map = new Map<String, dynamic>();
   map['device_id'] = Preferences.deviceId;
   map['device_token'] = Preferences.deviceToken;

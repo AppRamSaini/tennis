@@ -1,4 +1,5 @@
 import 'package:get_it/get_it.dart';
+import 'package:tennis/providers/home_provider.dart';
 import 'package:tennis/providers/login_provider.dart';
 import 'package:tennis/providers/otp_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
@@ -16,5 +17,8 @@ void setupLocators() {
   );
   locator.registerLazySingleton<ScoreCardProvider>(
         () => ScoreCardProvider(),
+  );
+  locator.registerLazySingleton<HomeProvider>(
+        () => HomeProvider(),
   );
 }

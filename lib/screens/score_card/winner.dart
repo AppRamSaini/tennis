@@ -9,8 +9,8 @@ import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 class Winner extends StatefulWidget {
-  String cWinner;
-  Winner({Key? key,required this.cWinner}) : super(key: key);
+
+  const Winner({Key? key}) : super(key: key);
 
   @override
   State<Winner> createState() => _WinnerState();
@@ -137,17 +137,10 @@ class _WinnerState extends State<Winner> {
                   alignment: Alignment.bottomCenter,
                   child: InkWell(
                     onTap: (){
-                      if(widget.cWinner == 'add'){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Sets(cSet: 'add',)),
-                        );
-                      }else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => AddScore()),
-                        );
-                      }
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Sets()),
+                      );
 
                     },
                     child: Container(
