@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -8,9 +9,11 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/drawer/drawer_bar.dart';
 import 'package:tennis/helpers/constants.dart';
+import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/locators.dart';
 import 'package:tennis/providers/home_provider.dart';
+import 'package:tennis/repository/home.dart';
 import 'package:tennis/screens/home/all_matches.dart';
 import 'package:tennis/screens/home/join_academy.dart';
 import 'package:tennis/screens/home/my_academy.dart';
@@ -27,56 +30,66 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+  List bannerList = [];
   final GlobalKey<ScaffoldState> _key = GlobalKey(); // Create a key
   late PageController _controller = PageController(
-      viewportFraction: _bannerlist.length == 1 ? 1 : 0.80,
+      viewportFraction: bannerList.length == 1 ? 1 : 0.80,
       initialPage: 0
   );
   int currentIndex = 0;
- /* List<Map<String, String>> _bannerlist = [
-    {"image": "https://googleflutter.com/sample_image.jpg"},
-    {"image": "https://googleflutter.com/sample_image.jpg"},
-    {
-      "image": "https://googleflutter.com/sample_image.jpg",
-    },
-  ];*/
-  List<Map<String, String>> _bannerlist = [
-    {
-      "title": "Tennis Khelo App Title ",
-      "image": "assets/images/slider001.jpg",
-      "des": "tennis khelo app description",
-    },
-    {
-      "title": "Tennis Khelo App Title ",
-      "image": "assets/images/slider002.jpg",
-      "des": "tennis khelo app description",
-    },
-    {
-      "title": "Tennis Khelo App Title ",
-      "image": "assets/images/slider003.jpg",
-      "des": "tennis khelo app description",
-    },
-  ];
   @override
   void initState() {
     // TODO: implement initState
     _controller = PageController(initialPage: 0);
-    Timer.periodic(Duration(seconds: 5), (Timer timer) {
-      if (currentIndex < _bannerlist.length) {
+    getHomeBannerData(context);
+    locator<HomeProvider>().getHomeData(context);
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) => _animateSlider());
+  }
+  void _animateSlider() {
+    Timer.periodic(const Duration(seconds: 5), (Timer timer) {
+      if (currentIndex < bannerList.length) {
         currentIndex++;
       } else {
         currentIndex = 0;
       }
       _controller!.animateToPage(
         currentIndex,
-        duration: Duration(milliseconds: 350),
+        duration: const Duration(milliseconds: 350),
         curve: Curves.easeIn,
       );
     });
-    locator<HomeProvider>().getHomeData(context);
-    super.initState();
   }
-
+  void getHomeBannerData(BuildContext context) async {
+    try {
+      Helpers.verifyInternet().then((intenet) {
+        if (intenet != null && intenet) {
+          setState(() {
+            _isLoading = true;
+          });
+          bannerHomeData().then((response) {
+            if (json.decode(response.body)['status'] == true) {
+              setState(() {
+                bannerList.clear();
+                bannerList = json.decode(response.body)['data'];
+                _isLoading = false;
+              });
+            } else if (json.decode(response.body)['status'] == 300) {
+              Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
+            } else {
+              Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
+            }
+          });
+        } else {
+          Helpers.createErrorSnackBar(context, "Please check your internet connection");
+        }
+      });
+    } catch (err) {
+      print('Something went wrong');
+    }
+  }
   @override
   void dispose() {
     // TODO: implement dispose
@@ -92,7 +105,6 @@ class _HomeState extends State<Home> {
     ));
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    bool isLoading = Provider.of<HomeProvider>(context).isLoading;
     return Scaffold(
       key: _key, // Assign the key to Scaffold.
       appBar: buildAppBar(context),
@@ -111,7 +123,7 @@ class _HomeState extends State<Home> {
                 Container(
                   width: MediaQuery.of(context).size.width,
                   height: MediaQuery.of(context).size.height * 0.20,
-                  child: _bannerlist.isNotEmpty
+                  child: bannerList.isNotEmpty
                       ? Stack(
                     children: [
                       SizedBox(
@@ -124,61 +136,26 @@ class _HomeState extends State<Home> {
                               currentIndex = value;
                             });
                           },
-                          itemCount: _bannerlist.length,
+                          itemCount: bannerList.length,
                           itemBuilder: (_, index) {
                             return SizedBox(
-                                height: MediaQuery.of(context).size.height *
-                                    0.22,
+                                height: MediaQuery.of(context).size.height * 0.22,
                                 width: MediaQuery.of(context).size.width,
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(5.0),
                                   child: Center(
-                                      child: _bannerlist[index]['image'] !=
-                                          null
-                                          ?Image.asset(
-                                        '${_bannerlist[index]['image']}',
-                                        height: MediaQuery.of(context).size.height * 0.22,
-                                        width: MediaQuery.of(context).size.width,
+                                      child: FadeInImage(
+                                        image: NetworkImage(bannerList[index]['banner']!),
                                         fit: BoxFit.cover,
-                                      ) /*FadeInImage(
-                                                  image: NetworkImage(
-                                                      _bannerlist[index]
-                                                          ['image']!),
-                                                  fit: BoxFit.cover,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.22,
-                                                  placeholder: const AssetImage(
-                                                      "assets/images/logo.png"),
-                                                  imageErrorBuilder: (context,
-                                                      error, stackTrace) {
-                                                    return Image.asset(
-                                                      "assets/images/logo.png",
-                                                      height:
-                                                          MediaQuery.of(context)
-                                                                  .size
-                                                                  .height *
-                                                              0.22,
-                                                      width:
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                    );
-                                                  },
-                                                )*/
-                                          : Image.asset(
-                                        "assets/images/logo.png",
-                                        height: MediaQuery.of(context)
-                                            .size
-                                            .height *
-                                            0.22,
-                                        width: MediaQuery.of(context)
-                                            .size
-                                            .width,
+                                        width: MediaQuery.of(context).size.width,
+                                        height: MediaQuery.of(context).size.height * 0.22,
+                                        placeholder: const AssetImage("assets/images/t_ball.png"),
+                                        imageErrorBuilder: (context,
+                                            error, stackTrace) {
+                                          return Image.asset(
+                                            "assets/images/t_ball.png",
+                                          );
+                                        },
                                       )),
                                 ));
                           },
@@ -190,7 +167,7 @@ class _HomeState extends State<Home> {
                           padding: const EdgeInsets.only(bottom: 10.0),
                           child: SmoothPageIndicator(
                               controller: _controller,
-                              count: _bannerlist.length,
+                              count: bannerList.length,
                               effect: const ScrollingDotsEffect(
                                   radius: 8,
                                   spacing: 8,

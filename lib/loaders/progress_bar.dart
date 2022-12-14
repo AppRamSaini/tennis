@@ -9,7 +9,7 @@ class Progressbar extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyAppTheme.BGColor,
       body: Center(
-        child: new CircularProgressIndicator(valueColor:AlwaysStoppedAnimation<Color>(MyAppTheme.confirmbgColor)),
+        child: new CircularProgressIndicator(valueColor:AlwaysStoppedAnimation<Color>(MyAppTheme.errorMessageTextColor)),
       ),
     );
   }

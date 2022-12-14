@@ -9,6 +9,10 @@ class MyAppTheme {
   static const TitleBlackColor = Color(0xFF101B2B);
   static const homeBgColor = Color(0xFF034B3C);
   static const TitleTextColor = Color(0xFF83878C);
+  static const CategoryBGSelectColor = Color(0xFFEF4F5B);
+  static const CategoryBGSelectBorderColor = Color(0xFFFBD5D9);
+  static const CategoryBGUNSelectColor = Color(0xFFFDEDEF);
+  static const CategoryBGUNSelectBorderColor = Color(0xFFFBD5D9);
   static const LineColor = Color(0xFFF1F1F1);
   static const DesBlackColor = Color(0xFF4E535A);
   static const listBorderColor = Color(0xFFD9D9D9);

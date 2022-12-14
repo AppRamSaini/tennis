@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/helpers/constants.dart';
+import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/providers/login_provider.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
@@ -15,6 +16,8 @@ class Registor extends StatefulWidget {
 
 class _RegistorState extends State<Registor> {
   TextEditingController phoneNumber = TextEditingController();
+  TextEditingController userName = TextEditingController();
+  TextEditingController userEmail = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   bool onError = false;
   @override
@@ -43,8 +46,8 @@ class _RegistorState extends State<Registor> {
                         children: [
                           Center(
                             child: Container(
-                                height: height* 0.25,
-                                width:  width * 0.60,
+                                height: height* 0.30,
+                                width:  width * 0.70,
                                 alignment: Alignment.center,
                                 child: Image.asset("assets/images/registor_img.jpg",
                                   height: height,
@@ -53,7 +56,7 @@ class _RegistorState extends State<Registor> {
                             ),
                           ),
                            const Padding(
-                            padding: EdgeInsets.only(left: 10.0,top: 20.0),
+                            padding: EdgeInsets.only(top: 20.0),
                             child: Text(
                               registerNow,
                               textAlign: TextAlign.center,
@@ -61,20 +64,6 @@ class _RegistorState extends State<Registor> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 25,
                                 color: MyAppTheme.TitleBlackColor,
-                                fontFamily: Fonts.nunito,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: width * 0.80,
-                            padding:  EdgeInsets.only(left: 10.0,top: 10.0),
-                            child:  const Text(
-                              loginDescription,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: MyAppTheme.DesBlackColor,
                                 fontFamily: Fonts.nunito,
                               ),
                             ),
@@ -90,18 +79,13 @@ class _RegistorState extends State<Registor> {
                                 borderRadius: const BorderRadius.all(Radius.circular(5))
                             ),
                             child:  TextFormField(
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(10),
-                              ],
                               autovalidateMode: AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                               textAlign: TextAlign.left,
-                              controller: phoneNumber,
+                              controller: userName,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
                                   return 'Please enter phone number';
-                                }else if (value.length < 10){
-                                  return 'Please enter 10 digit phone number';
                                 }
                                 return null;
                               },
@@ -112,7 +96,7 @@ class _RegistorState extends State<Registor> {
                                   fontSize: 14),
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
-                                hintText: enterPhoneNumber,
+                                hintText: enterUserName,
                                 hintStyle: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 16,
@@ -133,18 +117,15 @@ class _RegistorState extends State<Registor> {
                                 borderRadius: const BorderRadius.all(Radius.circular(5))
                             ),
                             child:  TextFormField(
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(10),
-                              ],
                               autovalidateMode: AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.number,
+                              keyboardType: TextInputType.text,
                               textAlign: TextAlign.left,
-                              controller: phoneNumber,
+                              controller: userEmail,
                               validator: (value) {
                                 if (value == null || value.isEmpty) {
-                                  return 'Please enter phone number';
-                                }else if (value.length < 10){
-                                  return 'Please enter 10 digit phone number';
+                                  return 'Please enter email ';
+                                }else if (Helpers.validateEmail(value)){
+                                  return 'Please enter valid email id';
                                 }
                                 return null;
                               },
@@ -155,7 +136,7 @@ class _RegistorState extends State<Registor> {
                                   fontSize: 14),
                               decoration: const InputDecoration(
                                 border: InputBorder.none,
-                                hintText: enterPhoneNumber,
+                                hintText: enterEmail,
                                 hintStyle: TextStyle(
                                   fontWeight: FontWeight.w400,
                                   fontSize: 16,
@@ -308,7 +289,7 @@ class _RegistorState extends State<Registor> {
                           ),
                           Container(
                             width: width,
-                            margin: const EdgeInsets.only(top: 10.0),
+                            margin: const EdgeInsets.only(top: 10.0,bottom: 10.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,

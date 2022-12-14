@@ -46,8 +46,8 @@ class _LoginState extends State<Login> {
                         children: [
                           Center(
                             child: Container(
-                                height: height* 0.25,
-                                width:  width * 0.60,
+                                height: height* 0.30,
+                                width:  width * 0.70,
                                 alignment: Alignment.center,
                                 child: Image.asset("assets/images/login_img.jpg",
                                   height: height,
@@ -70,7 +70,7 @@ class _LoginState extends State<Login> {
                           ),
                           Container(
                             width: width * 0.80,
-                            padding: const EdgeInsets.only(left: 10.0,top: 10.0),
+                            padding: const EdgeInsets.only(left: 10.0,top: 5.0),
                             child: const Text(
                               loginDescription,
                               textAlign: TextAlign.left,
