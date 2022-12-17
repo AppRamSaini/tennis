@@ -397,7 +397,7 @@ class _MyChallengesState extends State<MyChallenges> {
                                   height: 40,
                                   margin: const EdgeInsets.only(right: 5.0),
                                   decoration: const BoxDecoration(
-                                      color: MyAppTheme.AcceptBgColor,
+                                      color: MyAppTheme.CategoryBGSelectBorderColor,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(5))),
                                   child: const Center(

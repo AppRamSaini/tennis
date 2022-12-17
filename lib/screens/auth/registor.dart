@@ -37,13 +37,13 @@ class _RegistorState extends State<Registor> {
               child: Container(
                 height: height,
                 width: width,
-                padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 20.0),
+                padding:  EdgeInsets.only(left: 10.0,right: 10.0,top: height * 0.05),
                 child: SingleChildScrollView(
                   child: Form(
                       key: _formKey,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Center(
                             child: Container(
@@ -57,7 +57,7 @@ class _RegistorState extends State<Registor> {
                             ),
                           ),
                            const Padding(
-                            padding: EdgeInsets.only(top: 20.0),
+                            padding: EdgeInsets.only(top: 20.0,bottom: 20.0),
                             child: Text(
                               registerNow,
                               textAlign: TextAlign.center,
@@ -243,7 +243,7 @@ class _RegistorState extends State<Registor> {
                             child: Container(
                               width: width,
                               height: 50,
-                              margin: const EdgeInsets.only(top: 25.0),
+                              margin:  EdgeInsets.only(top: height * 0.05),
                               decoration: const BoxDecoration(
                                   color: MyAppTheme.MainColor,
                                   borderRadius: BorderRadius.all(Radius.circular(5))
@@ -334,7 +334,7 @@ class _RegistorState extends State<Registor> {
                           ),*/
                           Container(
                             width: width,
-                            margin: const EdgeInsets.only(top: 25.0,bottom: 10.0),
+                            margin:  EdgeInsets.only(top: height * 0.05),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
