@@ -7,10 +7,10 @@ class SharedPref {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('user_token', token);
   }
-  static setUserId(int id) async {
+ /* static setUserId(int id) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setInt('user_id', id);
-  }
+  }*/
   static setProfileImage(String profile) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('user_profile', profile);
@@ -35,11 +35,10 @@ class SharedPref {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('user_phone', phone);
   }
-  static Future<int> getUserId(String key) async {
+/*  static Future<int> getUserId(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getInt(key) ?? 0;
-
-  }
+  }*/
   static Future<String> getToken(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key) ?? " ";

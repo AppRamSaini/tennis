@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/helpers/constants.dart';
+import 'package:tennis/helpers/helpers.dart';
+import 'package:tennis/locators.dart';
 import 'package:tennis/providers/createleagues_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/styles/fonts.dart';
@@ -17,7 +19,7 @@ class CreateLeagues extends StatefulWidget {
 
 class _CreateLeaguesState extends State<CreateLeagues> {
   final maxLines = 5;
-  TextEditingController userEmail = TextEditingController();
+  TextEditingController leagueName = TextEditingController();
   TextEditingController leaguesDescription = TextEditingController();
   String? dropdownMStatus = 'Leagues Type';
   final _formKey = GlobalKey<FormState>();
@@ -38,6 +40,12 @@ class _CreateLeaguesState extends State<CreateLeagues> {
       "title": 'Double Men',
     },
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    locator<CreateLeaguesProvider>().SetValue();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -77,10 +85,10 @@ class _CreateLeaguesState extends State<CreateLeagues> {
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.text,
                           textAlign: TextAlign.left,
-                          controller: userEmail,
+                          controller: leagueName,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter email ';
+                              return 'Please Enter League Name';
                             }
                             return null;
                           },
@@ -136,7 +144,9 @@ class _CreateLeaguesState extends State<CreateLeagues> {
                                 );
                               }).toList(),
                               onChanged: (String? newValue) {
-
+                                setState(() {
+                                  dropdownMStatus = newValue;
+                                });
                               },
                             ),
                           )),
@@ -158,7 +168,7 @@ class _CreateLeaguesState extends State<CreateLeagues> {
                           controller: leaguesDescription,
                           validator: (value) {
                             if (value == null || value.isEmpty) {
-                              return 'Please enter description';
+                              return 'Please Enter League Description';
                             }
                             return null;
                           },
@@ -181,7 +191,7 @@ class _CreateLeaguesState extends State<CreateLeagues> {
                       ),
                       Container(
                         width: width,
-                        margin: EdgeInsets.only(top: 20.0),
+                        margin: const EdgeInsets.only(top: 20.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -278,7 +288,15 @@ class _CreateLeaguesState extends State<CreateLeagues> {
                     child: InkWell(
                       onTap: (){
                         if (_formKey.currentState!.validate()) {
-
+                           if(dropdownMStatus != "Leagues Type"){
+                             if(provider.NSet != 0){
+                              provider.createLeagueData(context, leagueName.text.toString(), dropdownMStatus!, leaguesDescription.text.toString(), provider.NSet);
+                             }else {
+                               Helpers.messageToastFalseBottom(context,'Select Number of Sets');
+                             }
+                           }else {
+                             Helpers.messageToastFalseBottom(context,'Select League Type');
+                           }
                         }
                       },
                       child: Container(

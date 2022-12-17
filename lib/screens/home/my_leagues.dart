@@ -273,8 +273,10 @@ class _MyLeaguesState extends State<MyLeagues> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => CreateLeagues()),
-              );
+                MaterialPageRoute(builder: (context) => const CreateLeagues()),
+              ).then((value) => {
+
+              });
             },
             backgroundColor: MyAppTheme.MainColor,
             child: const Icon(Icons.add),
@@ -282,7 +284,7 @@ class _MyLeaguesState extends State<MyLeagues> {
           bottomSheet: provider.userRequest == "Approved" ? const SizedBox(): Container(
             width: width,
             height: provider.userRequest == "null" ? 130 : 100,
-            padding: EdgeInsets.all(5),
+            padding: const EdgeInsets.all(5),
 
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

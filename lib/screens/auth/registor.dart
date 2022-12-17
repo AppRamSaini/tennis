@@ -42,7 +42,7 @@ class _RegistorState extends State<Registor> {
                   child: Form(
                       key: _formKey,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Center(
@@ -248,11 +248,11 @@ class _RegistorState extends State<Registor> {
                                   color: MyAppTheme.MainColor,
                                   borderRadius: BorderRadius.all(Radius.circular(5))
                               ),
-                              child: const Center(
+                              child:  Center(
                                 child: Text(
-                                  getOTP,
+                                  getOTP.toUpperCase(),
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 14,
                                     color: MyAppTheme.whiteColor,

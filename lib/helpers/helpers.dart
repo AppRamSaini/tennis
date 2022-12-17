@@ -304,6 +304,16 @@ class Helpers {
         textColor: Colors.white,
         fontSize: 12.0);
   }
+  static messageToastFalseBottom(BuildContext context, String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0);
+  }
 
   bool validateStructure(String value) {
     String pattern =

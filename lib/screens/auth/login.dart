@@ -44,7 +44,7 @@ class _LoginState extends State<Login> {
                   child: Form(
                       key: _formKey,
                       child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Center(
@@ -67,20 +67,6 @@ class _LoginState extends State<Login> {
                                 fontWeight: FontWeight.w700,
                                 fontSize: 25,
                                 color: MyAppTheme.TitleBlackColor,
-                                fontFamily: Fonts.nunito,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            width: width * 0.80,
-                            padding: const EdgeInsets.only(top: 5.0),
-                            child: const Text(
-                              loginDescription,
-                              textAlign: TextAlign.left,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: MyAppTheme.DesBlackColor,
                                 fontFamily: Fonts.nunito,
                               ),
                             ),
@@ -162,11 +148,11 @@ class _LoginState extends State<Login> {
                                   color: MyAppTheme.MainColor,
                                   borderRadius: BorderRadius.all(Radius.circular(5))
                               ),
-                              child: const Center(
+                              child:  Center(
                                 child: Text(
-                                  getOTP,
+                                  getOTP.toUpperCase(),
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w700,
                                     fontSize: 14,
                                     color: MyAppTheme.whiteColor,

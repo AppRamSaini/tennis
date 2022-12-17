@@ -9,6 +9,7 @@ import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/helpers/keyboard.dart';
+import 'package:tennis/locators.dart';
 import 'package:tennis/providers/createleagues_provider.dart';
 import 'package:tennis/providers/editprofile_provider.dart';
 import 'package:tennis/repository/edit_profile.dart';
@@ -25,6 +26,7 @@ class EditProfile extends StatefulWidget {
 }
 
 class _EditProfileState extends State<EditProfile> {
+  final _formKey = GlobalKey<FormState>();
   TextEditingController userName = TextEditingController();
   TextEditingController calender = TextEditingController();
   TextEditingController userEmail = TextEditingController();
@@ -74,7 +76,7 @@ class _EditProfileState extends State<EditProfile> {
         final path = _croppedFile!.path;
         try {
           Helpers.verifyInternet().then((intenet) {
-            if (intenet != null && intenet) {
+            if (intenet) {
               getEditProfile(context,File(path))
                   .then((response) {
                 setState(() {
@@ -177,6 +179,22 @@ class _EditProfileState extends State<EditProfile> {
       userPhone.text = value;
       print(user_phone);
     }));
+    SharedPref.getUserGender("user_gender").then((value) => setState(() {
+      print(value);
+      locator<EditProfileProvider>().getGender(value);
+    }));
+    SharedPref.getUserDOB("user_dob").then((value) => setState(() {
+      var dateformate = DateFormat('yyyy-MM-dd');
+      var formatter = DateFormat('dd-MMMM-yyyy');
+      print(value);
+      if(value.toString() != "null" && value.toString() != "" && value.isNotEmpty){
+        String formattedDate = formatter.format(dateformate.parse(value));
+        calender.text = formattedDate;
+      }else{
+        calender.text = 'dd-MMMM-yyyy';
+      }
+
+    }));
     super.initState();
   }
 
@@ -196,7 +214,7 @@ class _EditProfileState extends State<EditProfile> {
     DateTime? newDateTime = await showDatePicker(
       context: context,
       initialDate: DateTime.now(),
-      firstDate: DateTime.now().subtract(Duration(days: 0)),
+      firstDate: DateTime(1995),
       lastDate: DateTime(DateTime.now().year + 1),
     );
     var formatter = DateFormat('dd-MMMM-yyyy');
@@ -205,6 +223,7 @@ class _EditProfileState extends State<EditProfile> {
       calender.text = formattedDate;
     });
   }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -213,652 +232,685 @@ class _EditProfileState extends State<EditProfile> {
     ));
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
-    return Scaffold(
-      appBar: buildAppBar(context),
-      backgroundColor: MyAppTheme.whiteColor,
-      body: Consumer<EditProfileProvider>(
-        builder: (context, provider, child) {
-          return Container(
-            width: width,
-            height: height,
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
-            child: Stack(
-              children: [
-                SingleChildScrollView(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
+    return WillPopScope(
+        onWillPop: () async {
+          Navigator.pop(context,user_profile);
+          return true;
+        },
+        child: Scaffold(
+          appBar: buildAppBar(context),
+          backgroundColor: MyAppTheme.whiteColor,
+          body: Consumer<EditProfileProvider>(
+            builder: (context, provider, child) {
+              return Container(
+                width: width,
+                height: height,
+                padding: const EdgeInsets.only(left: 15.0, right: 15.0, top: 15.0),
+                child: Form(
+                  key: _formKey,
+                  child: Stack(
                     children: [
-                      Center(
-                        child: Container(
-                          width: 100,
-                          height: 100,
-                          child: Stack(
-                            children: [
-                              user_profile != "" ?
-                          Container(
-                            width: 100,
-                            height: 100,
-                            decoration:  BoxDecoration(
-                              image: DecorationImage(
-                                  fit: BoxFit.cover, image: NetworkImage(user_profile!)),
-                              border: Border.all(color: MyAppTheme.CategoryBGSelectColor,width: 2),
-                              borderRadius: BorderRadius.all(Radius.circular(100.0)),
-                            ),
-                          ): Container(
+                      SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Center(
+                              child: Container(
                                 width: 100,
                                 height: 100,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                      image: AssetImage("assets/images/profile_image.png"),
-                                      fit: BoxFit.fill
-                                  ),
+                                child: Stack(
+                                  children: [
+                                    user_profile != "" && user_profile != null ?
+                                    Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration:  BoxDecoration(
+                                        /*   image: DecorationImage(
+                                          fit: BoxFit.cover, image: NetworkImage(user_profile!)),*/
+                                        border: Border.all(color: MyAppTheme.CategoryBGSelectColor,width: 2),
+                                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                                      ),
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(100),
+                                        child: Center(
+                                            child: FadeInImage(
+                                              image: NetworkImage(user_profile!),
+                                              fit: BoxFit.cover,
+                                              width: 100,
+                                              height: 100,
+                                              placeholder: const AssetImage("assets/images/image_defult.png"),
+                                              imageErrorBuilder: (context,
+                                                  error, stackTrace) {
+                                                return Image.asset(
+                                                  "assets/images/image_defult.png",
+                                                );
+                                              },
+                                            )),
+                                      ),
+                                    ): Container(
+                                      width: 100,
+                                      height: 100,
+                                      decoration: const BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                            image: AssetImage("assets/images/image_defult.png"),
+                                            fit: BoxFit.fill
+                                        ),
+                                      ),
+                                    ),
+                                    InkWell(
+                                      onTap: (){
+                                        _showPicker(context);
+                                      },
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(
+                                            bottom: 5.0, right: 5.0),
+                                        child: Align(
+                                          alignment: Alignment.bottomRight,
+                                          child: CircleAvatar(
+                                            radius: 12,
+                                            backgroundColor: Colors.red,
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(2),
+                                              // Border radius
+                                              child: ClipOval(
+                                                  child: SvgPicture.asset(
+                                                    'assets/icons/edit.svg',
+                                                    allowDrawingOutsideViewBox: true,
+                                                    height: 12,
+                                                    width: 12,
+                                                    color: MyAppTheme.whiteColor,
+                                                  )),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+
+                                  ],
                                 ),
                               ),
-                              InkWell(
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 5.0),
+                              child: Text(
+                                name,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  color: MyAppTheme.DesBlackColor,
+                                  fontFamily: Fonts.nunito,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: width,
+                              height: 50,
+                              margin: const EdgeInsets.only(top: 2.0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: MyAppTheme.MainColor,
+                                  ),
+                                  borderRadius:
+                                  const BorderRadius.all(Radius.circular(5))),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10.0),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/user_icon.svg',
+                                      allowDrawingOutsideViewBox: true,
+                                      height: 18,
+                                      width: 18,
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: TextFormField(
+                                        autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                        keyboardType: TextInputType.text,
+                                        textAlign: TextAlign.left,
+                                        controller: userName,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please Enter Name';
+                                          }
+                                          return null;
+                                        },
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: MyAppTheme.TitleBlackColor,
+                                          fontFamily: Fonts.nunito,
+                                        ),
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.only(left: 10.0),
+                                        ),
+                                      )),
+                                ],
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 5.0),
+                              child: Text(
+                                dateOfBirth,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  color: MyAppTheme.DesBlackColor,
+                                  fontFamily: Fonts.nunito,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: width,
+                              height: 50,
+                              margin: const EdgeInsets.only(top: 2.0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: MyAppTheme.MainColor,
+                                  ),
+                                  borderRadius:
+                                  const BorderRadius.all(Radius.circular(5))),
+                              child: InkWell(
                                 onTap: (){
-                                  _showPicker(context);
+                                  selectDate(context,'start');
+                                  KeyboardUtil.hideKeyboard(context);
                                 },
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                      bottom: 5.0, right: 5.0),
-                                  child: Align(
-                                    alignment: Alignment.bottomRight,
-                                    child: CircleAvatar(
-                                      radius: 12,
-                                      backgroundColor: Colors.red,
-                                      child: Padding(
-                                        padding: const EdgeInsets.all(2),
-                                        // Border radius
-                                        child: ClipOval(
-                                            child: SvgPicture.asset(
-                                              'assets/icons/edit.svg',
-                                              allowDrawingOutsideViewBox: true,
-                                              height: 12,
-                                              width: 12,
-                                              color: MyAppTheme.whiteColor,
-                                            )),
+                                child: Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/icons/calender.svg',
+                                        allowDrawingOutsideViewBox: true,
+                                        height: 18,
+                                        width: 18,
+                                      ),
+                                    ),
+                                    Expanded(
+                                        child: TextFormField(
+                                          autovalidateMode:
+                                          AutovalidateMode.onUserInteraction,
+                                          keyboardType: TextInputType.text,
+                                          textAlign: TextAlign.left,
+                                          controller: calender,
+                                          enabled: false,
+                                          validator: (value) {
+                                            if (value == null || value.isEmpty) {
+                                              return 'Please Enter Date';
+                                            }
+                                            return null;
+                                          },
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16,
+                                            color: MyAppTheme.TitleBlackColor,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                          decoration: const InputDecoration(
+                                            border: InputBorder.none,
+                                            contentPadding: EdgeInsets.only(left: 10.0),
+                                          ),
+                                        )),
+                                  ],
+                                ),
+                              )
+                              ,
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 5.0),
+                              child: Text(
+                                phoneNumber,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  color: MyAppTheme.DesBlackColor,
+                                  fontFamily: Fonts.nunito,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: width,
+                              height: 50,
+                              margin: const EdgeInsets.only(top: 2.0),
+                              decoration: BoxDecoration(
+                                  color: MyAppTheme.LineColor,
+                                  border: Border.all(
+                                    color: MyAppTheme.MainColor,
+                                  ),
+                                  borderRadius:
+                                  const BorderRadius.all(Radius.circular(5))),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10.0),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/phone_icon.svg',
+                                      allowDrawingOutsideViewBox: true,
+                                      height: 18,
+                                      width: 18,
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: TextFormField(
+                                        autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                        keyboardType: TextInputType.text,
+                                        textAlign: TextAlign.left,
+                                        controller: userPhone,
+                                        enabled: false,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please Enter Number';
+                                          }
+                                          return null;
+                                        },
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: MyAppTheme.TitleBlackColor,
+                                          fontFamily: Fonts.nunito,
+                                        ),
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.only(left: 10.0),
+                                        ),
+                                      )),
+                                ],
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 5.0),
+                              child: Text(
+                                email,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  color: MyAppTheme.DesBlackColor,
+                                  fontFamily: Fonts.nunito,
+                                ),
+                              ),
+                            ),
+                            Container(
+                              width: width,
+                              height: 50,
+                              margin: const EdgeInsets.only(top: 2.0),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: MyAppTheme.MainColor,
+                                  ),
+                                  borderRadius:
+                                  const BorderRadius.all(Radius.circular(5))),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 10.0),
+                                    child: SvgPicture.asset(
+                                      'assets/icons/email_icon.svg',
+                                      allowDrawingOutsideViewBox: true,
+                                      height: 18,
+                                      width: 18,
+                                    ),
+                                  ),
+                                  Expanded(
+                                      child: TextFormField(
+                                        autovalidateMode:
+                                        AutovalidateMode.onUserInteraction,
+                                        keyboardType: TextInputType.text,
+                                        textAlign: TextAlign.left,
+                                        controller: userEmail,
+                                        validator: (value) {
+                                          if (value == null || value.isEmpty) {
+                                            return 'Please Enter Email';
+                                          }
+                                          return null;
+                                        },
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: MyAppTheme.TitleBlackColor,
+                                          fontFamily: Fonts.nunito,
+                                        ),
+                                        decoration: const InputDecoration(
+                                          border: InputBorder.none,
+                                          contentPadding: EdgeInsets.only(left: 10.0),
+                                        ),
+                                      )),
+                                ],
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.only(top: 5.0),
+                              child: Text(
+                                gender,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                  color: MyAppTheme.DesBlackColor,
+                                  fontFamily: Fonts.nunito,
+                                ),
+                              ),
+                            ),
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Expanded(
+                                    child: Container(
+                                      width: width,
+                                      height: 50,
+                                      margin: const EdgeInsets.only(top: 2.0, right: 5.0),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: MyAppTheme.MainColor,
+                                          ),
+                                          borderRadius:
+                                          const BorderRadius.all(Radius.circular(5))),
+                                      child: InkWell(
+                                        onTap: () {
+                                          provider.getGender("Male");
+                                        },
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0, right: 10.0),
+                                              child: provider.gender == "Male"
+                                                  ? Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: const BoxDecoration(
+                                                    color: MyAppTheme.MainColor,
+                                                    shape: BoxShape.circle),
+                                                child: Padding(
+                                                  padding:
+                                                  const EdgeInsets.all(5.0),
+                                                  child: SvgPicture.asset(
+                                                    'assets/icons/check.svg',
+                                                    allowDrawingOutsideViewBox:
+                                                    true,
+                                                    height: 20,
+                                                    width: 20,
+                                                    color: MyAppTheme.whiteColor,
+                                                  ),
+                                                ),
+                                              )
+                                                  : Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                  color: MyAppTheme.listBGColor,
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    width: 1,
+                                                    color:
+                                                    MyAppTheme.listBorderColor,
+                                                    style: BorderStyle.solid,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Expanded(
+                                                child: Text(
+                                                  male,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.TitleBlackColor,
+                                                    fontFamily: Fonts.nunito,
+                                                  ),
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                    )),
+                                Expanded(
+                                    child: Container(
+                                      width: width,
+                                      height: 50,
+                                      margin: const EdgeInsets.only(top: 2.0, left: 5.0),
+                                      decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: MyAppTheme.MainColor,
+                                          ),
+                                          borderRadius:
+                                          const BorderRadius.all(Radius.circular(5))),
+                                      child: InkWell(
+                                        onTap: () {
+                                          provider.getGender("Female");
+                                        },
+                                        child: Row(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 10.0, right: 10.0),
+                                              child: provider.gender == "Female"
+                                                  ? Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: const BoxDecoration(
+                                                    color: MyAppTheme.MainColor,
+                                                    shape: BoxShape.circle),
+                                                child: Padding(
+                                                  padding:
+                                                  const EdgeInsets.all(5.0),
+                                                  child: SvgPicture.asset(
+                                                    'assets/icons/check.svg',
+                                                    allowDrawingOutsideViewBox:
+                                                    true,
+                                                    height: 20,
+                                                    width: 20,
+                                                    color: MyAppTheme.whiteColor,
+                                                  ),
+                                                ),
+                                              )
+                                                  : Container(
+                                                height: 20,
+                                                width: 20,
+                                                decoration: BoxDecoration(
+                                                  color: MyAppTheme.listBGColor,
+                                                  shape: BoxShape.circle,
+                                                  border: Border.all(
+                                                    width: 1,
+                                                    color:
+                                                    MyAppTheme.listBorderColor,
+                                                    style: BorderStyle.solid,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            const Expanded(
+                                                child: Text(
+                                                  female,
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w700,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.TitleBlackColor,
+                                                    fontFamily: Fonts.nunito,
+                                                  ),
+                                                )),
+                                          ],
+                                        ),
+                                      ),
+                                    ))
+                              ],
+                            ),
+                            /*     Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  recevieWhatsAppAlerts,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    color: MyAppTheme.DesBlackColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
+                                ),
+                                InkWell(
+                                  onTap: (){
+                                    provider.getWhatsApp(provider.whatsApp);
+                                  },
+                                  child: provider.whatsApp == true
+                                      ? Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.MainColor,
+                                        shape: BoxShape.circle),
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.all(5.0),
+                                      child: SvgPicture.asset(
+                                        'assets/icons/check.svg',
+                                        allowDrawingOutsideViewBox:
+                                        true,
+                                        height: 20,
+                                        width: 20,
+                                        color: MyAppTheme.whiteColor,
+                                      ),
+                                    ),
+                                  )
+                                      : Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                      color: MyAppTheme.listBGColor,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        width: 1,
+                                        color:
+                                        MyAppTheme.listBorderColor,
+                                        style: BorderStyle.solid,
                                       ),
                                     ),
                                   ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  recevieEmailAlerts,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 16,
+                                    color: MyAppTheme.DesBlackColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
                                 ),
-                              )
-
-                            ],
-                          ),
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5.0),
-                        child: Text(
-                          name,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: MyAppTheme.DesBlackColor,
-                            fontFamily: Fonts.nunito,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: width,
-                        height: 50,
-                        margin: const EdgeInsets.only(top: 2.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: MyAppTheme.MainColor,
+                                InkWell(
+                                  onTap: (){
+                                    provider.getEmailApp(provider.emailApp);
+                                  },
+                                  child: provider.emailApp == true
+                                      ? Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.MainColor,
+                                        shape: BoxShape.circle),
+                                    child: Padding(
+                                      padding:
+                                      const EdgeInsets.all(5.0),
+                                      child: SvgPicture.asset(
+                                        'assets/icons/check.svg',
+                                        allowDrawingOutsideViewBox:
+                                        true,
+                                        height: 20,
+                                        width: 20,
+                                        color: MyAppTheme.whiteColor,
+                                      ),
+                                    ),
+                                  )
+                                      : Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                      color: MyAppTheme.listBGColor,
+                                      shape: BoxShape.circle,
+                                      border: Border.all(
+                                        width: 1,
+                                        color:
+                                        MyAppTheme.listBorderColor,
+                                        style: BorderStyle.solid,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              ],
                             ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5))),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child: SvgPicture.asset(
-                                'assets/icons/user_icon.svg',
-                                allowDrawingOutsideViewBox: true,
-                                height: 18,
-                                width: 18,
-                              ),
-                            ),
-                            Expanded(
-                                child: TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.text,
-                              textAlign: TextAlign.left,
-                              controller: userName,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter user name';
-                                }
-                                return null;
-                              },
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                color: MyAppTheme.TitleBlackColor,
-                                fontFamily: Fonts.nunito,
-                              ),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(left: 10.0),
-                              ),
-                            )),
+                          ),*/
+                            const SizedBox(
+                              height: 80,
+                            )
                           ],
                         ),
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5.0),
-                        child: Text(
-                          dateOfBirth,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: MyAppTheme.DesBlackColor,
-                            fontFamily: Fonts.nunito,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: width,
-                        height: 50,
-                        margin: const EdgeInsets.only(top: 2.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: MyAppTheme.MainColor,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5))),
+                      Align(
+                        alignment: Alignment.bottomCenter,
                         child: InkWell(
-          onTap: (){
-            selectDate(context,'start');
-            KeyboardUtil.hideKeyboard(context);
-          },
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(left: 10.0),
-                child: SvgPicture.asset(
-                  'assets/icons/calender.svg',
-                  allowDrawingOutsideViewBox: true,
-                  height: 18,
-                  width: 18,
-                ),
-              ),
-              Expanded(
-                  child: TextFormField(
-                    autovalidateMode:
-                    AutovalidateMode.onUserInteraction,
-                    keyboardType: TextInputType.text,
-                    textAlign: TextAlign.left,
-                    controller: calender,
-                    enabled: false,
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please enter date';
-                      }
-                      return null;
-                    },
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 16,
-                      color: MyAppTheme.TitleBlackColor,
-                      fontFamily: Fonts.nunito,
-                    ),
-                    decoration: const InputDecoration(
-                      border: InputBorder.none,
-                      contentPadding: EdgeInsets.only(left: 10.0),
-                    ),
-                  )),
-            ],
-          ),
-          )
-                        ,
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5.0),
-                        child: Text(
-                          phoneNumber,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: MyAppTheme.DesBlackColor,
-                            fontFamily: Fonts.nunito,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: width,
-                        height: 50,
-                        margin: const EdgeInsets.only(top: 2.0),
-                        decoration: BoxDecoration(
-                            color: MyAppTheme.LineColor,
-                            border: Border.all(
-                              color: MyAppTheme.MainColor,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5))),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child: SvgPicture.asset(
-                                'assets/icons/phone_icon.svg',
-                                allowDrawingOutsideViewBox: true,
-                                height: 18,
-                                width: 18,
-                              ),
-                            ),
-                            Expanded(
-                                child: TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.text,
-                              textAlign: TextAlign.left,
-                              controller: userPhone,
-                              enabled: false,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter user name';
-                                }
-                                return null;
-                              },
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                color: MyAppTheme.TitleBlackColor,
-                                fontFamily: Fonts.nunito,
-                              ),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(left: 10.0),
-                              ),
-                            )),
-                          ],
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5.0),
-                        child: Text(
-                          email,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: MyAppTheme.DesBlackColor,
-                            fontFamily: Fonts.nunito,
-                          ),
-                        ),
-                      ),
-                      Container(
-                        width: width,
-                        height: 50,
-                        margin: const EdgeInsets.only(top: 2.0),
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                              color: MyAppTheme.MainColor,
-                            ),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(5))),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(left: 10.0),
-                              child: SvgPicture.asset(
-                                'assets/icons/email_icon.svg',
-                                allowDrawingOutsideViewBox: true,
-                                height: 18,
-                                width: 18,
-                              ),
-                            ),
-                            Expanded(
-                                child: TextFormField(
-                              autovalidateMode:
-                                  AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.text,
-                              textAlign: TextAlign.left,
-                              controller: userEmail,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter user name';
-                                }
-                                return null;
-                              },
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                color: MyAppTheme.TitleBlackColor,
-                                fontFamily: Fonts.nunito,
-                              ),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                contentPadding: EdgeInsets.only(left: 10.0),
-                              ),
-                            )),
-                          ],
-                        ),
-                      ),
-                      const Padding(
-                        padding: EdgeInsets.only(top: 5.0),
-                        child: Text(
-                          gender,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: MyAppTheme.DesBlackColor,
-                            fontFamily: Fonts.nunito,
-                          ),
-                        ),
-                      ),
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Expanded(
-                              child: Container(
+                          onTap: () {
+                            if (_formKey.currentState!.validate()) {
+                              print(userName.text.toString()+"    "+calender.text.toString()+"      "+provider.gender);
+                               provider.createEditProfileDetails(context, userName.text.toString(), calender.text.toString(), provider.gender);
+                            }
+                          },
+                          child: Container(
                             width: width,
                             height: 50,
-                            margin: const EdgeInsets.only(top: 2.0, right: 5.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: MyAppTheme.MainColor,
+                            margin: const EdgeInsets.only(bottom: 10.0),
+                            decoration: const BoxDecoration(
+                                color: MyAppTheme.MainColor,
+                                borderRadius: BorderRadius.all(Radius.circular(5))),
+                            child: const Center(
+                              child: Text(
+                                save,
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 18,
+                                  color: MyAppTheme.whiteColor,
+                                  fontFamily: Fonts.nunito,
                                 ),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(5))),
-                            child: InkWell(
-                              onTap: () {
-                                provider.getGender("male");
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10.0),
-                                    child: provider.gender == "male"
-                                        ? Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: const BoxDecoration(
-                                                color: MyAppTheme.MainColor,
-                                                shape: BoxShape.circle),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(5.0),
-                                              child: SvgPicture.asset(
-                                                'assets/icons/check.svg',
-                                                allowDrawingOutsideViewBox:
-                                                    true,
-                                                height: 20,
-                                                width: 20,
-                                                color: MyAppTheme.whiteColor,
-                                              ),
-                                            ),
-                                          )
-                                        : Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                              color: MyAppTheme.listBGColor,
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                width: 1,
-                                                color:
-                                                    MyAppTheme.listBorderColor,
-                                                style: BorderStyle.solid,
-                                              ),
-                                            ),
-                                          ),
-                                  ),
-                                  const Expanded(
-                                      child: Text(
-                                    male,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: MyAppTheme.TitleBlackColor,
-                                      fontFamily: Fonts.nunito,
-                                    ),
-                                  )),
-                                ],
                               ),
                             ),
-                          )),
-                          Expanded(
-                              child: Container(
-                            width: width,
-                            height: 50,
-                            margin: const EdgeInsets.only(top: 2.0, left: 5.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: MyAppTheme.MainColor,
-                                ),
-                                borderRadius:
-                                    const BorderRadius.all(Radius.circular(5))),
-                            child: InkWell(
-                              onTap: () {
-                                provider.getGender("female");
-                              },
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(
-                                        left: 10.0, right: 10.0),
-                                    child: provider.gender == "female"
-                                        ? Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: const BoxDecoration(
-                                                color: MyAppTheme.MainColor,
-                                                shape: BoxShape.circle),
-                                            child: Padding(
-                                              padding:
-                                                  const EdgeInsets.all(5.0),
-                                              child: SvgPicture.asset(
-                                                'assets/icons/check.svg',
-                                                allowDrawingOutsideViewBox:
-                                                    true,
-                                                height: 20,
-                                                width: 20,
-                                                color: MyAppTheme.whiteColor,
-                                              ),
-                                            ),
-                                          )
-                                        : Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                              color: MyAppTheme.listBGColor,
-                                              shape: BoxShape.circle,
-                                              border: Border.all(
-                                                width: 1,
-                                                color:
-                                                    MyAppTheme.listBorderColor,
-                                                style: BorderStyle.solid,
-                                              ),
-                                            ),
-                                          ),
-                                  ),
-                                  const Expanded(
-                                      child: Text(
-                                    female,
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: MyAppTheme.TitleBlackColor,
-                                      fontFamily: Fonts.nunito,
-                                    ),
-                                  )),
-                                ],
-                              ),
-                            ),
-                          ))
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              recevieWhatsAppAlerts,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: MyAppTheme.DesBlackColor,
-                                fontFamily: Fonts.nunito,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: (){
-                                provider.getWhatsApp(provider.whatsApp);
-                              },
-                              child: provider.whatsApp == true
-                                  ? Container(
-                                height: 20,
-                                width: 20,
-                                decoration: const BoxDecoration(
-                                    color: MyAppTheme.MainColor,
-                                    shape: BoxShape.circle),
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.all(5.0),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/check.svg',
-                                    allowDrawingOutsideViewBox:
-                                    true,
-                                    height: 20,
-                                    width: 20,
-                                    color: MyAppTheme.whiteColor,
-                                  ),
-                                ),
-                              )
-                                  : Container(
-                                height: 20,
-                                width: 20,
-                                decoration: BoxDecoration(
-                                  color: MyAppTheme.listBGColor,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 1,
-                                    color:
-                                    MyAppTheme.listBorderColor,
-                                    style: BorderStyle.solid,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
+                          ),
                         ),
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 10.0),
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            const Text(
-                              recevieEmailAlerts,
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 16,
-                                color: MyAppTheme.DesBlackColor,
-                                fontFamily: Fonts.nunito,
-                              ),
-                            ),
-                            InkWell(
-                              onTap: (){
-                                provider.getEmailApp(provider.emailApp);
-                              },
-                              child: provider.emailApp == true
-                                  ? Container(
-                                height: 20,
-                                width: 20,
-                                decoration: const BoxDecoration(
-                                    color: MyAppTheme.MainColor,
-                                    shape: BoxShape.circle),
-                                child: Padding(
-                                  padding:
-                                  const EdgeInsets.all(5.0),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/check.svg',
-                                    allowDrawingOutsideViewBox:
-                                    true,
-                                    height: 20,
-                                    width: 20,
-                                    color: MyAppTheme.whiteColor,
-                                  ),
-                                ),
-                              )
-                                  : Container(
-                                height: 20,
-                                width: 20,
-                                decoration: BoxDecoration(
-                                  color: MyAppTheme.listBGColor,
-                                  shape: BoxShape.circle,
-                                  border: Border.all(
-                                    width: 1,
-                                    color:
-                                    MyAppTheme.listBorderColor,
-                                    style: BorderStyle.solid,
-                                  ),
-                                ),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 80,
-                      )
                     ],
                   ),
-                ),
-                Align(
-                  alignment: Alignment.bottomCenter,
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: width,
-                      height: 50,
-                      margin: const EdgeInsets.only(bottom: 10.0),
-                      decoration: const BoxDecoration(
-                          color: MyAppTheme.MainColor,
-                          borderRadius: BorderRadius.all(Radius.circular(5))),
-                      child: const Center(
-                        child: Text(
-                          save,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                            fontSize: 18,
-                            color: MyAppTheme.whiteColor,
-                            fontFamily: Fonts.nunito,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          );
-        },
-      ),
+                )
+                ,
+              );
+            },
+          ),
+        )
     );
+
   }
 
   AppBar buildAppBar(BuildContext context) {

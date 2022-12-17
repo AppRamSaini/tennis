@@ -6,6 +6,7 @@ import 'package:tennis/bottomdilog/logout.dart';
 import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/drawer/drawer_bar.dart';
 import 'package:tennis/helpers/constants.dart';
+import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/setting/edit_profile.dart';
 import 'package:tennis/screens/webviewscreens/termswebview.dart';
@@ -28,6 +29,7 @@ class _SettingState extends State<Setting> {
   initState() {
     SharedPref.getProfileImage("user_profile").then((value) => setState(() {
       user_profile = value;
+      print(user_profile);
     }));
     SharedPref.getUserName("user_name").then((value) => setState(() {
       user_name = value;
@@ -53,29 +55,51 @@ class _SettingState extends State<Setting> {
           width: width,
           height: height,
           padding: const EdgeInsets.only(left: 15.0,right: 15.0),
-          child: Column(
+          child:  Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              user_profile != null ?
+              user_profile != "" && user_profile != null ?
               Container(
+                  width: 100,
+                  height: 100,
+                  margin: const EdgeInsets.only(top: 25.0,bottom: 10.0),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Center(
+                        child: FadeInImage(
+                          image: NetworkImage(user_profile!),
+                          fit: BoxFit.cover,
+                          width: 100,
+                          height: 100,
+                          placeholder: const AssetImage("assets/images/image_defult.png"),
+                          imageErrorBuilder: (context,
+                              error, stackTrace) {
+                            return Image.asset(
+                              "assets/images/image_defult.png",
+                            );
+                          },
+                        )),
+                  ))
+              /*Container(
                 width: 100,
                 height: 100,
                 margin: const EdgeInsets.only(top: 25.0,bottom: 10.0),
                 decoration:  BoxDecoration(
                   image: DecorationImage(
-                      fit: BoxFit.cover, image: NetworkImage(user_profile!)),
+                      fit: BoxFit.cover, image: NetworkImage(user_profile!)
+                  ),
                   border: Border.all(color: MyAppTheme.CategoryBGSelectColor,width: 2),
                   borderRadius: const BorderRadius.all(Radius.circular(100.0)),
                 ),
-              ): Container(
+              )*/: Container(
                 width: 100,
                 height: 100,
                 margin: const EdgeInsets.only(top: 25.0,bottom: 10.0),
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                      image: AssetImage("assets/images/profile_image.png"),
+                      image: AssetImage("assets/images/image_defult.png"),
                       fit: BoxFit.fill
                   ),
                 ),

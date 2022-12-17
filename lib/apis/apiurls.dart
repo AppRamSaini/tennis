@@ -13,6 +13,9 @@ class ApiUrls {
   static const String leaguePermissionStatus = "${apiBaseUrl}leagues/permission-status";
   static const String logout = "${apiBaseUrl}logout";
   static const String editProfileImage = "${apiBaseUrl}edit-profile-image";
+  static const String editProfileDetails = "${apiBaseUrl}edit-profile-details";
+  static const String createLeague = "${apiBaseUrl}leagues/create-league";
+  static const String createList = "${apiBaseUrl}leagues/list";
   ////////////////Wordpress API /////////////////////////////////////
   static const String category = "${apiWPBaseUrl}post/category";
   static const String banner = "${apiWPBaseUrl}home/banner";

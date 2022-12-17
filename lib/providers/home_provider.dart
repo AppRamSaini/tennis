@@ -13,7 +13,7 @@ class HomeProvider extends ChangeNotifier {
         if (intenet != null && intenet) {
           homeData(context).then((response) {
             if (json.decode(response.body)['status'] == true) {
-              SharedPref.setUserId(json.decode(response.body)['data']['id']);
+            //  SharedPref.setUserId(json.decode(response.body)['data']['id']);
               SharedPref.setProfileImage(json.decode(response.body)['data']['profile_photo_url'].toString());
               SharedPref.setUserName(json.decode(response.body)['data']['name'].toString());
               SharedPref.setUserEmail(json.decode(response.body)['data']['email'].toString());

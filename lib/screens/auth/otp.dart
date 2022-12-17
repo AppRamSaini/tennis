@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/helpers/constants.dart';
+import 'package:tennis/providers/login_provider.dart';
 import 'package:tennis/providers/otp_provider.dart';
 import 'package:tennis/screens/dashboard/dashboard.dart';
 import 'package:tennis/screens/score_card/winner.dart';
@@ -76,7 +77,7 @@ class _OTPState extends State<OTP> {
       ),
       child: Scaffold(
         backgroundColor: MyAppTheme.whiteColor,
-        body: Consumer<OtpProvider>(
+        body: Consumer<LoginProvider>(
           builder: (context, provider, child) {
             return SafeArea(
               child: Container(
@@ -158,6 +159,11 @@ class _OTPState extends State<OTP> {
                       onTap: (){
                         if(resend){
                           // re-send otp send
+                          if(widget.type == "login"){
+                            provider.authLoginData(context, widget.number,"login");
+                          }else{
+
+                          }
                           startTimer();
                         }else{
 
@@ -189,11 +195,11 @@ class _OTPState extends State<OTP> {
                             color: MyAppTheme.MainColor,
                             borderRadius: BorderRadius.all(Radius.circular(5))
                         ),
-                        child: const Center(
+                        child:  Center(
                           child: Text(
-                            login,
+                            login.toUpperCase(),
                             textAlign: TextAlign.center,
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 18,
                               color: MyAppTheme.whiteColor,
