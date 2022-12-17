@@ -16,7 +16,7 @@ import 'package:tennis/providers/home_provider.dart';
 import 'package:tennis/repository/home.dart';
 import 'package:tennis/screens/home/all_matches.dart';
 import 'package:tennis/screens/home/join_academy.dart';
-import 'package:tennis/screens/home/my_academy.dart';
+import 'package:tennis/screens/home/my_leagues.dart';
 import 'package:tennis/screens/home/my_challenges.dart';
 import 'package:tennis/screens/home/my_result.dart';
 import 'package:tennis/styles/fonts.dart';
@@ -186,7 +186,7 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MyAcademy()),
+                        MaterialPageRoute(builder: (context) => MyLeagues()),
                       );
                     },
                     child: ClipRRect(
@@ -369,7 +369,7 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MyAcademy()),
+                        MaterialPageRoute(builder: (context) => MyLeagues()),
                       );
                     },
                     child: ClipRRect(

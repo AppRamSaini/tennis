@@ -4,13 +4,15 @@ class CreateLeaguesProvider extends ChangeNotifier {
   int NSet = 0;
 
   void AddNSet(){
-    if(NSet <= 6){
+    if(NSet <= 5){
       NSet++;
+      notifyListeners();
     }
   }
   void MinsNSet(){
     if(NSet > 0){
        NSet--;
+       notifyListeners();
     }
   }
 }

@@ -12,14 +12,14 @@ import 'package:tennis/screens/my_leagues/create_leagues.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
-class MyAcademy extends StatefulWidget {
-  const MyAcademy({Key? key}) : super(key: key);
+class MyLeagues extends StatefulWidget {
+  const MyLeagues({Key? key}) : super(key: key);
 
   @override
-  State<MyAcademy> createState() => _MyAcademyState();
+  State<MyLeagues> createState() => _MyLeaguesState();
 }
 
-class _MyAcademyState extends State<MyAcademy> {
+class _MyLeaguesState extends State<MyLeagues> {
   @override
   void initState() {
     // TODO: implement initState
@@ -55,7 +55,7 @@ class _MyAcademyState extends State<MyAcademy> {
                       physics: const AlwaysScrollableScrollPhysics(),
                       primary: false,
                       shrinkWrap: true,
-                      itemCount: 12,
+                      itemCount: 2,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           padding: const EdgeInsets.all(10),
@@ -79,11 +79,11 @@ class _MyAcademyState extends State<MyAcademy> {
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children:  [
                                   const Text(
-                                    'Under 12',
+                                    'U-19 Jaipur Open 2022',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
-                                      color: MyAppTheme.black_Color,
+                                      color: MyAppTheme.TitleBlackColor,
                                       fontFamily: Fonts.nunito,
                                     ),
                                   ),
@@ -93,12 +93,12 @@ class _MyAcademyState extends State<MyAcademy> {
                                       itemBuilder: (context){
                                         return [
                                           PopupMenuItem(
-                                              height: 30,
+                                              height: provider.userRequest == "Approved" ? 30 : 0,
                                               value: 1,
-                                              child: InkWell(
+                                              child: provider.userRequest == "Approved" ?
+                                              InkWell(
                                                 onTap: (){
                                                   Navigator.pop(context);
-
                                                 },
                                                 child: Row(
                                                   children:  <Widget>[
@@ -118,12 +118,13 @@ class _MyAcademyState extends State<MyAcademy> {
                                                           )),)
                                                   ],
                                                 ),
-                                              )
+                                              ) : SizedBox()
                                           ),
                                           PopupMenuItem(
-                                              height: 30,
+                                              height: provider.userRequest == "Approved" ? 30 : 0,
                                               value: 2,
-                                              child: InkWell(
+                                              child: provider.userRequest == "Approved" ?
+                                              InkWell(
                                                 onTap: (){
                                                   Navigator.pop(context);
                                                 },
@@ -145,7 +146,7 @@ class _MyAcademyState extends State<MyAcademy> {
                                                           )),)
                                                   ],
                                                 ),
-                                              )
+                                              ) :SizedBox()
                                           ),
                                           PopupMenuItem(
                                               height: 30,
@@ -176,9 +177,10 @@ class _MyAcademyState extends State<MyAcademy> {
                                               )
                                           ),
                                           PopupMenuItem(
-                                              height: 30,
+                                              height: provider.userRequest == "Approved" ? 30 : 0,
                                               value: 4,
-                                              child: InkWell(
+                                              child: provider.userRequest == "Approved" ?
+                                              InkWell(
                                                 onTap: (){
                                                   Navigator.pop(context);
                                                 },
@@ -200,7 +202,7 @@ class _MyAcademyState extends State<MyAcademy> {
                                                           )),)
                                                   ],
                                                 ),
-                                              )
+                                              ) :SizedBox()
                                           ),
 
                                         ];
@@ -212,31 +214,15 @@ class _MyAcademyState extends State<MyAcademy> {
                                 mainAxisAlignment: MainAxisAlignment.start,
                                 children: const [
                                   Text(
-                                    'Total Players :',
+                                    '04 Members',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: MyAppTheme.black_Color,
-                                      fontFamily: Fonts.nunito,
-                                    ),
-                                  ),
-                                  Text(
-                                    ' 5',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
+                                      fontSize: 12,
                                       color: MyAppTheme.DesBlackColor,
                                       fontFamily: Fonts.nunito,
                                     ),
                                   )
                                 ],
-                              ),
-                              Container(
-                                width: width,
-                                color: MyAppTheme.LineColor,
-                                height: 1.0,
-                                margin: const EdgeInsets.only(
-                                    top: 10.0, bottom: 10.0),
                               ),
                               InkWell(
                                 onTap: () {
@@ -248,7 +234,7 @@ class _MyAcademyState extends State<MyAcademy> {
                                 child: Container(
                                   height: 50,
                                   width: width,
-                                  margin: const EdgeInsets.only(right: 5.0),
+                                  margin: const EdgeInsets.only(right: 5.0,top: 10.0,),
                                   decoration: const BoxDecoration(
                                       color: MyAppTheme.MainColor,
                                       borderRadius: BorderRadius.all(

@@ -16,6 +16,29 @@ class MyChallenges extends StatefulWidget {
 }
 
 class _MyChallengesState extends State<MyChallenges> {
+  List<Map<String, String>> splashData = [
+    {
+      "title": "U-19 Jaipur Open 2022",
+      "oppoent": "John Browne",
+      "status": "Pending",
+      "date": "22-Nov-2022",
+      "address": "Pink city Tennis Court, C-Scheme, Jaipur",
+    },
+    {
+      "title": "U-19 Jaipur Open 2022",
+      "oppoent": "John Browne",
+      "status": "Accepted",
+      "date": "22-Nov-2022",
+      "address": "Pink city Tennis Court, C-Scheme, Jaipur",
+    },
+    {
+      "title": "U-19 Jaipur Open 2022",
+      "oppoent": "John Browne",
+      "status": "Denied",
+      "date": "22-Nov-2022",
+      "address": "Pink city Tennis Court, C-Scheme, Jaipur",
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -37,101 +60,218 @@ class _MyChallengesState extends State<MyChallenges> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 primary: false,
                 shrinkWrap: true,
-                itemCount: 5,
+                itemCount: splashData.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     padding: const EdgeInsets.all(10),
                     margin: const EdgeInsets.only(top: 10.0),
                     decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: MyAppTheme.listBorderColor, //New
+                            blurRadius: 5.0,
+                          )
+                        ],
                         color: MyAppTheme.whiteColor,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                        borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Academy Name :',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                color: MyAppTheme.black_Color,
-                                fontFamily: Fonts.nunito,
-                              ),
-                            ),
-                            Text(
-                              ' Under 14',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: MyAppTheme.DesBlackColor,
-                                fontFamily: Fonts.nunito,
-                              ),
-                            )
-                          ],
-                        ),
+                        Text(
+                      '${splashData[index]['title']}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 16,
+                        color: MyAppTheme.TitleBlackColor,
+                        fontFamily: Fonts.nunito,
+                      ),
+                    ),
                         Padding(
                           padding:
-                          const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                          const EdgeInsets.only(top: 5.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Opponent :',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                  color: MyAppTheme.black_Color,
-                                  fontFamily: Fonts.nunito,
+                            children:  [
+                              Container(
+                                width : 100,
+                                child: const Text(
+                                  'Opponent : ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: MyAppTheme.DesBlackColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
                                 ),
                               ),
                               Text(
-                                ' Ram',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
+                                '${splashData[index]['oppoent']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 14,
-                                  color: MyAppTheme.DesBlackColor,
+                                  color: MyAppTheme.TitleBlackColor,
                                   fontFamily: Fonts.nunito,
                                 ),
                               )
                             ],
                           ),
                         ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
-                            Text(
-                              'Status :',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                                color: MyAppTheme.black_Color,
-                                fontFamily: Fonts.nunito,
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children:  [
+                              Container(
+                                width : 100,
+                                child: const Text(
+                                  'Status : ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: MyAppTheme.DesBlackColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
+                                ),
                               ),
-                            ),
-                            Text(
-                              ' Pending',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: MyAppTheme.DesBlackColor,
-                                fontFamily: Fonts.nunito,
+                              splashData[index]['status'] == "Pending" ?
+                              Container(
+                                height: 30,
+                                width: 100,
+                                decoration:  BoxDecoration(
+                                    color: MyAppTheme.PendingLightColor,
+                                    border: Border.all(
+                                      color: MyAppTheme.PendingDarkColor,
+                                          width : 1
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5))),
+                                child: const Center(
+                                  child: Text(
+                                    'Pending',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                      color: MyAppTheme.TitleBlackColor,
+                                      fontFamily: Fonts.nunito,),
+                                  ),
+                                ),
+                              ) : splashData[index]['status'] == "Accepted" ? Container(
+                                height: 30,
+                                width: 100,
+                                decoration:  BoxDecoration(
+                                    color: MyAppTheme.AcceptLightColor,
+                                    border: Border.all(
+                                        color: MyAppTheme.AcceptDarkColor,
+                                        width : 1
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5))),
+                                child: const Center(
+                                  child: Text(
+                                    'Accepted',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                      color: MyAppTheme.TitleBlackColor,
+                                      fontFamily: Fonts.nunito,),
+                                  ),
+                                ),
+                              ) : Container(
+                                height: 30,
+                                width: 100,
+                                decoration:  BoxDecoration(
+                                    color: MyAppTheme.DeniedLightColor,
+                                    border: Border.all(
+                                        color: MyAppTheme.DeniedDarkColor,
+                                        width : 1
+                                    ),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5))),
+                                child: const Center(
+                                  child: Text(
+                                    'Denied',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                      color: MyAppTheme.TitleBlackColor,
+                                      fontFamily: Fonts.nunito,),
+                                  ),
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children:  [
+                              Container(
+                                width : 100,
+                                child: const Text(
+                                  'Match Date : ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: MyAppTheme.DesBlackColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
+                                ),
                               ),
-                            )
-                          ],
+                              Text(
+                                '${splashData[index]['date']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: MyAppTheme.TitleBlackColor,
+                                  fontFamily: Fonts.nunito,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                        Container(
-                          width: width,
-                          color: MyAppTheme.LineColor,
-                          height: 1.0,
-                          margin: const EdgeInsets.only(
-                              top: 10.0, bottom: 10.0),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children:  [
+                              Container(
+                                width : 100,
+                                child: const Text(
+                                  'Court Address : ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: MyAppTheme.DesBlackColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
+                                ),
+                              ),
+                              Expanded(child: Text(
+                                '${splashData[index]['address']}',
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: MyAppTheme.TitleBlackColor,
+                                  fontFamily: Fonts.nunito,
+                                ),
+                              ))
+
+                            ],
+                          ),
                         ),
+                        splashData[index]['status'] == "Pending" ?
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -146,18 +286,20 @@ class _MyChallengesState extends State<MyChallenges> {
                                   );
                                 },
                                 child: Container(
-                                  height: 50,
+                                  height: 40,
                                   margin: const EdgeInsets.only(right: 5.0),
                                   decoration: const BoxDecoration(
-                                      color: MyAppTheme.MainColor,
+                                      color: MyAppTheme.AcceptBgColor,
                                       borderRadius: BorderRadius.all(
                                           Radius.circular(5))),
                                   child: const Center(
                                     child: Text(
-                                      'Report Score',
+                                      'Accept',
                                       style: TextStyle(
-                                          fontSize: 16,
-                                          color: MyAppTheme.whiteColor),
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 12,
+                                        color: MyAppTheme.whiteColor,
+                                        fontFamily: Fonts.nunito,),
                                     ),
                                   ),
                                 ),
@@ -165,18 +307,128 @@ class _MyChallengesState extends State<MyChallenges> {
                             ),
                             Expanded(
                               child: Container(
-                                height: 50,
+                                height: 40,
                                 margin: const EdgeInsets.only(left: 5.0),
                                 decoration: const BoxDecoration(
-                                    color: MyAppTheme.MainColor,
+                                    color: MyAppTheme.DeniedBgColor,
                                     borderRadius: BorderRadius.all(
                                         Radius.circular(5))),
                                 child: const Center(
                                   child: Text(
-                                    'WithDraw',
+                                    'Deny',
                                     style: TextStyle(
-                                        fontSize: 16,
-                                        color: MyAppTheme.whiteColor),
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      color: MyAppTheme.TitleBlackColor,
+                                      fontFamily: Fonts.nunito,),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ) : splashData[index]['status'] == "Accepted" ? Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddScore()),
+                                  );
+                                },
+                                child: Container(
+                                  height: 40,
+                                  margin: const EdgeInsets.only(right: 5.0),
+                                  decoration: const BoxDecoration(
+                                      color: MyAppTheme.ScoreBgColor,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5))),
+                                  child: const Center(
+                                    child: Text(
+                                      'Report score',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 12,
+                                        color: MyAppTheme.whiteColor,
+                                        fontFamily: Fonts.nunito,),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: 40,
+                                margin: const EdgeInsets.only(left: 5.0),
+                                decoration: const BoxDecoration(
+                                    color: MyAppTheme.DeniedBgColor,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(5))),
+                                child: const Center(
+                                  child: Text(
+                                    'Withdraw',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      color: MyAppTheme.TitleBlackColor,
+                                      fontFamily: Fonts.nunito,),
+                                  ),
+                                ),
+                              ),
+                            )
+                          ],
+                        ) : Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => AddScore()),
+                                  );
+                                },
+                                child: Container(
+                                  height: 40,
+                                  margin: const EdgeInsets.only(right: 5.0),
+                                  decoration: const BoxDecoration(
+                                      color: MyAppTheme.AcceptBgColor,
+                                      borderRadius: BorderRadius.all(
+                                          Radius.circular(5))),
+                                  child: const Center(
+                                    child: Text(
+                                      'Accept',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 12,
+                                        color: MyAppTheme.whiteColor,
+                                        fontFamily: Fonts.nunito,),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Expanded(
+                              child: Container(
+                                height: 40,
+                                margin: const EdgeInsets.only(left: 5.0),
+                                decoration: const BoxDecoration(
+                                    color: MyAppTheme.DeniedBgColor,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(5))),
+                                child: const Center(
+                                  child: Text(
+                                    'Deny',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      color: MyAppTheme.TitleBlackColor,
+                                      fontFamily: Fonts.nunito,),
                                   ),
                                 ),
                               ),

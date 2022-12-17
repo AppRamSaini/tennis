@@ -15,6 +15,24 @@ class ViewRankingChallenge extends StatefulWidget {
 }
 
 class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
+  List<Map<String, String>> splashData = [
+    {
+      "title": "Olivia White",
+      "status": "Challenge",
+    },
+    {
+      "title": "Olivia White",
+      "status": "Score",
+    },
+    {
+      "title": "Olivia White",
+      "status": "Withdraw",
+    },
+    {
+      "title": "Olivia White",
+      "status": "Self",
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -36,116 +54,205 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 primary: false,
                 shrinkWrap: true,
-                itemCount: 5,
+                itemCount: splashData.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     margin: const EdgeInsets.only(top: 10.0),
-                    decoration: const BoxDecoration(
-                        color: MyAppTheme.whiteColor,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
-                    child: Row(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Container(
-                          width: 90,
-                          height: 80,
-                          margin: const EdgeInsets.only(right: 10.0),
-                          decoration: const BoxDecoration(
-                              color: MyAppTheme.MainColor,
-                          borderRadius: BorderRadius.only(topLeft: Radius.circular(5),bottomLeft: Radius.circular(5))),
-                          child: Center(
-                            child: Container(
-                              height: 50,
-                              width: 50,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Container(
+                              width: 75,
+                              height: 75,
+                              margin: const EdgeInsets.only(right: 10.0),
                               decoration: const BoxDecoration(
-                                  color: MyAppTheme.colorinactiveThumbColor,
-                                  shape: BoxShape.circle
-                              ),
+                                  color: MyAppTheme.MainLightColor,
+                                  borderRadius: BorderRadius.all(Radius.circular(10))),
                               child: Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Text(index.toString(),style: const TextStyle(fontSize: 18,color: MyAppTheme.whiteColor),),
-                                ),
-                              ),
-                            ),
-
-                          ),
-                        ),
-                        Expanded(
-                            child:
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                const Text(
-                                  'Parmod Kumawat',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w700,
-                                    fontSize: 16,
-                                    color: MyAppTheme.black_Color,
-                                    fontFamily: Fonts.nunito,
+                                child: Container(
+                                  height: 65,
+                                  width: 65,
+                                  decoration: const BoxDecoration(
+                                      color: MyAppTheme.whiteColor,
+                                      shape: BoxShape.circle
                                   ),
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                     Column(
-                                       crossAxisAlignment: CrossAxisAlignment.start,
-                                       mainAxisAlignment: MainAxisAlignment.start,
-                                       children: const [
-                                         Text(
-                                           'Record: 1-1',
-                                           style: TextStyle(
-                                             fontWeight: FontWeight.w400,
-                                             fontSize: 16,
-                                             color: MyAppTheme.black_Color,
-                                             fontFamily: Fonts.nunito,
-                                           ),
-                                         ),
-                                         Text(
-                                           'Points: 7.00',
-                                           style: TextStyle(
-                                             fontWeight: FontWeight.w400,
-                                             fontSize: 16,
-                                             color: MyAppTheme.black_Color,
-                                             fontFamily: Fonts.nunito,
-                                           ),
-                                         )
-                                       ],
-                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        Navigator.push(
-                                          context,
-                                          MaterialPageRoute(builder: (context) => ViewRankingChallenge(name: 'Under 12',)),
-                                        );
-                                      },
-                                      child: Container(
-                                        height: 40,
-                                        width: 100,
-                                        margin: const EdgeInsets.only(right: 5.0),
+                                  child: Container(
+                                    height: 55,
+                                    width: 55,
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.MainSecLightColor,
+                                        shape: BoxShape.circle
+                                    ),
+                                    child: Center(
+                                      child:
+                                      Container(
+                                        height: 50,
+                                        width: 50,
                                         decoration: const BoxDecoration(
                                             color: MyAppTheme.MainColor,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(5))),
-                                        child: const Center(
-                                          child: Text(
-                                            'challenge',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                color: MyAppTheme.whiteColor),
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Text(index.toString(),style: const TextStyle(
+                                              fontWeight: FontWeight.w900,
+                                              fontSize: 25,
+                                              color: MyAppTheme.whiteColor,
+                                              fontFamily: Fonts.nunito,),),
                                           ),
                                         ),
                                       ),
+                                    ),
+                                  ),
+                                )
+                                ,
+
+                              ),
+                            ),
+                            Expanded(
+                                child:
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                     Text(
+                                      '${splashData[index]['title']}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: MyAppTheme.TitleBlackColor,
+                                        fontFamily: Fonts.nunito,
+                                      ),
+                                    ),
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.center,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Row(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment: MainAxisAlignment.start,
+                                          children: const [
+                                            Text(
+                                              'Record:',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w400,
+                                                fontSize: 12,
+                                                color: MyAppTheme.DesBlackColor,
+                                                fontFamily: Fonts.nunito,
+                                              ),
+                                            ),
+                                            Text(
+                                              '12/08',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 12,
+                                                color: MyAppTheme.TitleBlackColor,
+                                                fontFamily: Fonts.nunito,
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        splashData[index]['status'] == "Challenge" ?
+                                        InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => ViewRankingChallenge(name: 'Under 12',)),
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            width: 100,
+                                            margin: const EdgeInsets.only(right: 5.0),
+                                            decoration: const BoxDecoration(
+                                                color: MyAppTheme.AcceptBgColor,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5))),
+                                            child: const Center(
+                                              child: Text(
+                                                'Challenge',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 12,
+                                                  color: MyAppTheme.whiteColor,
+                                                  fontFamily: Fonts.nunito,),
+                                              ),
+                                            ),
+                                          ),
+                                        ) : splashData[index]['status'] == "Withdraw" ? InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => ViewRankingChallenge(name: 'Under 12',)),
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            width: 100,
+                                            margin: const EdgeInsets.only(right: 5.0),
+                                            decoration: const BoxDecoration(
+                                                color: MyAppTheme.DeniedBgColor,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5))),
+                                            child: const Center(
+                                              child: Text(
+                                                'Withdraw',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 12,
+                                                  color: MyAppTheme.whiteColor,
+                                                  fontFamily: Fonts.nunito,),
+                                              ),
+                                            ),
+                                          ),
+                                        ) : splashData[index]['status'] == "Score" ? InkWell(
+                                          onTap: () {
+                                            Navigator.push(
+                                              context,
+                                              MaterialPageRoute(builder: (context) => ViewRankingChallenge(name: 'Under 12',)),
+                                            );
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            width: 100,
+                                            margin: const EdgeInsets.only(right: 5.0),
+                                            decoration: const BoxDecoration(
+                                                color: MyAppTheme.MainColor,
+                                                borderRadius: BorderRadius.all(
+                                                    Radius.circular(5))),
+                                            child: const Center(
+                                              child: Text(
+                                                'Score',
+                                                style: TextStyle(
+                                                  fontWeight: FontWeight.w700,
+                                                  fontSize: 12,
+                                                  color: MyAppTheme.whiteColor,
+                                                  fontFamily: Fonts.nunito,),
+                                              ),
+                                            ),
+                                          ),
+                                        ) : SizedBox()
+                                      ],
                                     )
                                   ],
-                                )
-                              ],
-                            ))
+                                ))
+                          ],
+                        ),
+                        Container(
+                          width: width,
+                          height: 1,
+                          color: MyAppTheme.LineColor,
+                          margin: EdgeInsets.only(top: 10.0),
+                        )
                       ],
-                    ),
+                    )
+
                   );
                 }),
           );
