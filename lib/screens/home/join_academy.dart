@@ -24,7 +24,7 @@ class _JoinAcademyState extends State<JoinAcademy> {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: buildAppBar(context),
-      backgroundColor: MyAppTheme.LineColor,
+      backgroundColor: MyAppTheme.whiteColor,
       body: Consumer<ScoreCardProvider>(
         builder: (context, provider, child) {
           return Container(

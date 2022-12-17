@@ -7,11 +7,11 @@ import 'package:tennis/repository/auth.dart';
 import 'package:tennis/screens/dashboard/dashboard.dart';
 
 class OtpProvider extends ChangeNotifier {
-  void authOTPData(BuildContext context,String phone,String otp){
+  void authOTPData(BuildContext context,String phone,String otp,String type){
     try {
       Helpers.verifyInternet().then((intenet) {
         if (intenet != null && intenet) {
-          authOtpVerify(context,phone,otp)
+          authOtpVerify(context,phone,otp,type)
               .then((response) {
             if(json.decode(response.body)['status']==true){
               SharedPref.setToken(json.decode(response.body)['access_token']);

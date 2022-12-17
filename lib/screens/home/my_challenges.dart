@@ -26,7 +26,7 @@ class _MyChallengesState extends State<MyChallenges> {
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: buildAppBar(context),
-      backgroundColor: MyAppTheme.LineColor,
+      backgroundColor: MyAppTheme.whiteColor,
       body: Consumer<ScoreCardProvider>(
         builder: (context, provider, child) {
           return Container(

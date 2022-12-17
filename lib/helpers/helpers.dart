@@ -3,6 +3,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:tennis/loaders/cricular_loading_widget.dart';
@@ -293,7 +294,16 @@ class Helpers {
     RegExp regex = new RegExp(pattern);
     return (regex.hasMatch(value)) ? true : false;
   }
-
+  static messagetoastfalse(BuildContext context, String msg) {
+    Fluttertoast.showToast(
+        msg: msg,
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.TOP,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 12.0);
+  }
 
   bool validateStructure(String value) {
     String pattern =

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/helpers/constants.dart';
+import 'package:tennis/helpers/helpers.dart';
+import 'package:tennis/helpers/keyboard.dart';
 import 'package:tennis/providers/login_provider.dart';
 import 'package:tennis/screens/auth/otp.dart';
 import 'package:tennis/screens/auth/registor.dart';
@@ -49,14 +52,14 @@ class _LoginState extends State<Login> {
                                 height: height* 0.30,
                                 width:  width * 0.70,
                                 alignment: Alignment.center,
-                                child: Image.asset("assets/images/login_img.jpg",
+                                child: Image.asset("assets/images/login.jpg",
                                   height: height,
                                   width: width,
                                   fit: BoxFit.cover,)
                             ),
                           ),
                           const Padding(
-                            padding: EdgeInsets.only(left: 10.0,top: 20.0),
+                            padding: EdgeInsets.only(top: 20.0),
                             child: Text(
                               login,
                               textAlign: TextAlign.center,
@@ -70,7 +73,7 @@ class _LoginState extends State<Login> {
                           ),
                           Container(
                             width: width * 0.80,
-                            padding: const EdgeInsets.only(left: 10.0,top: 5.0),
+                            padding: const EdgeInsets.only(top: 5.0),
                             child: const Text(
                               loginDescription,
                               textAlign: TextAlign.left,
@@ -92,43 +95,63 @@ class _LoginState extends State<Login> {
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(5))
                             ),
-                            child:  TextFormField(
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(10),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(padding: EdgeInsets.only(left: 10.0),
+                                child:  SvgPicture.asset(
+                                  'assets/icons/phone_icon.svg',
+                                  allowDrawingOutsideViewBox: true,
+                                  height: 25,
+                                  width: 25,
+                                ),),
+                                Expanded(child: TextFormField(
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(10),
+                                  ],
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.left,
+                                  controller: phoneNumber,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter phone number';
+                                    }else if (value.length < 10){
+                                      return 'Please enter 10 digit phone number';
+                                    }
+                                    return null;
+                                  },
+                                  onChanged: (value) {
+                                    if(value.length == 10){
+                                      KeyboardUtil.hideKeyboard(context);
+                                    }
+                                  },
+                                  style: const TextStyle(
+                                      color: MyAppTheme.black_Color,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: Fonts.nunito,
+                                      fontSize: 14),
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: enterPhoneNumber,
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      color: MyAppTheme.DesBlackColor,
+                                      fontFamily: Fonts.nunito,
+                                    ),
+                                    contentPadding: EdgeInsets.only(left: 10.0),),
+                                ))
+                                ,
                               ],
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.left,
-                              controller: phoneNumber,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter phone number';
-                                }else if (value.length < 10){
-                                  return 'Please enter 10 digit phone number';
-                                }
-                                return null;
-                              },
-                              style: const TextStyle(
-                                  color: MyAppTheme.black_Color,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: Fonts.nunito,
-                                  fontSize: 14),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: enterPhoneNumber,
-                                hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  color: MyAppTheme.DesBlackColor,
-                                  fontFamily: Fonts.nunito,
-                                ),
-                                contentPadding: EdgeInsets.only(left: 10.0),),
-                            ),
+                            )
+
                           ),
                           InkWell(
                             onTap: (){
                               if (_formKey.currentState!.validate()) {
-                               provider.authLoginData(context, phoneNumber.text.toString());
+                               provider.authLoginData(context, phoneNumber.text.toString(),"login");
                               }
                             },
                             child: Container(
@@ -153,7 +176,7 @@ class _LoginState extends State<Login> {
                               ),
                             ),
                           ),
-                          Padding(
+                        /*  Padding(
                             padding: const EdgeInsets.only(top: 25.0,bottom: 25.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -225,10 +248,10 @@ class _LoginState extends State<Login> {
                                 ,
                               ),
                             ),
-                          ),
+                          ),*/
                           Container(
                         width: width,
-                        margin: const EdgeInsets.only(top: 20.0),
+                        margin: const EdgeInsets.only(top: 30.0),
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.center,

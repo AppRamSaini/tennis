@@ -9,6 +9,8 @@ class MyAppTheme {
   static const TitleBlackColor = Color(0xFF101B2B);
   static const homeBgColor = Color(0xFF034B3C);
   static const TitleTextColor = Color(0xFF83878C);
+  static const EditBgColor = Color(0xFFDEE0E0);
+  static const PendingRequestBgColor = Color(0xFFF9D99E);
   static const CategoryBGSelectColor = Color(0xFFEF4F5B);
   static const CategoryBGSelectBorderColor = Color(0xFFFBD5D9);
   static const CategoryBGUNSelectColor = Color(0xFFFDEDEF);

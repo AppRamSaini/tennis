@@ -12,7 +12,9 @@ import 'package:tennis/styles/my_app_theme.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 class OTP extends StatefulWidget {
   String number;
-  OTP({Key? key,required this.number}) : super(key: key);
+  String type;
+  int time;
+  OTP({Key? key,required this.number,required this.type,required this.time}) : super(key: key);
 
   @override
   State<OTP> createState() => _OTPState();
@@ -21,18 +23,23 @@ class OTP extends StatefulWidget {
 class _OTPState extends State<OTP> {
   final TextEditingController _pinPutController = TextEditingController();
   Timer? _timer;
-  int _start = 0;
   bool resend = false;
+  formatedTime({required int timeInSecond}) {
+    int sec = timeInSecond % 60;
+    int min = (timeInSecond / 60).floor();
+    String minute = min.toString().length <= 1 ? "0$min" : "$min";
+    String second = sec.toString().length <= 1 ? "0$sec" : "$sec";
+    return "$minute : $second";
+  }
   void startTimer() {
     setState(() {
       resend = false;
-      _start = 60;
     });
     const oneSec = Duration(seconds: 1);
     _timer = Timer.periodic(
       oneSec,
           (Timer timer) {
-        if (_start == 0) {
+        if (widget.time == 0) {
           setState(() {
             _pinPutController.text='';
             resend = true;
@@ -40,7 +47,7 @@ class _OTPState extends State<OTP> {
           });
         } else {
           setState(() {
-            _start--;
+            widget.time--;
           });
         }
       },
@@ -158,7 +165,7 @@ class _OTPState extends State<OTP> {
                       },
                       child: Text(
                         resend == false ?
-                        reSendCodeIn+_start.toString()+" sec" : resendOtp,
+                        reSendCodeIn+ formatedTime(timeInSecond: widget.time) : resendOtp,
                         textAlign: TextAlign.center,
                         style: const TextStyle(
                           fontWeight: FontWeight.w400,
@@ -171,7 +178,7 @@ class _OTPState extends State<OTP> {
                     InkWell(
                       onTap: (){
                         if (_pinPutController.text.isNotEmpty) {
-                         provider.authOTPData(context,widget.number,_pinPutController.text.toString());
+                         provider.authOTPData(context,widget.number,_pinPutController.text.toString(),widget.type);
                         }
                       },
                       child: Container(

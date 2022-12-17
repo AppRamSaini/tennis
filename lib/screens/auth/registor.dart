@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/helpers/helpers.dart';
@@ -49,7 +50,7 @@ class _RegistorState extends State<Registor> {
                                 height: height* 0.30,
                                 width:  width * 0.70,
                                 alignment: Alignment.center,
-                                child: Image.asset("assets/images/registor_img.jpg",
+                                child: Image.asset("assets/images/register.jpg",
                                   height: height,
                                   width: width,
                                   fit: BoxFit.cover,)
@@ -78,127 +79,171 @@ class _RegistorState extends State<Registor> {
                                 ),
                                 borderRadius: const BorderRadius.all(Radius.circular(5))
                             ),
-                            child:  TextFormField(
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.text,
-                              textAlign: TextAlign.left,
-                              controller: userName,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter phone number';
-                                }
-                                return null;
-                              },
-                              style: const TextStyle(
-                                  color: MyAppTheme.black_Color,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: Fonts.nunito,
-                                  fontSize: 14),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: enterUserName,
-                                hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  color: MyAppTheme.DesBlackColor,
-                                  fontFamily: Fonts.nunito,
-                                ),
-                                contentPadding: EdgeInsets.only(left: 10.0),),
-                            ),
-                          ),
-                          Container(
-                            width: width,
-                            height: 50,
-                            margin: const EdgeInsets.only(top: 10.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: MyAppTheme.MainColor,
-                                ),
-                                borderRadius: const BorderRadius.all(Radius.circular(5))
-                            ),
-                            child:  TextFormField(
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.text,
-                              textAlign: TextAlign.left,
-                              controller: userEmail,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter email ';
-                                }else if (Helpers.validateEmail(value)){
-                                  return 'Please enter valid email id';
-                                }
-                                return null;
-                              },
-                              style: const TextStyle(
-                                  color: MyAppTheme.black_Color,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: Fonts.nunito,
-                                  fontSize: 14),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: enterEmail,
-                                hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  color: MyAppTheme.DesBlackColor,
-                                  fontFamily: Fonts.nunito,
-                                ),
-                                contentPadding: EdgeInsets.only(left: 10.0),),
-                            ),
-                          ),
-                          Container(
-                            width: width,
-                            height: 50,
-                            margin: const EdgeInsets.only(top: 10.0),
-                            decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: MyAppTheme.MainColor,
-                                ),
-                                borderRadius: const BorderRadius.all(Radius.circular(5))
-                            ),
-                            child:  TextFormField(
-                              inputFormatters: [
-                                LengthLimitingTextInputFormatter(10),
+                            child:  Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(padding: EdgeInsets.only(left: 10.0),
+                                  child:  SvgPicture.asset(
+                                    'assets/icons/user_icon.svg',
+                                    allowDrawingOutsideViewBox: true,
+                                    height: 18,
+                                    width: 18,
+                                  ),),
+                                Expanded(child: TextFormField(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  keyboardType: TextInputType.text,
+                                  textAlign: TextAlign.left,
+                                  controller: userName,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter name';
+                                    }
+                                    return null;
+                                  },
+                                  style: const TextStyle(
+                                      color: MyAppTheme.black_Color,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: Fonts.nunito,
+                                      fontSize: 14),
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: enterUserName,
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      color: MyAppTheme.DesBlackColor,
+                                      fontFamily: Fonts.nunito,
+                                    ),
+                                    contentPadding: EdgeInsets.only(left: 10.0),),
+                                ))
+                                ,
                               ],
-                              autovalidateMode: AutovalidateMode.onUserInteraction,
-                              keyboardType: TextInputType.number,
-                              textAlign: TextAlign.left,
-                              controller: phoneNumber,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please enter phone number';
-                                }else if (value.length < 10){
-                                  return 'Please enter 10 digit phone number';
-                                }
-                                return null;
-                              },
-                              style: const TextStyle(
-                                  color: MyAppTheme.black_Color,
-                                  fontWeight: FontWeight.w500,
-                                  fontFamily: Fonts.nunito,
-                                  fontSize: 14),
-                              decoration: const InputDecoration(
-                                border: InputBorder.none,
-                                hintText: enterPhoneNumber,
-                                hintStyle: TextStyle(
-                                  fontWeight: FontWeight.w400,
-                                  fontSize: 16,
-                                  color: MyAppTheme.DesBlackColor,
-                                  fontFamily: Fonts.nunito,
+                            )
+                            ,
+                          ),
+                          Container(
+                            width: width,
+                            height: 50,
+                            margin: const EdgeInsets.only(top: 10.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: MyAppTheme.MainColor,
                                 ),
-                                contentPadding: EdgeInsets.only(left: 10.0),),
+                                borderRadius: const BorderRadius.all(Radius.circular(5))
+                            ),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(padding: EdgeInsets.only(left: 10.0),
+                                  child:  SvgPicture.asset(
+                                    'assets/icons/email_icon.svg',
+                                    allowDrawingOutsideViewBox: true,
+                                    height: 16,
+                                    width: 16,
+                                  ),),
+                                Expanded(child: TextFormField(
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  keyboardType: TextInputType.text,
+                                  textAlign: TextAlign.left,
+                                  controller: userEmail,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter email ';
+                                    }else if (Helpers.validateEmail(value)){
+                                      return 'Please enter valid email id';
+                                    }
+                                    return null;
+                                  },
+                                  style: const TextStyle(
+                                      color: MyAppTheme.black_Color,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: Fonts.nunito,
+                                      fontSize: 14),
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: enterEmail,
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      color: MyAppTheme.DesBlackColor,
+                                      fontFamily: Fonts.nunito,
+                                    ),
+                                    contentPadding: EdgeInsets.only(left: 10.0),),
+                                ))
+                                ,
+                              ],
+                            )
+                            ,
+                          ),
+                          Container(
+                            width: width,
+                            height: 50,
+                            margin: const EdgeInsets.only(top: 10.0),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                  color: MyAppTheme.MainColor,
+                                ),
+                                borderRadius: const BorderRadius.all(Radius.circular(5))
+                            ),
+                            child:  Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Padding(padding: EdgeInsets.only(left: 10.0),
+                                  child:  SvgPicture.asset(
+                                    'assets/icons/phone_icon.svg',
+                                    allowDrawingOutsideViewBox: true,
+                                    height: 25,
+                                    width: 25,
+                                  ),),
+                                Expanded(child: TextFormField(
+                                  inputFormatters: [
+                                    LengthLimitingTextInputFormatter(10),
+                                  ],
+                                  autovalidateMode: AutovalidateMode.onUserInteraction,
+                                  keyboardType: TextInputType.number,
+                                  textAlign: TextAlign.left,
+                                  controller: phoneNumber,
+                                  validator: (value) {
+                                    if (value == null || value.isEmpty) {
+                                      return 'Please enter phone number';
+                                    }else if (value.length < 10){
+                                      return 'Please enter 10 digit phone number';
+                                    }
+                                    return null;
+                                  },
+                                  style: const TextStyle(
+                                      color: MyAppTheme.black_Color,
+                                      fontWeight: FontWeight.w500,
+                                      fontFamily: Fonts.nunito,
+                                      fontSize: 14),
+                                  decoration: const InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: enterPhoneNumber,
+                                    hintStyle: TextStyle(
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 16,
+                                      color: MyAppTheme.DesBlackColor,
+                                      fontFamily: Fonts.nunito,
+                                    ),
+                                    contentPadding: EdgeInsets.only(left: 10.0),),
+                                ))
+                                ,
+                              ],
                             ),
                           ),
                           InkWell(
                             onTap: (){
                               if (_formKey.currentState!.validate()) {
-                                provider.authLoginData(context, phoneNumber.text.toString());
+                                provider.authRegistorData(context, userName.text.toString(), userEmail.text.toString(), phoneNumber.text.toString(),"registor");
                               }
                             },
                             child: Container(
                               width: width,
                               height: 50,
-                              margin: const EdgeInsets.only(top: 20.0),
+                              margin: const EdgeInsets.only(top: 25.0),
                               decoration: const BoxDecoration(
                                   color: MyAppTheme.MainColor,
                                   borderRadius: BorderRadius.all(Radius.circular(5))
@@ -217,7 +262,7 @@ class _RegistorState extends State<Registor> {
                               ),
                             ),
                           ),
-                          Padding(
+                        /*  Padding(
                             padding: const EdgeInsets.only(top: 15.0,bottom: 15.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
@@ -286,10 +331,10 @@ class _RegistorState extends State<Registor> {
                                 ,
                               ),
                             ),
-                          ),
+                          ),*/
                           Container(
                             width: width,
-                            margin: const EdgeInsets.only(top: 10.0,bottom: 10.0),
+                            margin: const EdgeInsets.only(top: 25.0,bottom: 10.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,

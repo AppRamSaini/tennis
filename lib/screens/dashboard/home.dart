@@ -69,7 +69,7 @@ class _HomeState extends State<Home> {
           setState(() {
             _isLoading = true;
           });
-          bannerHomeData().then((response) {
+          bannerHomeData(context).then((response) {
             if (json.decode(response.body)['status'] == true) {
               setState(() {
                 bannerList.clear();
@@ -657,11 +657,11 @@ class _HomeState extends State<Home> {
             }, // Image tapped
             child: Image.asset('assets/images/menu.png',width: 20,height: 15,),
           ),
-          Image.asset('assets/images/home_logo.png'),
-          GestureDetector(
-            onTap: () {}, // Image tapped
-            child: Image.asset('assets/images/user_icon.png'),
-          )
+          SvgPicture.asset(
+            'assets/icons/logo.svg',
+            allowDrawingOutsideViewBox: true,
+          ),
+         const SizedBox(width: 20,height: 20,)
 
         ],
 

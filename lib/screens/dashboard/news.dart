@@ -7,6 +7,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:tennis/drawer/drawer_bar.dart';
 import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/locators.dart';
@@ -82,7 +83,7 @@ class _NewsState extends State<News>{
           return Container(
               width: width,
               height: height,
-              padding: const EdgeInsets.only(left: 15.0,right: 15.0,top: 10.0),
+              padding: const EdgeInsets.only(left: 10.0,right: 10.0,top: 10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -132,7 +133,7 @@ class _NewsState extends State<News>{
                   ),
                   const SizedBox(height: 10,),
                   (isNewsLoading)
-                      ? Expanded(child: Center(
+                      ? const Expanded(child: Center(
                     child:  CircularProgressIndicator(valueColor:AlwaysStoppedAnimation<Color>(MyAppTheme.errorMessageTextColor)),
                   ))
                       : Expanded(
@@ -283,6 +284,7 @@ class _NewsState extends State<News>{
           );
         },
       ),
+      drawer: const DrawerBar(),
     );
   }
   AppBar buildAppBar(BuildContext context) {
@@ -298,11 +300,11 @@ class _NewsState extends State<News>{
             }, // Image tapped
             child: Image.asset('assets/images/menu.png',width: 20,height: 15,),
           ),
-          Image.asset('assets/images/home_logo.png'),
-          GestureDetector(
-            onTap: () {}, // Image tapped
-            child: Image.asset('assets/images/user_icon.png'),
-          )
+          SvgPicture.asset(
+            'assets/icons/logo.svg',
+            allowDrawingOutsideViewBox: true,
+          ),
+          const SizedBox(width: 20,height: 20,)
 
         ],
 

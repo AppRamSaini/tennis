@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/locators.dart';
+import 'package:tennis/providers/createleagues_provider.dart';
+import 'package:tennis/providers/editprofile_provider.dart';
 import 'package:tennis/providers/home_provider.dart';
 import 'package:tennis/providers/login_provider.dart';
+import 'package:tennis/providers/myleagues_provider.dart';
 import 'package:tennis/providers/news_provider.dart';
 import 'package:tennis/providers/otp_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
@@ -24,6 +27,9 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(create: (context) => locator<ScoreCardProvider>()),
       ChangeNotifierProvider(create: (context) => locator<HomeProvider>()),
       ChangeNotifierProvider(create: (context) => locator<NewsProvider>()),
+      ChangeNotifierProvider(create: (context) => locator<CreateLeaguesProvider>()),
+      ChangeNotifierProvider(create: (context) => locator<EditProfileProvider>()),
+      ChangeNotifierProvider(create: (context) => locator<MyLeaguesProvider>()),
       ChangeNotifierProvider(create: (context) => LoginProvider(),builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,

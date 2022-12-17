@@ -1,10 +1,13 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tennis/apis/apiurls.dart';
-Future homeData() async {
+import 'package:tennis/helpers/helpers.dart';
+Future homeData(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   print('${prefs.getString("user_token")}');
+  print('${prefs.getInt("user_id").toString()}');
   var url;
   url = Uri.parse(ApiUrls.homeUser);
   var headers = {
@@ -25,11 +28,17 @@ Future homeData() async {
     }
 
   }
-  else {
-
+  else if(response.statusCode == 403){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else if(response.statusCode == 422){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else if(response.statusCode == 500){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else {
+    print(response.statusCode);
   }
 }
-Future bannerHomeData() async {
+Future bannerHomeData(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   print('${prefs.getString("user_token")}');
   var url;
@@ -52,7 +61,13 @@ Future bannerHomeData() async {
     }
 
   }
-  else {
-
+  else if(response.statusCode == 403){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else if(response.statusCode == 422){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else if(response.statusCode == 500){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else {
+    print(response.statusCode);
   }
 }

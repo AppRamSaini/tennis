@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tennis/screens/auth/login.dart';
+import 'package:tennis/screens/dashboard/dashboard.dart';
 import 'package:tennis/screens/intro.dart';
 import 'package:tennis/screens/onboarding/onboarding.dart';
 import 'package:tennis/screens/score_card/winner.dart';
@@ -35,21 +37,21 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
   }
   void navigationToScreen() async{
     try {
-      SharedPreferences prefs1 = await SharedPreferences.getInstance();
-      String user_id = prefs1.getString('id') ?? '';
-      print("user_id "+user_id);
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      bool _seen = (prefs.getBool('seen') ?? false);
+      String user_token = prefs.getString('user_token') ?? '';
+      print("user_token "+user_token);
+      SharedPreferences prefs1 = await SharedPreferences.getInstance();
+      bool _seen = (prefs1.getBool('seen') ?? false);
       if (_seen) {
-        if(user_id !=''){
+        if(user_token !=''){
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Onboarding()),
+            MaterialPageRoute(builder: (context) => DashBoard(selectedIndex: 0,)),
           );
         }else{
           Navigator.pushReplacement(
             context,
-            MaterialPageRoute(builder: (context) => Onboarding()),
+            MaterialPageRoute(builder: (context) => Login()),
           );
 
         }

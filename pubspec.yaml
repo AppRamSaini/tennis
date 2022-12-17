@@ -60,6 +60,16 @@ dependencies:
   share_plus: ^6.3.0
   # path provider
   path_provider: ^2.0.11
+  # flutter toast
+  fluttertoast: ^8.1.2
+  # image picker
+  image_picker: ^0.8.6
+  # image cropper
+  image_cropper: ^3.0.1
+  # permission handler
+  permission_handler: ^10.2.0
+  # webview flutter
+  webview_flutter: ^3.0.4
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

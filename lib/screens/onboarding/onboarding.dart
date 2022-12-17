@@ -20,19 +20,19 @@ class _OnboardingState extends State<Onboarding> {
   int currentIndex = 0;
   List<Map<String, String>> splashData = [
     {
-      "title": "Tennis Khelo App Title ",
-      "image": "assets/images/slider001.jpg",
-      "des": "tennis khelo app description",
+      "title": "Welcome to Tennis Khelo",
+      "image": "assets/images/slider01.jpg",
+      "des": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     },
     {
-      "title": "Tennis Khelo App Title ",
-      "image": "assets/images/slider002.jpg",
-      "des": "tennis khelo app description",
+      "title": "Challenge, play, create score card",
+      "image": "assets/images/slider02.jpg",
+      "des": "Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
     {
-      "title": "Tennis Khelo App Title ",
-      "image": "assets/images/slider003.jpg",
-      "des": "tennis khelo app description",
+      "title": "Host a match, list your team",
+      "image": "assets/images/slider03.jpg",
+      "des": "Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
     },
   ];
 

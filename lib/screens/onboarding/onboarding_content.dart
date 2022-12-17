@@ -51,9 +51,9 @@ class OnBoardingContent extends StatelessWidget {
                       title!,
                       textAlign: TextAlign.center,
                       style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 25,
-                        color: MyAppTheme.black_Color,
+                        fontWeight: FontWeight.w900,
+                        fontSize: 30,
+                        color: MyAppTheme.TitleBlackColor,
                         fontFamily: Fonts.nunito,
                       ),
                     ),
@@ -65,8 +65,8 @@ class OnBoardingContent extends StatelessWidget {
                       textAlign: TextAlign.center,
                       style: const TextStyle(
                         fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: MyAppTheme.black_Color,
+                        fontSize: 14,
+                        color: MyAppTheme.DesBlackColor,
                         fontFamily: Fonts.nunito,
                       ),
                     ),
