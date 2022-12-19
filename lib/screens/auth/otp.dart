@@ -13,9 +13,8 @@ import 'package:tennis/styles/my_app_theme.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 class OTP extends StatefulWidget {
   String number;
-  String type;
   int time;
-  OTP({Key? key,required this.number,required this.type,required this.time}) : super(key: key);
+  OTP({Key? key,required this.number,required this.time}) : super(key: key);
 
   @override
   State<OTP> createState() => _OTPState();
@@ -159,11 +158,7 @@ class _OTPState extends State<OTP> {
                       onTap: (){
                         if(resend){
                           // re-send otp send
-                          if(widget.type == "login"){
-                            provider.authLoginData(context, widget.number,"login");
-                          }else{
-
-                          }
+                          provider.authLoginData(context, widget.number);
                           startTimer();
                         }else{
 
@@ -184,7 +179,7 @@ class _OTPState extends State<OTP> {
                     InkWell(
                       onTap: (){
                         if (_pinPutController.text.isNotEmpty) {
-                         provider.authOTPData(context,widget.number,_pinPutController.text.toString(),widget.type);
+                         provider.authOTPData(context,widget.number,_pinPutController.text.toString());
                         }
                       },
                       child: Container(

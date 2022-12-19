@@ -8,15 +8,15 @@ import 'package:tennis/helpers/keyboard.dart';
 import 'package:tennis/repository/edit_profile.dart';
 
 class EditProfileProvider extends ChangeNotifier {
-  String gender = "Male";
+  String gender = "male";
   bool whatsApp = false;
   bool emailApp = false;
   void getGender(String type){
-    if("Male" == type){
-      gender = "Male";
+    if("male" == type){
+      gender = "male";
       notifyListeners();
-    }else if("Female" == type){
-      gender = "Female";
+    }else if("female" == type){
+      gender = "female";
       notifyListeners();
     }else {
       gender = "";
@@ -51,6 +51,7 @@ class EditProfileProvider extends ChangeNotifier {
               SharedPref.setUserDOB(json.decode(response)['user']['dob']);
               SharedPref.setUserGender(json.decode(response)['user']['gender']);
               KeyboardUtil.hideKeyboard(context);
+              Helpers.createSnackBar(context, json.decode(response)['message'].toString());
               notifyListeners();
             } else if (json.decode(response)['status'] == false) {
               Helpers.createErrorSnackBar(context, json.decode(response)['message'].toString());

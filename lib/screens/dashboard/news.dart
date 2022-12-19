@@ -12,6 +12,7 @@ import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/locators.dart';
 import 'package:tennis/providers/news_provider.dart';
+import 'package:tennis/screens/webviewscreens/webviewpage.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
@@ -27,10 +28,10 @@ class _NewsState extends State<News>{
   String savePath = "";
   int tabIndex = 0;
   final ScrollController _scrollController = new ScrollController();
-  Future ShareProduct(String image,String title,String desc) async {
+  Future ShareProduct(String image,String title,String desc,String link) async {
     OverlayEntry loader = Helpers.overlayLoader(context);
     Overlay.of(context)!.insert(loader);
-    String shareBody = "Item Name: $title\n\nPrice: ₹$desc \n\nPlace your order here Preferences.ShopUrl/categories/products/$desc \n\nFeel free to call us on +91-Preferences.PhoneNumber if you need any help with ordering online.\n\nThank you\nPreferences.ShopName\n";
+    String shareBody = "Title: $title\n\nDescription: $desc \n\nClick Here to Read More Details\n\n$link \n\nThank you";
     try {
       Dio dio = Dio();
       String fileName = image.substring(image.lastIndexOf("/") + 1);
@@ -219,6 +220,25 @@ class _NewsState extends State<News>{
                                       ),
                                     ),
                                   ),
+                                  InkWell(
+                                    onTap: (){
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => WebViewPage(url: '${catNewsList[index]['link']}', title: '',)),
+                                      );
+                                    },
+                                    child: const Padding(padding: EdgeInsets.only(top: 5.0),
+                                      child:  Text(
+                                        'Click Here to Read More Details of News',
+                                        textAlign: TextAlign.left,
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w400,
+                                          fontSize: 12,
+                                          color: MyAppTheme.DesBlackColor,
+                                          fontFamily: Fonts.nunito,
+                                        ),
+                                      ),),
+                                  ),
                                   Padding(
                                     padding: const EdgeInsets.only(top: 5.0),
                                     child: Row(
@@ -237,7 +257,7 @@ class _NewsState extends State<News>{
                                         ),
                                         InkWell(
                                           onTap: (){
-                                            ShareProduct(catNewsList[index]['image'],catNewsList[index]['title'],catNewsList[index]['title']);
+                                            ShareProduct(catNewsList[index]['image'],catNewsList[index]['title'],catNewsList[index]['description'],catNewsList[index]['link']);
                                           },
                                           child: Row (
                                             crossAxisAlignment: CrossAxisAlignment.center,

@@ -9,6 +9,7 @@ import 'package:tennis/providers/myleagues_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/home/view_ranking_challenge.dart';
 import 'package:tennis/screens/my_leagues/create_leagues.dart';
+import 'package:tennis/screens/my_leagues/leagues_details.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
@@ -24,6 +25,7 @@ class _MyLeaguesState extends State<MyLeagues> {
   void initState() {
     // TODO: implement initState
     locator<MyLeaguesProvider>().leaguesPermissionStatus(context);
+    locator<MyLeaguesProvider>().getMyLeaguesList(context);
     super.initState();
   }
   @override
@@ -35,6 +37,7 @@ class _MyLeaguesState extends State<MyLeagues> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     bool isLoading = Provider.of<MyLeaguesProvider>(context).isLoading;
+    List leagueslist = Provider.of<MyLeaguesProvider>(context).leagueslist;
     return Consumer<MyLeaguesProvider>(
       builder: (context, provider, child) {
         return (isLoading)
@@ -51,11 +54,12 @@ class _MyLeaguesState extends State<MyLeagues> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  leagueslist.isNotEmpty ?
                   Expanded(child: ListView.builder(
                       physics: const AlwaysScrollableScrollPhysics(),
                       primary: false,
                       shrinkWrap: true,
-                      itemCount: 2,
+                      itemCount: leagueslist.length,
                       itemBuilder: (BuildContext context, int index) {
                         return Container(
                           padding: const EdgeInsets.all(10),
@@ -78,9 +82,9 @@ class _MyLeaguesState extends State<MyLeagues> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children:  [
-                                  const Text(
-                                    'U-19 Jaipur Open 2022',
-                                    style: TextStyle(
+                                  Text(
+                                    '${leagueslist[index]['name']}',
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: MyAppTheme.TitleBlackColor,
@@ -93,9 +97,9 @@ class _MyLeaguesState extends State<MyLeagues> {
                                       itemBuilder: (context){
                                         return [
                                           PopupMenuItem(
-                                              height: provider.userRequest == "Approved" ? 30 : 0,
+                                              height: leagueslist[index]['is_admin'] == true ? 30 : 0,
                                               value: 1,
-                                              child: provider.userRequest == "Approved" ?
+                                              child: leagueslist[index]['is_admin'] == true ?
                                               InkWell(
                                                 onTap: (){
                                                   Navigator.pop(context);
@@ -121,9 +125,9 @@ class _MyLeaguesState extends State<MyLeagues> {
                                               ) : SizedBox()
                                           ),
                                           PopupMenuItem(
-                                              height: provider.userRequest == "Approved" ? 30 : 0,
+                                              height: leagueslist[index]['is_admin'] == true ? 30 : 0,
                                               value: 2,
-                                              child: provider.userRequest == "Approved" ?
+                                              child: leagueslist[index]['is_admin'] == true ?
                                               InkWell(
                                                 onTap: (){
                                                   Navigator.pop(context);
@@ -154,7 +158,10 @@ class _MyLeaguesState extends State<MyLeagues> {
                                               child: InkWell(
                                                 onTap: (){
                                                   Navigator.pop(context);
-
+                                                  Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(builder: (context) => const LeaguesDetails()),
+                                                  );
                                                 },
                                                 child: Row(
                                                   children:  <Widget>[
@@ -177,9 +184,9 @@ class _MyLeaguesState extends State<MyLeagues> {
                                               )
                                           ),
                                           PopupMenuItem(
-                                              height: provider.userRequest == "Approved" ? 30 : 0,
+                                              height: leagueslist[index]['is_admin'] == true ? 30 : 0,
                                               value: 4,
-                                              child: provider.userRequest == "Approved" ?
+                                              child: leagueslist[index]['is_admin'] == true ?
                                               InkWell(
                                                 onTap: (){
                                                   Navigator.pop(context);
@@ -212,10 +219,10 @@ class _MyLeaguesState extends State<MyLeagues> {
                               Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.start,
-                                children: const [
+                                children:  [
                                   Text(
-                                    '04 Members',
-                                    style: TextStyle(
+                                    '${leagueslist[index]['members_count']} Members',
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 12,
                                       color: MyAppTheme.DesBlackColor,
@@ -228,7 +235,7 @@ class _MyLeaguesState extends State<MyLeagues> {
                                 onTap: () {
                                   Navigator.push(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ViewRankingChallenge(name: 'Under 12',)),
+                                    MaterialPageRoute(builder: (context) => ViewRankingChallenge(name: '${leagueslist[index]['name']}',)),
                                   );
                                 },
                                 child: Container(
@@ -252,18 +259,11 @@ class _MyLeaguesState extends State<MyLeagues> {
                             ],
                           ),
                         );
-                      })),
-                 /* Expanded(child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      SvgPicture.asset(
-                        'assets/icons/empty_my_league.svg',
-                        allowDrawingOutsideViewBox: true,
-                      ),
-
-                    ],
-                  )),*/
+                      })):
+                  Expanded(child: SvgPicture.asset(
+                    'assets/icons/empty_my_league.svg',
+                    allowDrawingOutsideViewBox: true,
+                  )),
                   SizedBox(height: provider.userRequest == "null" ? 130 :provider.userRequest == "Approved" ? 0 : 100,)
                 ],
               )
@@ -275,7 +275,7 @@ class _MyLeaguesState extends State<MyLeagues> {
                 context,
                 MaterialPageRoute(builder: (context) => const CreateLeagues()),
               ).then((value) => {
-
+                 provider.getMyLeaguesList(context)
               });
             },
             backgroundColor: MyAppTheme.MainColor,
@@ -366,8 +366,7 @@ class _MyLeaguesState extends State<MyLeagues> {
           ),
         );
       },
-    )
-      ;
+    );
   }
 
   AppBar buildAppBar(BuildContext context) {

@@ -4,14 +4,16 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-class TermsWebView extends StatefulWidget {
-  const TermsWebView({Key? key}) : super(key: key);
+class WebViewPage extends StatefulWidget {
+  String title;
+  String url;
+  WebViewPage({Key? key,required this.url,required this.title}) : super(key: key);
 
   @override
-  State<TermsWebView> createState() => _TermsWebViewState();
+  State<WebViewPage> createState() => _WebViewPageState();
 }
 
-class _TermsWebViewState extends State<TermsWebView> {
+class _WebViewPageState extends State<WebViewPage> {
   bool isLoading=true;
   final _key = UniqueKey();
   @override
@@ -41,7 +43,7 @@ class _TermsWebViewState extends State<TermsWebView> {
             children: [
               WebView(
                 key: _key,
-                initialUrl: "https://flutter.dev",
+                initialUrl: widget.url,
                 javascriptMode: JavascriptMode.unrestricted,
                 onPageFinished: (finish) {
                   setState(() {
@@ -59,10 +61,10 @@ class _TermsWebViewState extends State<TermsWebView> {
   AppBar buildAppBar(BuildContext context) {
     return AppBar(
       elevation: 0,
-      title:  const Padding(
-          padding:  EdgeInsets.only(left: 0.0),
-          child: Text('Terms & Conditions',
-              style: TextStyle(
+      title:   Padding(
+          padding:  const EdgeInsets.only(left: 0.0),
+          child: Text(widget.title,
+              style: const TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 18,
                 color: MyAppTheme.whiteColor,

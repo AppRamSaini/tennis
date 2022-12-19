@@ -268,7 +268,7 @@ class _EditProfileState extends State<EditProfile> {
                                       decoration:  BoxDecoration(
                                         /*   image: DecorationImage(
                                           fit: BoxFit.cover, image: NetworkImage(user_profile!)),*/
-                                        border: Border.all(color: MyAppTheme.CategoryBGSelectColor,width: 2),
+                                        border: Border.all(color: MyAppTheme.CategoryBGSelectColor,width: 1),
                                         borderRadius: BorderRadius.all(Radius.circular(100.0)),
                                       ),
                                       child: ClipRRect(
@@ -291,9 +291,10 @@ class _EditProfileState extends State<EditProfile> {
                                     ): Container(
                                       width: 100,
                                       height: 100,
-                                      decoration: const BoxDecoration(
+                                      decoration:  BoxDecoration(
                                         shape: BoxShape.circle,
-                                        image: DecorationImage(
+                                        border: Border.all(color: MyAppTheme.CategoryBGSelectColor,width: 1),
+                                        image: const DecorationImage(
                                             image: AssetImage("assets/images/image_defult.png"),
                                             fit: BoxFit.fill
                                         ),
@@ -619,7 +620,7 @@ class _EditProfileState extends State<EditProfile> {
                                           const BorderRadius.all(Radius.circular(5))),
                                       child: InkWell(
                                         onTap: () {
-                                          provider.getGender("Male");
+                                          provider.getGender("male");
                                         },
                                         child: Row(
                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -628,7 +629,7 @@ class _EditProfileState extends State<EditProfile> {
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 10.0, right: 10.0),
-                                              child: provider.gender == "Male"
+                                              child: provider.gender == "male"
                                                   ? Container(
                                                 height: 20,
                                                 width: 20,
@@ -690,7 +691,7 @@ class _EditProfileState extends State<EditProfile> {
                                           const BorderRadius.all(Radius.circular(5))),
                                       child: InkWell(
                                         onTap: () {
-                                          provider.getGender("Female");
+                                          provider.getGender("female");
                                         },
                                         child: Row(
                                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -699,7 +700,7 @@ class _EditProfileState extends State<EditProfile> {
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 10.0, right: 10.0),
-                                              child: provider.gender == "Female"
+                                              child: provider.gender == "female"
                                                   ? Container(
                                                 height: 20,
                                                 width: 20,

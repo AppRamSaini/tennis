@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tennis/loaders/cricular_loading_widget.dart';
 import 'dart:convert';
 
@@ -225,7 +226,8 @@ class Helpers {
         left: 0,
         child: Material(
           color:  MyAppTheme.whiteColor.withOpacity(0.0),
-          child: CircularLoadingWidget(height: 200),
+          child:  Lottie.asset('assets/gifs/tennis_ball.json'),
+          /*CircularLoadingWidget(height: 200),*/
         ),
       );
     });

@@ -14,6 +14,26 @@ class MyResult extends StatefulWidget {
 }
 
 class _MyResultState extends State<MyResult> {
+  List<Map<String, String>> splashData = [
+    {
+      "title": "U-19 Jaipur Open 2022",
+      "oppoent": "John Browne",
+      "status": "Won",
+      "date": "22-Nov-2022",
+    },
+    {
+      "title": "U-19 Jaipur Open 2022",
+      "oppoent": "John Browne",
+      "status": "Lose",
+      "date": "22-Nov-2022",
+    },
+    {
+      "title": "U-19 Jaipur Open 2022",
+      "oppoent": "John Browne",
+      "status": "Won",
+      "date": "22-Nov-2022",
+    },
+  ];
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -35,403 +55,137 @@ class _MyResultState extends State<MyResult> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 primary: false,
                 shrinkWrap: true,
-                itemCount: 3,
+                itemCount: splashData.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     padding: const EdgeInsets.all(10),
                     margin: const EdgeInsets.only(top: 10.0),
                     decoration: const BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(
+                            color: MyAppTheme.listBorderColor, //New
+                            blurRadius: 5.0,
+                          )
+                        ],
                         color: MyAppTheme.whiteColor,
-                        borderRadius: BorderRadius.all(Radius.circular(5))),
+                        borderRadius: BorderRadius.all(Radius.circular(5))
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: const [
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
                             Text(
-                              'Academy Name :',
-                              style: TextStyle(
+                              '${splashData[index]['title']}',
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16,
-                                color: MyAppTheme.black_Color,
+                                color: MyAppTheme.TitleBlackColor,
                                 fontFamily: Fonts.nunito,
                               ),
                             ),
-                            Text(
-                              ' Under 14',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                fontSize: 14,
-                                color: MyAppTheme.DesBlackColor,
-                                fontFamily: Fonts.nunito,
+                            Container(
+                              height: 30,
+                              width: 100,
+                              decoration:  BoxDecoration(
+                                  color: MyAppTheme.AcceptLightColor,
+                                  border: Border.all(
+                                      color: MyAppTheme.AcceptDarkColor,
+                                      width : 1
+                                  ),
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(5))),
+                              child: const Center(
+                                child: Text(
+                                  'Pending',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    color: MyAppTheme.TitleBlackColor,
+                                    fontFamily: Fonts.nunito,),
+                                ),
                               ),
                             )
                           ],
                         ),
                         Padding(
                           padding:
-                          const EdgeInsets.only(top: 5.0, bottom: 5.0),
+                          const EdgeInsets.only(top: 5.0),
                           child: Row(
                             crossAxisAlignment: CrossAxisAlignment.center,
                             mainAxisAlignment: MainAxisAlignment.start,
-                            children: const [
-                              Text(
-                                'Match Date :',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16,
-                                  color: MyAppTheme.black_Color,
-                                  fontFamily: Fonts.nunito,
+                            children:  [
+                              Container(
+                                width : 100,
+                                child: const Text(
+                                  'Opponent : ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: MyAppTheme.DesBlackColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
                                 ),
                               ),
                               Text(
-                                ' 08/12/2022',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w400,
+                                '${splashData[index]['oppoent']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
                                   fontSize: 14,
-                                  color: MyAppTheme.DesBlackColor,
+                                  color: MyAppTheme.TitleBlackColor,
                                   fontFamily: Fonts.nunito,
                                 ),
                               )
                             ],
                           ),
                         ),
-                        Container(
-                          width: width,
-                          color: MyAppTheme.LineColor,
-                          height: 1.0,
-                          margin: const EdgeInsets.only(
-                              top: 5.0, bottom: 5.0),
-                        ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(right: 10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(),
-                                    child: Text(
-                                      'Ram',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 16,
-                                        color: MyAppTheme.black_Color,
-                                        fontFamily: Fonts.nunito,
-                                      ),
-                                    ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children:  [
+                              Container(
+                                width : 100,
+                                child: const Text(
+                                  'Status : ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: MyAppTheme.DesBlackColor,
+                                    fontFamily: Fonts.nunito,
                                   ),
-                                  SizedBox(height: 5.0,),
-                                  Text(
-                                    'Raju',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: MyAppTheme.black_Color,
-                                      fontFamily: Fonts.nunito,
-                                    ),
-                                  ),
-                                ],
+                                ),
                               ),
-                            ),
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
+                              Container(
+                                height: 30,
+                                width: 100,
+                                decoration:  BoxDecoration(
+                                    color: MyAppTheme.AcceptLightColor,
+                                    border: Border.all(
+                                        color: MyAppTheme.AcceptDarkColor,
+                                        width : 1
                                     ),
-                                    SizedBox(height: 5.0,),
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(5))),
+                                child: const Center(
+                                  child: Text(
+                                    'Pending',
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: 12,
+                                      color: MyAppTheme.TitleBlackColor,
+                                      fontFamily: Fonts.nunito,),
+                                  ),
                                 ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5.0,),
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5.0,),
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5.0,),
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5.0,),
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  children: [
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 5.0,),
-                                    Container(
-                                      width: 30,
-                                      height: 30,
-                                      margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(5.0),
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                      child:  Center(
-                                        child: Text(
-                                          '5',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                )
-                              ],
-                            )
-
-                          ],
-                        )
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   );

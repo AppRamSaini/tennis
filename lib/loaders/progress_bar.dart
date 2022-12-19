@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
 class Progressbar extends StatelessWidget {
@@ -7,9 +8,10 @@ class Progressbar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: MyAppTheme.BGColor,
+      backgroundColor: MyAppTheme.whiteColor,
       body: Center(
-        child: new CircularProgressIndicator(valueColor:AlwaysStoppedAnimation<Color>(MyAppTheme.errorMessageTextColor)),
+        child:  Lottie.asset('assets/gifs/tennis_ball.json'),
+        /*new CircularProgressIndicator(valueColor:AlwaysStoppedAnimation<Color>(MyAppTheme.errorMessageTextColor)),*/
       ),
     );
   }

@@ -15,12 +15,12 @@ class HomeProvider extends ChangeNotifier {
             if (json.decode(response.body)['status'] == true) {
             //  SharedPref.setUserId(json.decode(response.body)['data']['id']);
               SharedPref.setProfileImage(json.decode(response.body)['data']['profile_photo_url'].toString());
+              SharedPref.setLoginType(json.decode(response.body)['data']['role'].toString());
               SharedPref.setUserName(json.decode(response.body)['data']['name'].toString());
               SharedPref.setUserEmail(json.decode(response.body)['data']['email'].toString());
               SharedPref.setUserDOB(json.decode(response.body)['data']['dob'].toString());
               SharedPref.setUserGender(json.decode(response.body)['data']['gender'].toString());
               SharedPref.setUserPhone(json.decode(response.body)['data']['phone'].toString());
-
             } else if (json.decode(response.body)['status'] == false) {
               Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
             }

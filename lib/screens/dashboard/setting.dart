@@ -9,7 +9,7 @@ import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/setting/edit_profile.dart';
-import 'package:tennis/screens/webviewscreens/termswebview.dart';
+import 'package:tennis/screens/webviewscreens/webviewpage.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
@@ -171,7 +171,7 @@ class _SettingState extends State<Setting> {
                   onTap: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => TermsWebView()),
+                      MaterialPageRoute(builder: (context) => WebViewPage(url: 'https://flutter.dev', title: termConditions,)),
                     );
                   },
                   child: Row(

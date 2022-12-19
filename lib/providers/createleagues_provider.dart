@@ -27,9 +27,9 @@ class CreateLeaguesProvider extends ChangeNotifier {
       Helpers.verifyInternet().then((intenet) {
         if (intenet != null && intenet) {
           setCreateLeague(context,league_name,type,desc,sets).then((response) {
-            if (json.decode(response.body)['status'] == true) {
+            if (json.decode(response)['status'] == true) {
               Navigator.pop(context);
-            } else if (json.decode(response.body)['status'] == false) {
+            } else if (json.decode(response)['status'] == false) {
               Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
             }
           });

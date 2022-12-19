@@ -7,6 +7,7 @@ class MyLeaguesProvider extends ChangeNotifier {
   String userRequest = '';
   bool _isLoading = false;
   bool get isLoading => _isLoading;
+  List leagueslist = [];
   void leaguesPermissionStatus(BuildContext context) async {
     try {
       Helpers.verifyInternet().then((intenet) {
@@ -50,6 +51,26 @@ class MyLeaguesProvider extends ChangeNotifier {
              // userRole = "player";
               userRequest = json.decode(response.body)['request']['request_status'];
              // Helpers.createSnackBar(context, json.decode(response.body)['message'].toString());
+              notifyListeners();
+            } else if (json.decode(response.body)['status'] == false) {
+              Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
+            }
+          });
+        } else {
+          Helpers.createErrorSnackBar(context, "Please check your internet connection");
+        }
+      });
+    } catch (err) {
+      print('Something went wrong');
+    }
+  }
+  void getMyLeaguesList(BuildContext context) async {
+    try {
+      Helpers.verifyInternet().then((intenet) {
+        if (intenet != null && intenet) {
+          getLeaguesList(context).then((response) {
+            if (json.decode(response.body)['status'] == true) {
+              leagueslist = json.decode(response.body)['leagues'];
               notifyListeners();
             } else if (json.decode(response.body)['status'] == false) {
               Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());

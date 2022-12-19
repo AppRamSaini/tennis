@@ -369,7 +369,7 @@ class _HomeState extends State<Home> {
                     onTap: () {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => MyLeagues()),
+                        MaterialPageRoute(builder: (context) => MyResult()),
                       );
                     },
                     child: ClipRRect(
@@ -461,7 +461,7 @@ class _HomeState extends State<Home> {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyResult()),
+                              builder: (context) => AllMatches()),
                         );
                       },
                       child:ClipRRect(
@@ -549,11 +549,7 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
                   child: InkWell(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AllMatches()),
-                        );
+
                       },
                       child:ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),

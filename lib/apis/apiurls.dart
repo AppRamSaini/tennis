@@ -5,6 +5,9 @@ class ApiUrls {
   static const String apiBaseUrl = 'https://tennis-api.laraveldevelopmentcompany.com/api/';
   static const String apiWPBaseUrl = 'https://phpdemo.futureprofilez.com/ankesh/jdt/blogs/wp-json/';
   static const String loginRequest = "${apiBaseUrl}login-request";
+  static const String authInit = "${apiBaseUrl}common/auth-init";
+  static const String authVerify = "${apiBaseUrl}common/auth-verify";
+  static const String saveData = "${apiBaseUrl}common/save-data";
   static const String otpVerify = "${apiBaseUrl}otp-verify";
   static const String registerVerify = "${apiBaseUrl}register-verify";
   static const String register = "${apiBaseUrl}register";
