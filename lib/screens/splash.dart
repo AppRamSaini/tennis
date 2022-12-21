@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tennis/screens/auth/login.dart';
 import 'package:tennis/screens/dashboard/dashboard.dart';
@@ -92,15 +93,18 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
       body: SizedBox(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
-        child: FadeTransition(
+        child: /*FadeTransition(
           opacity: _animation,
           child:  Image.asset(
             "assets/images/ball.png",
             width: height * 0.2,
             height: width * 0.1,
           ),
-        )
-
+        )*/
+        Container(
+          width: 100,
+            height: 100,
+            child: Lottie.asset('assets/gifs/ball.json'))
       ),
     );
   }

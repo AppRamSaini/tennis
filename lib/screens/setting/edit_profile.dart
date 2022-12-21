@@ -117,31 +117,15 @@ class _EditProfileState extends State<EditProfile> {
         context: context,
         builder: (BuildContext bc) {
           return SafeArea(
-            child: Container(
-              child: new Wrap(
-                children: <Widget>[
-                  new ListTile(
-                      leading: new Icon(
-                        Icons.photo_library,
-                        color: MyAppTheme.black_Color,
-                      ),
-                      title: new Text(
-                        'Photo Library',
-                        style: TextStyle(
-                            fontSize: 15.0,
-                            fontFamily: Fonts.nunito,
-                            fontWeight: FontWeight.w400,
-                            color: MyAppTheme.black_Color),
-                      ),
-                      onTap: () {
-                        _FromGallery(context);
-                        Navigator.of(context).pop();
-                      }),
-                  new ListTile(
-                    leading: new Icon(Icons.photo_camera,
-                        color: MyAppTheme.black_Color),
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                    leading: new Icon(
+                      Icons.photo_library,
+                      color: MyAppTheme.black_Color,
+                    ),
                     title: new Text(
-                      'Camera',
+                      'Photo Library',
                       style: TextStyle(
                           fontSize: 15.0,
                           fontFamily: Fonts.nunito,
@@ -149,12 +133,26 @@ class _EditProfileState extends State<EditProfile> {
                           color: MyAppTheme.black_Color),
                     ),
                     onTap: () {
-                      _FromCamera(context);
+                      _FromGallery(context);
                       Navigator.of(context).pop();
-                    },
+                    }),
+                new ListTile(
+                  leading: new Icon(Icons.photo_camera,
+                      color: MyAppTheme.black_Color),
+                  title: new Text(
+                    'Camera',
+                    style: TextStyle(
+                        fontSize: 15.0,
+                        fontFamily: Fonts.nunito,
+                        fontWeight: FontWeight.w400,
+                        color: MyAppTheme.black_Color),
                   ),
-                ],
-              ),
+                  onTap: () {
+                    _FromCamera(context);
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
           );
         });
@@ -234,7 +232,7 @@ class _EditProfileState extends State<EditProfile> {
     var height = MediaQuery.of(context).size.height;
     return WillPopScope(
         onWillPop: () async {
-          Navigator.pop(context,user_profile);
+          Navigator.pop(context);
           return true;
         },
         child: Scaffold(
@@ -877,7 +875,7 @@ class _EditProfileState extends State<EditProfile> {
                           onTap: () {
                             if (_formKey.currentState!.validate()) {
                               print(userName.text.toString()+"    "+calender.text.toString()+"      "+provider.gender);
-                               provider.createEditProfileDetails(context, userName.text.toString(), calender.text.toString(), provider.gender);
+                               provider.createEditProfileDetails(context, userName.text.toString(), calender.text.toString(), provider.gender,userEmail.text.toString());
                             }
                           },
                           child: Container(
@@ -935,7 +933,7 @@ class _EditProfileState extends State<EditProfile> {
           color: MyAppTheme.whiteColor,
         ),
         onPressed: () {
-          Navigator.pop(context,user_profile);
+          Navigator.pop(context);
         },
       ),
       actions: [],

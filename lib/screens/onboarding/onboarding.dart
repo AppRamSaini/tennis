@@ -22,17 +22,17 @@ class _OnboardingState extends State<Onboarding> {
     {
       "title": "Welcome to Tennis Khelo",
       "image": "assets/images/slider01.jpg",
-      "des": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "des": "Revolutionary Way To Organize Tournaments, make your own profile and track your stats",
     },
     {
-      "title": "Challenge, play, create score card",
+      "title": "Challenge, Play, Create score card",
       "image": "assets/images/slider02.jpg",
-      "des": "Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "des": "Create Leagues, Manage Tournaments and watch live news effortlessly",
     },
     {
-      "title": "Host a match, list your team",
+      "title": "Host a Match, List your Team",
       "image": "assets/images/slider03.jpg",
-      "des": "Adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+      "des": "Never forget or miss a game! All of your scores, results, teammates, and upcoming fixtures in one place",
     },
   ];
 

@@ -69,7 +69,7 @@ Future getEditProfile(BuildContext context,File fill) async {
     print(response.statusCode);
   }
 }
-Future setEditProfileDetails(BuildContext context,String name,String dob,String gender) async {
+Future setEditProfileDetails(BuildContext context,String name,String dob,String gender,String email) async {
   OverlayEntry loader = Helpers.overlayLoader(context);
   Overlay.of(context)!.insert(loader);
   SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -95,6 +95,7 @@ Future setEditProfileDetails(BuildContext context,String name,String dob,String 
   request.fields["name"] = name;
   request.fields["dob"] = dob;
   request.fields["gender"] = gender;
+  request.fields["email"] = email;
 
 /*  request.files.add(
       http.MultipartFile(

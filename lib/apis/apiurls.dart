@@ -19,6 +19,10 @@ class ApiUrls {
   static const String editProfileDetails = "${apiBaseUrl}edit-profile-details";
   static const String createLeague = "${apiBaseUrl}leagues/create-league";
   static const String createList = "${apiBaseUrl}leagues/list";
+  static const String inviteSearchPlayer = "${apiBaseUrl}leagues/invite-search-player";
+  static const String leagueRequest = "${apiBaseUrl}leagues/league-request";
+  static const String pendingRequest = "${apiBaseUrl}leagues/pending-request";
+  static const String userLeagueRequest = "${apiBaseUrl}league-request/";
   ////////////////Wordpress API /////////////////////////////////////
   static const String category = "${apiWPBaseUrl}post/category";
   static const String banner = "${apiWPBaseUrl}home/banner";

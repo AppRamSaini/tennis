@@ -226,8 +226,11 @@ class Helpers {
         left: 0,
         child: Material(
           color:  MyAppTheme.whiteColor.withOpacity(0.0),
-          child:  Lottie.asset('assets/gifs/tennis_ball.json'),
-          /*CircularLoadingWidget(height: 200),*/
+          child:  /*SizedBox(
+            height: 100,
+              width: 100,
+              child: Lottie.asset('assets/gifs/green_ball_bounc.json')),*/
+          CircularLoadingWidget(height: 200),
         ),
       );
     });
@@ -263,7 +266,7 @@ class Helpers {
   }
   static bool isValidAadhaarNumber(String str){
     String pan_pattern = "^[2-9]{1}[0-9]{3}\\s[0-9]{4}\\s[0-9]{4}";
-    RegExp regex = new RegExp(pan_pattern);
+    RegExp regex = RegExp(pan_pattern);
     return (regex.hasMatch(str)) ? true : false;
   }
   static bool validatePANcard(String value) {

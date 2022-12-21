@@ -25,8 +25,7 @@ class _SettingState extends State<Setting> {
   String? user_profile;
   String? user_name;
   String? user_email;
-  @override
-  initState() {
+  void getUserData(){
     SharedPref.getProfileImage("user_profile").then((value) => setState(() {
       user_profile = value;
       print(user_profile);
@@ -37,6 +36,10 @@ class _SettingState extends State<Setting> {
     SharedPref.getUserEmail("user_email").then((value) => setState(() {
       user_email = value;
     }));
+  }
+  @override
+  initState() {
+    getUserData();
     super.initState();
   }
   @override
@@ -132,9 +135,7 @@ class _SettingState extends State<Setting> {
                     context,
                     MaterialPageRoute(builder: (context) => EditProfile()),
                   ).then((value) => {
-                  setState(() {
-                  user_profile = value;
-                      })
+                  getUserData()
                   });
                 },
                 child: Container(

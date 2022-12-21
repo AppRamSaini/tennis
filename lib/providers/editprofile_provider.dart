@@ -41,18 +41,20 @@ class EditProfileProvider extends ChangeNotifier {
       notifyListeners();
     }
   }
-  void createEditProfileDetails(BuildContext context,String name,String dob,String gender) async {
+  void createEditProfileDetails(BuildContext context,String name,String dob,String gender,String email) async {
     try {
       Helpers.verifyInternet().then((intenet) {
         if (intenet != null && intenet) {
-          setEditProfileDetails(context,name,dob,gender).then((response) {
+          setEditProfileDetails(context,name,dob,gender,email).then((response) {
             if (json.decode(response)['status'] == true) {
               SharedPref.setUserName(json.decode(response)['user']['name']);
               SharedPref.setUserDOB(json.decode(response)['user']['dob']);
               SharedPref.setUserGender(json.decode(response)['user']['gender']);
+              SharedPref.setUserEmail(json.decode(response)['user']['email']);
               KeyboardUtil.hideKeyboard(context);
               Helpers.createSnackBar(context, json.decode(response)['message'].toString());
               notifyListeners();
+              Navigator.pop(context);
             } else if (json.decode(response)['status'] == false) {
               Helpers.createErrorSnackBar(context, json.decode(response)['message'].toString());
             }

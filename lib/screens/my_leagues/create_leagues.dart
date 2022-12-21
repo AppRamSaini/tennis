@@ -82,6 +82,7 @@ class _CreateLeaguesState extends State<CreateLeagues> {
                             borderRadius: const BorderRadius.all(Radius.circular(5))
                         ),
                         child:  TextFormField(
+                          textCapitalization: TextCapitalization.words,
                           autovalidateMode: AutovalidateMode.onUserInteraction,
                           keyboardType: TextInputType.text,
                           textAlign: TextAlign.left,

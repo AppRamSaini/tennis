@@ -10,8 +10,11 @@ class Progressbar extends StatelessWidget {
     return Scaffold(
       backgroundColor: MyAppTheme.whiteColor,
       body: Center(
-        child:  Lottie.asset('assets/gifs/tennis_ball.json'),
-        /*new CircularProgressIndicator(valueColor:AlwaysStoppedAnimation<Color>(MyAppTheme.errorMessageTextColor)),*/
+        child:  /*Container(
+          height: 200,
+            width: 200,
+            child: Lottie.asset('assets/gifs/green_ball_bounc.json')),*/
+        new CircularProgressIndicator(valueColor:AlwaysStoppedAnimation<Color>(MyAppTheme.errorMessageTextColor)),
       ),
     );
   }

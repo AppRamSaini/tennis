@@ -89,27 +89,58 @@ class _MyResultState extends State<MyResult> {
                             ),
                             Container(
                               height: 30,
-                              width: 100,
+                              width: 55,
                               decoration:  BoxDecoration(
-                                  color: MyAppTheme.AcceptLightColor,
+                                  color: splashData[index]['status'] == "Won" ? MyAppTheme.MainColor : MyAppTheme.AcceptBgColor,
                                   border: Border.all(
-                                      color: MyAppTheme.AcceptDarkColor,
+                                      color: splashData[index]['status'] == "Won" ? MyAppTheme.MainColor : MyAppTheme.AcceptBgColor,
                                       width : 1
                                   ),
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(5))),
-                              child: const Center(
+                              child:  Center(
                                 child: Text(
-                                  'Pending',
-                                  style: TextStyle(
+                                  '${splashData[index]['status']}',
+                                  style: const TextStyle(
                                     fontWeight: FontWeight.w600,
                                     fontSize: 12,
-                                    color: MyAppTheme.TitleBlackColor,
+                                    color: MyAppTheme.whiteColor,
                                     fontFamily: Fonts.nunito,),
                                 ),
                               ),
                             )
                           ],
+                        ),
+                        Padding(
+                          padding:
+                          const EdgeInsets.only(top: 5.0),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children:  [
+                              Container(
+                                width : 100,
+                                child: const Text(
+                                  'Match Date: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w400,
+                                    fontSize: 14,
+                                    color: MyAppTheme.DesBlackColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
+                                ),
+                              ),
+                              Text(
+                                '${splashData[index]['date']}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: 14,
+                                  color: MyAppTheme.TitleBlackColor,
+                                  fontFamily: Fonts.nunito,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                         Padding(
                           padding:
@@ -152,7 +183,7 @@ class _MyResultState extends State<MyResult> {
                               Container(
                                 width : 100,
                                 child: const Text(
-                                  'Status : ',
+                                  'Result : ',
                                   style: TextStyle(
                                     fontWeight: FontWeight.w400,
                                     fontSize: 14,
@@ -162,8 +193,8 @@ class _MyResultState extends State<MyResult> {
                                 ),
                               ),
                               Container(
-                                height: 30,
-                                width: 100,
+                                height: 25,
+                                width: 50,
                                 decoration:  BoxDecoration(
                                     color: MyAppTheme.AcceptLightColor,
                                     border: Border.all(
@@ -174,7 +205,7 @@ class _MyResultState extends State<MyResult> {
                                         Radius.circular(5))),
                                 child: const Center(
                                   child: Text(
-                                    'Pending',
+                                    '6-4',
                                     style: TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 12,

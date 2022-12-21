@@ -31,7 +31,26 @@ class _UpcomingState extends State<Upcoming> {
           width: width,
           height: height,
           padding: const EdgeInsets.only(left: 15.0,right: 15.0),
-          child: ListView.builder(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                'assets/icons/empty_upcoming.svg',
+                allowDrawingOutsideViewBox: true,
+              ),
+              const Padding(
+                  padding: EdgeInsets.only(top: 10.0),
+                  child: Text('Coming Soon',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 18,
+                        color: MyAppTheme.DesBlackColor,
+                        fontFamily: Fonts.nunito,
+                      ))),
+            ],
+          ),
+        /*ListView.builder(
               physics: const AlwaysScrollableScrollPhysics(),
               primary: false,
               shrinkWrap: true,
@@ -294,7 +313,7 @@ class _UpcomingState extends State<Upcoming> {
                     ),
                   ],
                 );
-              }),
+              })*/
 
       ),
       drawer: const DrawerBar(),

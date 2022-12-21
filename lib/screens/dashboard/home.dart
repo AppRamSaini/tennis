@@ -21,6 +21,7 @@ import 'package:tennis/screens/home/my_challenges.dart';
 import 'package:tennis/screens/home/my_result.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
+import 'package:tennis/upcoming_tournament/upcoming_tournament.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -549,7 +550,11 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
                   child: InkWell(
                       onTap: () {
-
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => UpcomingTournament()),
+                        );
                       },
                       child:ClipRRect(
                         borderRadius: BorderRadius.circular(8.0),
