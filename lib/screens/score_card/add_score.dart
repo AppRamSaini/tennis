@@ -3,14 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/bottomdilog/scoreinvalide.dart';
 import 'package:tennis/helpers/constants.dart';
-import 'package:tennis/helpers/helpers.dart';
-import 'package:tennis/helpers/keyboard.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/dashboard/dashboard.dart';
-import 'package:tennis/screens/score_card/match_status.dart';
-import 'package:tennis/screens/score_card/sets.dart';
-import 'package:tennis/screens/score_card/video_player_screen.dart';
-import 'package:tennis/screens/score_card/winner.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -231,7 +225,9 @@ class _AddScoreState extends State<AddScore> {
                         );
                       }).toList(),
                       onChanged: (String? newValue) {
-
+                         setState(() {
+                           dropdownValue = newValue;
+                         });
                       },
                     ),
                   )),
@@ -378,6 +374,9 @@ class _AddScoreState extends State<AddScore> {
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
+                            setState(() {
+                              dropdownSets = newValue;
+                            });
                            // provider.selectSetsIndex(index,setList[index]);
                           },
                         ),
@@ -476,7 +475,9 @@ class _AddScoreState extends State<AddScore> {
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
-
+                            setState(() {
+                              dropdownMStatus = newValue;
+                            });
                           },
                         ),
                       )),

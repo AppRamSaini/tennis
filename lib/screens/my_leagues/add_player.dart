@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/bottomdilog/add_player.dart';
 import 'package:tennis/helpers/keyboard.dart';
+import 'package:tennis/locators.dart';
 import 'package:tennis/providers/addplayer_provider.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
@@ -18,6 +19,12 @@ class AddPlayer extends StatefulWidget {
 }
 
 class _AddPlayerState extends State<AddPlayer> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    locator<AddPlayerProvider>().clearData();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -64,7 +71,7 @@ class _AddPlayerState extends State<AddPlayer> {
                       },
                       decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'Search player with phone number',
+                          hintText: 'search player with whatsApp number',
                           suffixIcon: Icon(Icons.search,color: Colors.black,),
                           hintStyle: TextStyle(
                             fontWeight: FontWeight.w400,
@@ -76,7 +83,7 @@ class _AddPlayerState extends State<AddPlayer> {
 
 
                 ),
-                SizedBox(height: 10,),
+                const SizedBox(height: 10,),
                 playerList.isNotEmpty ?
                     Expanded(child: ListView.builder(
                         physics: const AlwaysScrollableScrollPhysics(),
@@ -242,15 +249,17 @@ class _AddPlayerState extends State<AddPlayer> {
                             ),
                           ),
                         ],
-                      ))
-                      ,
+                      )),
+                      provider.inviteBtn == true ?
                       InkWell(
                         onTap: (){
                           provider.shareWhatsApp(context, "+91"+provider.number,widget.league_name);
+                          provider.addLeaguesInvitePlayer(context,widget.league_uuid,provider.number);
                         },
                         child:Container(
                           height: 30,
                           width: 80,
+                          margin: EdgeInsets.only(left: 10.0),
                           decoration:  BoxDecoration(
                               color: MyAppTheme.AcceptBgColor,
                               border: Border.all(
@@ -270,7 +279,7 @@ class _AddPlayerState extends State<AddPlayer> {
                             ),
                           ),
                         ),
-                      )
+                      ) : SizedBox(width: 80,)
 
 
                     ],

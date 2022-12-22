@@ -20,6 +20,7 @@ class ApiUrls {
   static const String createLeague = "${apiBaseUrl}leagues/create-league";
   static const String createList = "${apiBaseUrl}leagues/list";
   static const String inviteSearchPlayer = "${apiBaseUrl}leagues/invite-search-player";
+  static const String leaguesInvitePlayer = "${apiBaseUrl}leagues/invite-player";
   static const String leagueRequest = "${apiBaseUrl}leagues/league-request";
   static const String pendingRequest = "${apiBaseUrl}leagues/pending-request";
   static const String userLeagueRequest = "${apiBaseUrl}league-request/";

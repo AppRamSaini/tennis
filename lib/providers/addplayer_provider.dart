@@ -12,10 +12,19 @@ class AddPlayerProvider extends ChangeNotifier {
     List playerList = [];
     bool playerSearch = false;
     bool playerInvite = false;
+    bool inviteBtn = false;
     String number = "";
     void changePlayerInvite (){
       playerSearch = false;
       playerList = [];
+      notifyListeners();
+    }
+    void clearData(){
+      playerList = [];
+      playerSearch = false;
+      playerInvite = false;
+      inviteBtn = false;
+      number = "";
       notifyListeners();
     }
     void shareWhatsApp(BuildContext context,String number,String name){
@@ -47,12 +56,36 @@ class AddPlayerProvider extends ChangeNotifier {
       }
 
     }
+    void addLeaguesInvitePlayer(BuildContext context,String league_uuid,String phone) async {
+      try {
+        Helpers.verifyInternet().then((intenet) {
+          if (intenet != null && intenet) {
+            sendLeaguesInvitePlayer(context,league_uuid,phone).then((response) {
+              if (json.decode(response)['status'] == true) {
+                playerList.clear();
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => DashBoard(selectedIndex: 0,)),
+                );
+              } else if (json.decode(response)['status'] == false) {
+                Helpers.createErrorSnackBar(context, json.decode(response)['message'].toString());
+              }
+            });
+          } else {
+            Helpers.createErrorSnackBar(context, "Please check your internet connection");
+          }
+        });
+      } catch (err) {
+        print('Something went wrong');
+      }
+    }
     void addPlayerRequestSend(BuildContext context,String league_uuid,String user_uuid) async {
       try {
         Helpers.verifyInternet().then((intenet) {
           if (intenet != null && intenet) {
             sendLeagueRequest(context,league_uuid,user_uuid).then((response) {
               if (json.decode(response)['status'] == true) {
+                playerList.clear();
                 Navigator.push(
                   context,
                   MaterialPageRoute(builder: (context) => DashBoard(selectedIndex: 0,)),
@@ -79,7 +112,13 @@ class AddPlayerProvider extends ChangeNotifier {
                 if(playerList.isEmpty){
                   number = phone;
                   playerSearch = true;
+                  if(phone.length == 10){
+                    inviteBtn = true;
+                  }else {
+                    inviteBtn = false;
+                  }
                 }else {
+                  inviteBtn = false;
                   playerSearch = false;
                 }
                 notifyListeners();
