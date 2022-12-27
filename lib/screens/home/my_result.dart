@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
@@ -231,7 +232,7 @@ class _MyResultState extends State<MyResult> {
       elevation: 0,
       title: const Padding(
           padding: EdgeInsets.only(left: 0.0),
-          child: Text('My Result',
+          child: Text(myResult,
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 18,

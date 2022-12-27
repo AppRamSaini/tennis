@@ -23,6 +23,7 @@ class MyLeaguesProvider extends ChangeNotifier {
                 print(json.decode(response.body)['request']);
                 if(json.decode(response.body)['request'] == null){
                   userRequest = "null";
+                  userRole = json.decode(response.body)['role'];
                   print(json.decode(response.body)['request']);
                 }else{
                   userRequest = json.decode(response.body)['request']['request_status'];

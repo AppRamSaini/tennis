@@ -18,16 +18,21 @@ class ApiUrls {
   static const String editProfileImage = "${apiBaseUrl}edit-profile-image";
   static const String editProfileDetails = "${apiBaseUrl}edit-profile-details";
   static const String createLeague = "${apiBaseUrl}leagues/create-league";
-  static const String createList = "${apiBaseUrl}leagues/list";
+  static const String leaguesList = "${apiBaseUrl}leagues/list";
   static const String inviteSearchPlayer = "${apiBaseUrl}leagues/invite-search-player";
   static const String leaguesInvitePlayer = "${apiBaseUrl}leagues/invite-player";
   static const String leagueRequest = "${apiBaseUrl}leagues/league-request";
   static const String pendingRequest = "${apiBaseUrl}leagues/pending-request";
-  static const String userLeagueRequest = "${apiBaseUrl}league-request/";
+  static const String userLeagueRequest = "${apiBaseUrl}leagues/league-request/";
+  static const String leaguePlayer = "${apiBaseUrl}leagues/league-player";
+  static const String leaguesChallenge = "${apiBaseUrl}leagues/leagues-challenge";
   ////////////////Wordpress API /////////////////////////////////////
   static const String category = "${apiWPBaseUrl}post/category";
   static const String banner = "${apiWPBaseUrl}home/banner";
   static const String catNews = "${apiWPBaseUrl}posts/news";
+  ////////////////url/////////////////////////
+  static const String privacyPolicy = "https://phpdemo.futureprofilez.com/ankesh/jdt/blogs/privacy-policy/";
+  static const String termsConditions = "https://phpdemo.futureprofilez.com/ankesh/jdt/blogs/terms-conditions/";
 
 }
 

@@ -46,8 +46,9 @@ class _HomeState extends State<Home> {
     _controller = PageController(initialPage: 0);
     getHomeBannerData(context);
     locator<HomeProvider>().getHomeData(context);
-    super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) => _animateSlider());
+    super.initState();
+
   }
   void _animateSlider() {
     Timer.periodic(const Duration(seconds: 5), (Timer timer) {
@@ -56,11 +57,13 @@ class _HomeState extends State<Home> {
       } else {
         currentIndex = 0;
       }
-      _controller!.animateToPage(
-        currentIndex,
-        duration: const Duration(milliseconds: 350),
-        curve: Curves.easeIn,
-      );
+      if (_controller.hasClients) {
+        _controller.animateToPage(
+          currentIndex,
+          duration: const Duration(milliseconds: 350),
+          curve: Curves.easeIn,
+        );
+      }
     });
   }
   void getHomeBannerData(BuildContext context) async {

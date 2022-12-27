@@ -21,7 +21,6 @@ class LoginProvider extends ChangeNotifier {
                  context,
                  MaterialPageRoute(builder: (context) => OTP(number: phone,time: json.decode(response.body)['resend'],)),
                );
-
              }else if(json.decode(response.body)['status']==false){
                Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
              }
@@ -41,7 +40,7 @@ class LoginProvider extends ChangeNotifier {
            saveUserDetails(context,user_name,email,gender,dob)
                .then((response) {
              if(json.decode(response)['status'] == true){
-               Navigator.push(
+               Navigator.pushReplacement(
                  context,
                  MaterialPageRoute(builder: (context) => DashBoard(selectedIndex: 0)),
                );
@@ -66,7 +65,7 @@ class LoginProvider extends ChangeNotifier {
              if(json.decode(response.body)['status']==true){
                SharedPref.setToken(json.decode(response.body)['access_token']);
                if(json.decode(response.body)['exist'] == "yes"){
-                 Navigator.push(
+                 Navigator.pushReplacement(
                    context,
                    MaterialPageRoute(builder: (context) => DashBoard(selectedIndex: 0,)),
                  );

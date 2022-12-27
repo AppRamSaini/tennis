@@ -210,7 +210,7 @@ Future getLeaguesList(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   print('${prefs.getString("user_token")}');
   var url;
-  url = Uri.parse(ApiUrls.createList);
+  url = Uri.parse(ApiUrls.leaguesList);
   var headers = {
     'authorization': 'Bearer ${prefs.getString("user_token")}',
     "Accept": "application/json"
@@ -273,6 +273,8 @@ Future getPlayerPendingRequest(BuildContext context) async {
   }
 }
 Future sendPlayerLeagueRequest(BuildContext context,String uuid,String status) async {
+  OverlayEntry loader = Helpers.overlayLoader(context);
+  Overlay.of(context)!.insert(loader);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   print('${prefs.getString("user_token")}');
   print('${prefs.getInt("user_id").toString()}');
@@ -291,6 +293,7 @@ Future sendPlayerLeagueRequest(BuildContext context,String uuid,String status) a
   var responseData = await response.stream.toBytes();
   var responseString = String.fromCharCodes(responseData);
   if (response.statusCode == 200) {
+    Helpers.hideLoader(loader);
     bool status;
     status=json.decode(responseString)['status'];
     if(status == true){
@@ -301,12 +304,16 @@ Future sendPlayerLeagueRequest(BuildContext context,String uuid,String status) a
     }
   }
   else if(response.statusCode == 403){
+    Helpers.hideLoader(loader);
     Helpers.messagetoastfalse(context,json.decode(responseString)['message'].toString());
   }else if(response.statusCode == 422){
+    Helpers.hideLoader(loader);
     Helpers.messagetoastfalse(context,json.decode(responseString)['message'].toString());
   }else if(response.statusCode == 500){
+    Helpers.hideLoader(loader);
     Helpers.messagetoastfalse(context,json.decode(responseString)['message'].toString());
   }else {
+    Helpers.hideLoader(loader);
     print(response.statusCode);
   }
 }

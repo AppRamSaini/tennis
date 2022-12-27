@@ -53,6 +53,12 @@ class _RegistorState extends State<Registor> {
     },
   ];
   @override
+  void initState() {
+    // TODO: implement initState
+    calender.text = "dd-MMMM-yyyy";
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;

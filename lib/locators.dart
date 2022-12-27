@@ -4,9 +4,11 @@ import 'package:tennis/providers/createleagues_provider.dart';
 import 'package:tennis/providers/editprofile_provider.dart';
 import 'package:tennis/providers/home_provider.dart';
 import 'package:tennis/providers/login_provider.dart';
+import 'package:tennis/providers/mychallenge_provider.dart';
 import 'package:tennis/providers/myleagues_provider.dart';
 import 'package:tennis/providers/news_provider.dart';
 import 'package:tennis/providers/otp_provider.dart';
+import 'package:tennis/providers/ranking_challenge_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 /// Locators to get instances of classes mostly singletons
 GetIt locator = GetIt.I;
@@ -40,5 +42,11 @@ void setupLocators() {
   );
   locator.registerLazySingleton<AddPlayerProvider>(
         () => AddPlayerProvider(),
+  );
+  locator.registerLazySingleton<RankingChallengeProvider>(
+        () => RankingChallengeProvider(),
+  );
+  locator.registerLazySingleton<MychallengeProvider>(
+        () => MychallengeProvider(),
   );
 }

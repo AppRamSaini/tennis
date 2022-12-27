@@ -31,6 +31,7 @@ class MyAppTheme {
   static const listBorderColor = Color(0xFFD9D9D9);
   static const listNextBgColor = Color(0xFFCCE9E2);
   static const listBGColor = Color(0xFFF1F1F1);
+  static const iconsBGColor = Color(0xFFC4C4C4);
   static const welcomeColor = Color(0xfff2af63);
   static const splashColor = Color(0xffeeeee2);
   static const errorMessageBackgroundColor = Color(0xffFFBABA);

@@ -32,7 +32,8 @@ class AddPlayerProvider extends ChangeNotifier {
       openwhatsapp(context,number,shareBody);
     }
     openwhatsapp(BuildContext context,String number,String message) async{
-      var whatsappURlAndroid = "whatsapp://send?phone=$number&text=$message";
+     // var whatsappURlAndroid = "whatsapp://send?phone=$number&text=$message";
+      var whatsappURlAndroid = "https://api.whatsapp.com/send?phone=$number=${Uri.parse(message)}";
       var whatappURLIos ="https://wa.me/$number?text=${Uri.encodeFull(message)}";
       if(Platform.isIOS){
         // for iOS phone only

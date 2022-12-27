@@ -23,7 +23,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
     var duration = const Duration(seconds: 5);
     return Timer(duration, navigationToScreen);
   }
-  late final AnimationController _controller = AnimationController(
+/*  late final AnimationController _controller = AnimationController(
     duration: const Duration(seconds: 2),
     vsync: this,
   )..repeat(reverse: true);
@@ -35,16 +35,16 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
+  }*/
   void navigationToScreen() async{
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
-      String user_token = prefs.getString('user_token') ?? '';
-      print("user_token "+user_token);
+      String userToken = prefs.getString('user_token') ?? '';
+      print("user_token $userToken");
       SharedPreferences prefs1 = await SharedPreferences.getInstance();
-      bool _seen = (prefs1.getBool('seen') ?? false);
-      if (_seen) {
-        if(user_token !=''){
+      bool seen = (prefs1.getBool('seen') ?? false);
+      if (seen) {
+        if(userToken.isNotEmpty){
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(builder: (context) => DashBoard(selectedIndex: 0,)),
@@ -101,9 +101,9 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
             height: width * 0.1,
           ),
         )*/
-        Container(
-          width: 100,
-            height: 100,
+        SizedBox(
+          width: 70,
+            height: 70,
             child: Lottie.asset('assets/gifs/ball.json'))
       ),
     );

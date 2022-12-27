@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/home/my_result.dart';
 import 'package:tennis/styles/fonts.dart';
@@ -118,7 +119,7 @@ class _AllMatchesState extends State<AllMatches> {
       elevation: 0,
       title: const Padding(
           padding: EdgeInsets.only(left: 0.0),
-          child: Text('All Matches',
+          child: Text(allMatch,
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 18,

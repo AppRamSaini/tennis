@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
@@ -55,7 +56,7 @@ class _UpcomingTournamentState extends State<UpcomingTournament> {
       elevation: 0,
       title: const Padding(
           padding: EdgeInsets.only(left: 0.0),
-          child: Text('Upcoming Tournament',
+          child: Text(upcomingTournament,
               style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 18,

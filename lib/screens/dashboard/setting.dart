@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/apis/apiurls.dart';
 import 'package:tennis/bottomdilog/logout.dart';
 import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/drawer/drawer_bar.dart';
@@ -172,7 +173,7 @@ class _SettingState extends State<Setting> {
                   onTap: (){
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => WebViewPage(url: 'https://flutter.dev', title: termConditions,)),
+                      MaterialPageRoute(builder: (context) => WebViewPage(url: ApiUrls.termsConditions, title: termConditions,)),
                     );
                   },
                   child: Row(
@@ -220,45 +221,54 @@ class _SettingState extends State<Setting> {
               ),
               Padding(
                 padding: const EdgeInsets.only(top: 20.0,left: 10.0,right: 10.0),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(right: 10.0),
-                          child: SvgPicture.asset(
-                            'assets/icons/privacy_policy.svg',
-                            allowDrawingOutsideViewBox: true,
-                            height: 20,
-                            width: 20,
-                            color: MyAppTheme.DesBlackColor,
+                child: InkWell(
+                  onTap: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => WebViewPage(url: ApiUrls.privacyPolicy, title: privacyPolicy,)),
+                    );
+                  },
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10.0),
+                            child: SvgPicture.asset(
+                              'assets/icons/privacy_policy.svg',
+                              allowDrawingOutsideViewBox: true,
+                              height: 20,
+                              width: 20,
+                              color: MyAppTheme.DesBlackColor,
+                            ),
                           ),
-                        ),
-                        const Text(
-                          privacyPolicy,
-                          textAlign: TextAlign.center,
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            color: MyAppTheme.DesBlackColor,
-                            fontFamily: Fonts.nunito,
+                          const Text(
+                            privacyPolicy,
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              fontSize: 16,
+                              color: MyAppTheme.DesBlackColor,
+                              fontFamily: Fonts.nunito,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    SvgPicture.asset(
-                      'assets/icons/forword_arrow.svg',
-                      allowDrawingOutsideViewBox: true,
-                      height: 10,
-                      width: 10,
-                      color: MyAppTheme.DesBlackColor,
-                    ),
-                  ],
+                        ],
+                      ),
+                      SvgPicture.asset(
+                        'assets/icons/forword_arrow.svg',
+                        allowDrawingOutsideViewBox: true,
+                        height: 10,
+                        width: 10,
+                        color: MyAppTheme.DesBlackColor,
+                      ),
+                    ],
+                  ),
                 )
+
 
               ),
               Padding(
