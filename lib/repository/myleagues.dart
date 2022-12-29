@@ -277,7 +277,6 @@ Future sendPlayerLeagueRequest(BuildContext context,String uuid,String status) a
   Overlay.of(context)!.insert(loader);
   SharedPreferences prefs = await SharedPreferences.getInstance();
   print('${prefs.getString("user_token")}');
-  print('${prefs.getInt("user_id").toString()}');
   var url;
   url = Uri.parse(ApiUrls.userLeagueRequest+status);
   var request = http.MultipartRequest(

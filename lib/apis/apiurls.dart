@@ -25,7 +25,10 @@ class ApiUrls {
   static const String pendingRequest = "${apiBaseUrl}leagues/pending-request";
   static const String userLeagueRequest = "${apiBaseUrl}leagues/league-request/";
   static const String leaguePlayer = "${apiBaseUrl}leagues/league-player";
-  static const String leaguesChallenge = "${apiBaseUrl}leagues/leagues-challenge";
+  static const String leaguesChallenge = "${apiBaseUrl}leagues/leagues-challange";
+  static const String challengeWithdraw = "${apiBaseUrl}leagues/challenge-withdraw";
+  static const String challengeList = "${apiBaseUrl}leagues/challenge-list";
+  static const String leaguesChallengeRequest = "${apiBaseUrl}leagues/challenge-request/";
   ////////////////Wordpress API /////////////////////////////////////
   static const String category = "${apiWPBaseUrl}post/category";
   static const String banner = "${apiWPBaseUrl}home/banner";

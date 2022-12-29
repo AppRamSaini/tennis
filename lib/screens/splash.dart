@@ -42,7 +42,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
       String userToken = prefs.getString('user_token') ?? '';
       print("user_token $userToken");
       SharedPreferences prefs1 = await SharedPreferences.getInstance();
-      bool seen = (prefs1.getBool('seen') ?? false);
+      bool seen = prefs1.getBool('seen') ?? false;
       if (seen) {
         if(userToken.isNotEmpty){
           Navigator.pushReplacement(
@@ -90,21 +90,11 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
       backgroundColor: MyAppTheme.MainColor,
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        child: /*FadeTransition(
-          opacity: _animation,
-          child:  Image.asset(
-            "assets/images/ball.png",
-            width: height * 0.2,
-            height: width * 0.1,
-          ),
-        )*/
-        SizedBox(
-          width: 70,
-            height: 70,
-            child: Lottie.asset('assets/gifs/ball.json'))
+      body: Center(
+        child: SizedBox(
+            width: 150,
+            height: 150,
+            child: Lottie.asset('assets/gifs/ball.json')),
       ),
     );
   }

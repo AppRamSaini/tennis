@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/locators.dart';
 import 'package:tennis/providers/ranking_challenge_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
+import 'package:tennis/screens/score_card/add_score.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
@@ -19,6 +21,7 @@ class ViewRankingChallenge extends StatefulWidget {
 }
 
 class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
+  String? user_uuid;
   List<Map<String, String>> splashData = [
     {
       "title": "Olivia White",
@@ -44,6 +47,10 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
   @override
   void initState() {
     // TODO: implement initState
+    SharedPref.getProfileImage("user_uuid").then((value) => setState(() {
+      user_uuid = value;
+      print(user_uuid);
+    }));
     locator<RankingChallengeProvider>().leaguesPlayerList(context,widget.league_uuid);
     super.initState();
   }
@@ -60,7 +67,7 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
     return Scaffold(
       appBar: buildAppBar(context),
       backgroundColor: MyAppTheme.whiteColor,
-      body: Consumer<ScoreCardProvider>(
+      body: Consumer<RankingChallengeProvider>(
         builder: (context, provider, child) {
           return (isLoading)
               ? Progressbar()
@@ -79,7 +86,7 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                   shrinkWrap: true,
                   itemCount: playerlist.length,
                   itemBuilder: (BuildContext context, int index) {
-                    final ind = 1 + index;
+                    int ind = 1 + index;
                     return Container(
                         margin: const EdgeInsets.only(top: 10.0),
                         child: Column(
@@ -98,8 +105,8 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                       width: 75,
                                       height: 75,
                                       margin: const EdgeInsets.only(right: 10.0),
-                                      decoration: const BoxDecoration(
-                                          color: MyAppTheme.MainLightColor,
+                                      decoration:  BoxDecoration(
+                                          color: ind == 1 ? MyAppTheme.PosFLColor : ind == 2 ? MyAppTheme.PosSLColor : ind == 3 ? MyAppTheme.PosTLColor : MyAppTheme.PosFourthLColor,
                                           borderRadius: BorderRadius.all(Radius.circular(10))),
                                       child: Center(
                                         child: Container(
@@ -112,8 +119,8 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                           child: Container(
                                             height: 55,
                                             width: 55,
-                                            decoration: const BoxDecoration(
-                                                color: MyAppTheme.MainSecLightColor,
+                                            decoration:  BoxDecoration(
+                                                color: ind == 1 ? MyAppTheme.PosFMColor : ind == 2 ? MyAppTheme.PosSMColor : ind == 3 ? MyAppTheme.PosTMColor : MyAppTheme.PosFourthMColor,
                                                 shape: BoxShape.circle
                                             ),
                                             child: Center(
@@ -121,8 +128,8 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                               Container(
                                                 height: 50,
                                                 width: 50,
-                                                decoration: const BoxDecoration(
-                                                    color: MyAppTheme.MainColor,
+                                                decoration: BoxDecoration(
+                                                    color: ind == 1 ? MyAppTheme.PosFDColor : ind == 2 ? MyAppTheme.PosSDColor : ind == 3 ? MyAppTheme.PosTDColor : MyAppTheme.PosFourthDColor,
                                                     shape: BoxShape.circle
                                                 ),
                                                 child: Center(
@@ -165,10 +172,10 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                         Padding(
                                           padding: const EdgeInsets.only(top: 5.0),
                                           child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.center,
                                             mainAxisAlignment: MainAxisAlignment.start,
-                                            children: const [
-                                              Text(
+                                            children:  [
+                                              const Text(
                                                 'Record:',
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w400,
@@ -177,15 +184,31 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                                   fontFamily: Fonts.nunito,
                                                 ),
                                               ),
-                                              Text(
-                                                '12/08',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w700,
-                                                  fontSize: 12,
-                                                  color: MyAppTheme.TitleBlackColor,
-                                                  fontFamily: Fonts.nunito,
+                                              Container(
+                                                height: 25,
+                                                width: 50,
+                                                margin: EdgeInsets.only(left: 5.0),
+                                                decoration:  BoxDecoration(
+                                                    color: MyAppTheme.AcceptLightColor,
+                                                    border: Border.all(
+                                                        color: MyAppTheme.AcceptDarkColor,
+                                                        width : 1
+                                                    ),
+                                                    borderRadius: const BorderRadius.all(
+                                                        Radius.circular(5))),
+                                                child: const Center(
+                                                  child: Text(
+                                                    '12/08',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w600,
+                                                      fontSize: 12,
+                                                      color: MyAppTheme.TitleBlackColor,
+                                                      fontFamily: Fonts.nunito,
+                                                    ),
+                                                  ),
                                                 ),
                                               )
+
                                             ],
                                           ),
                                         ),
@@ -194,7 +217,106 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                     )
                                   ],
                                 ),
-                                Row(
+                                playerlist[index]['uuid'] == user_uuid ?  SizedBox() : playerlist[index]['can_challenge'] == true && playerlist[index]['challenge'] == null ? InkWell(
+                                  onTap: () {
+                                   provider.leaguesPlayerChallenge(context, widget.league_uuid, playerlist[index]['uuid'].toString());
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 100,
+                                    margin: const EdgeInsets.only(right: 5.0),
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.AcceptBgColor,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5))),
+                                    child: const Center(
+                                      child: Text(
+                                        'Challenge',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12,
+                                          color: MyAppTheme.whiteColor,
+                                          fontFamily: Fonts.nunito,),
+                                      ),
+                                    ),
+                                  ),
+                                ) : playerlist[index]['can_challenge'] == false && playerlist[index]['challenge'] == null ? InkWell(
+                                  onTap: () {
+                                   // provider.leaguesPlayerChallenge(context, widget.league_uuid, playerlist[index]['uuid'].toString());
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 100,
+                                    margin: const EdgeInsets.only(right: 5.0),
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.CategoryBGUNSelectBorderColor,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5))),
+                                    child: const Center(
+                                      child: Text(
+                                        'Challenge',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12,
+                                          color: MyAppTheme.whiteColor,
+                                          fontFamily: Fonts.nunito,),
+                                      ),
+                                    ),
+                                  ),
+                                ) : playerlist[index]['can_challenge'] == false && playerlist[index]['challenge']['challenge_status'] == "accepted" ? InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder:
+                                              (context) =>
+                                              AddScore()),
+                                    );
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 100,
+                                    margin: const EdgeInsets.only(right: 5.0),
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.MainColor,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5))),
+                                    child: const Center(
+                                      child: Text(
+                                        'Add Score',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12,
+                                          color: MyAppTheme.whiteColor,
+                                          fontFamily: Fonts.nunito,),
+                                      ),
+                                    ),
+                                  ),
+                                ) : InkWell(
+                                  onTap: () {
+                                    provider.leaguesChallengeWithdraw(context, widget.league_uuid, playerlist[index]['challenge']['uuid'].toString());
+                                  },
+                                  child: Container(
+                                    height: 40,
+                                    width: 100,
+                                    margin: const EdgeInsets.only(right: 5.0),
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.DeniedBgColor,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(5))),
+                                    child: const Center(
+                                      child: Text(
+                                        'Withdraw',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 12,
+                                          color: MyAppTheme.whiteColor,
+                                          fontFamily: Fonts.nunito,),
+                                      ),
+                                    ),
+                                  ),
+                                )
+                               /* Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
@@ -271,7 +393,7 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                       ),
                                     ) : SizedBox()
                                   ],
-                                )
+                                )*/
                               ],
                             ),
                             Container(
@@ -285,7 +407,7 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
 
                     );
                   }) :SvgPicture.asset(
-                'assets/icons/empty_my_league.svg',
+                'assets/icons/empty_image.svg',
                 allowDrawingOutsideViewBox: true,
               ),
             ),
