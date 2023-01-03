@@ -20,7 +20,7 @@ ScoreInvalideBottomDilog(BuildContext buildContext){
           curve: Curves.easeOut,
           padding: EdgeInsets.only(bottom: MediaQuery.of(context).viewInsets.bottom),
           child: Center(
-            child: Padding(padding: EdgeInsets.all(20),
+            child: Padding(padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,11 +29,12 @@ ScoreInvalideBottomDilog(BuildContext buildContext){
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      const SizedBox(),
                       const Padding(
                           padding:  EdgeInsets.only(left: 0.0),
-                          child: Text('Validation Error',
+                          child: Text('Score Card',textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontWeight: FontWeight.w500,
+                                fontWeight: FontWeight.w700,
                                 fontSize: 18,
                                 color: MyAppTheme.black_Color,
                                 fontFamily: Fonts.nunito,

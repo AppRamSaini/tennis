@@ -488,6 +488,7 @@ class _MyLeaguesState extends State<MyLeagues> {
                                     ),
                                     InkWell(
                                       onTap: () {
+                                        provider.setNoSets(leagueslist[index]['sets']);
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(

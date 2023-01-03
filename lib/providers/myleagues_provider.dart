@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:tennis/helpers/appconfig.dart';
 import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/repository/myleagues.dart';
 class MyLeaguesProvider extends ChangeNotifier {
@@ -10,6 +11,10 @@ class MyLeaguesProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   List leagueslist = [];
   List pendingLeagueslist = [];
+  void setNoSets(int no_of_sets){
+    AppConfig.Sets = no_of_sets;
+    notifyListeners();
+  }
   void leaguesPermissionStatus(BuildContext context) async {
     try {
       Helpers.verifyInternet().then((intenet) {

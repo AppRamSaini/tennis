@@ -154,7 +154,7 @@ class _MyChallengesState extends State<MyChallenges> {
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.only(
-                                            top: 5.0, bottom: 5.0),
+                                            top: 10.0, bottom: 10.0),
                                         child: Row(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.center,
@@ -207,9 +207,7 @@ class _MyChallengesState extends State<MyChallenges> {
                                                       ),
                                                     ),
                                                   )
-                                                : playerlist[index][
-                                                            'challenge_status'] ==
-                                                        "accepted"
+                                                : playerlist[index]['challenge_status'] == "accepted"
                                                     ? Container(
                                                         height: 30,
                                                         width: 100,
@@ -241,7 +239,39 @@ class _MyChallengesState extends State<MyChallenges> {
                                                             ),
                                                           ),
                                                         ),
-                                                      )
+                                                      ) : playerlist[index]['challenge_status'] == "done"
+                                                ? Container(
+                                              height: 30,
+                                              width: 100,
+                                              decoration: BoxDecoration(
+                                                  color: MyAppTheme
+                                                      .DeniedLightColor,
+                                                  border: Border.all(
+                                                      color: MyAppTheme
+                                                          .DeniedDarkColor,
+                                                      width: 1),
+                                                  borderRadius:
+                                                  const BorderRadius
+                                                      .all(
+                                                      Radius
+                                                          .circular(
+                                                          5))),
+                                              child: const Center(
+                                                child: Text(
+                                                  'Done',
+                                                  style: TextStyle(
+                                                    fontWeight:
+                                                    FontWeight
+                                                        .w600,
+                                                    fontSize: 12,
+                                                    color: MyAppTheme
+                                                        .TitleBlackColor,
+                                                    fontFamily:
+                                                    Fonts.nunito,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
                                                     : Container(
                                                         height: 30,
                                                         width: 100,
@@ -342,8 +372,7 @@ class _MyChallengesState extends State<MyChallenges> {
                               ],
                             ),
                           ),*/
-                                      playerlist[index]['challenge_status'] ==
-                                                  "pending" &&
+                                      playerlist[index]['challenge_status'] == "pending" &&
                                               playerlist[index]['sender'] ==
                                                   true
                                           ? InkWell(
@@ -377,9 +406,7 @@ class _MyChallengesState extends State<MyChallenges> {
                                                 ),
                                               ),
                                             )
-                                          : playerlist[index][
-                                                          'challenge_status'] ==
-                                                      "pending" &&
+                                          : playerlist[index]['challenge_status'] == "pending" &&
                                                   playerlist[index]['sender'] ==
                                                       false
                                               ? Row(
@@ -465,22 +492,11 @@ class _MyChallengesState extends State<MyChallenges> {
                                                     )
                                                   ],
                                                 )
-                                              : playerlist[index][
-                                                              'challenge_status'] ==
-                                                          "rejected" &&
-                                                      playerlist[index]
-                                                              ['sender'] ==
-                                                          false
+                                              : playerlist[index]['challenge_status'] == "rejected"
                                                   ? SizedBox()
-                                                  : InkWell(
+                                                  : playerlist[index]['challenge_status'] == "done"  ? SizedBox() :  InkWell(
                                                       onTap: () {
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder:
-                                                                  (context) =>
-                                                                      AddScore()),
-                                                        );
+                                                      provider.addScoreWithData(context, playerlist[index]['uuid'].toString(), playerlist[index]['challenger']['name'].toString(), playerlist[index]['challenger']['uuid'].toString(), playerlist[index]['accepter']['name'].toString(),playerlist[index]['accepter']['uuid'].toString(),playerlist[index]['league']['sets']);
                                                       },
                                                       child: Container(
                                                         height: 40,

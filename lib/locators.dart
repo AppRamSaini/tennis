@@ -1,11 +1,13 @@
 import 'package:get_it/get_it.dart';
 import 'package:tennis/providers/addplayer_provider.dart';
+import 'package:tennis/providers/allmatchs.dart';
 import 'package:tennis/providers/createleagues_provider.dart';
 import 'package:tennis/providers/editprofile_provider.dart';
 import 'package:tennis/providers/home_provider.dart';
 import 'package:tennis/providers/login_provider.dart';
 import 'package:tennis/providers/mychallenge_provider.dart';
 import 'package:tennis/providers/myleagues_provider.dart';
+import 'package:tennis/providers/myresult_provider.dart';
 import 'package:tennis/providers/news_provider.dart';
 import 'package:tennis/providers/otp_provider.dart';
 import 'package:tennis/providers/ranking_challenge_provider.dart';
@@ -48,5 +50,11 @@ void setupLocators() {
   );
   locator.registerLazySingleton<MychallengeProvider>(
         () => MychallengeProvider(),
+  );
+  locator.registerLazySingleton<MyResultProvider>(
+        () => MyResultProvider(),
+  );
+  locator.registerLazySingleton<AllMatchsProvider>(
+        () => AllMatchsProvider(),
   );
 }

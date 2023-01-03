@@ -5,19 +5,19 @@ import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/repository/myleagues.dart';
 
 class CreateLeaguesProvider extends ChangeNotifier {
-  int NSet = 0;
+  int NSet = 1;
   void SetValue(){
-    NSet = 0;
+    NSet = 1;
     notifyListeners();
   }
   void AddNSet(){
-    if(NSet <= 5){
+    if(NSet <= 4){
       NSet++;
       notifyListeners();
     }
   }
   void MinsNSet(){
-    if(NSet > 0){
+    if(NSet > 1){
        NSet--;
        notifyListeners();
     }

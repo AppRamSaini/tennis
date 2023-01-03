@@ -1,8 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/bottomdilog/score.dart';
 import 'package:tennis/bottomdilog/scoreinvalide.dart';
+import 'package:tennis/helpers/appconfig.dart';
 import 'package:tennis/helpers/constants.dart';
+import 'package:tennis/helpers/helpers.dart';
+import 'package:tennis/helpers/keyboard.dart';
+import 'package:tennis/locators.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/dashboard/dashboard.dart';
 import 'package:tennis/styles/fonts.dart';
@@ -21,57 +28,176 @@ class _AddScoreState extends State<AddScore> {
   TextEditingController lSetF =  TextEditingController();
   TextEditingController wTBSetF =  TextEditingController();
   TextEditingController lTBSetF =  TextEditingController();
+
   TextEditingController wSetS =  TextEditingController();
   TextEditingController lSetS =  TextEditingController();
   TextEditingController wTBSetS =  TextEditingController();
   TextEditingController lTBSetS =  TextEditingController();
+
   TextEditingController wSetT =  TextEditingController();
   TextEditingController lSetT =  TextEditingController();
   TextEditingController wTBSetT =  TextEditingController();
   TextEditingController lTBSetT =  TextEditingController();
+
   TextEditingController wSetFourth =  TextEditingController();
   TextEditingController lSetFourth =  TextEditingController();
   TextEditingController wTBSetFourth =  TextEditingController();
   TextEditingController lTBSetFourth =  TextEditingController();
+
   TextEditingController wSetFive =  TextEditingController();
   TextEditingController lSetFive =  TextEditingController();
   TextEditingController wTBSetFive =  TextEditingController();
   TextEditingController lTBSetFive =  TextEditingController();
-  TextEditingController wSetSix =  TextEditingController();
-  TextEditingController lSetSix =  TextEditingController();
-  TextEditingController wTBSetSix =  TextEditingController();
-  TextEditingController lTBSetSix =  TextEditingController();
-  String? dropdownValue = 'Raj';
-  String? dropdownSets = 'Set 1';
+  String WinnerUUID = "";
+  late int selectSIndex;
+  String? dropdownValue = AppConfig.AccepterName;
+  String? dropdownSets;
   String? dropdownMStatus = 'Played Through';
+  List setVlauest = [];
+  List<Map<String, dynamic>> numOfSets = [];
+  void setValueSendData(){
+    setVlauest.clear();
+    List<ScoreCard> firstSetValues = [
+      ScoreCard(winner: wSetF.text.toString(), loser: lSetF.text.toString(), tie_winner: wTBSetF.text.toString(), tie_loser: lTBSetF.text.toString()),
+    //  ScoreCard(winner: wSetT.text.toString(), loser: lSetT.text.toString(), tie_winner: wTBSetT.text.toString(), tie_loser: lTBSetT.text.toString()),
+    //  ScoreCard(winner: wSetFourth.text.toString(), loser: lSetFourth.text.toString(), tie_winner: wTBSetFourth.text.toString(), tie_loser: lTBSetFourth.text.toString()),
+    //  ScoreCard(winner: wSetFive.text.toString(), loser: lSetFive.text.toString(), tie_winner: wTBSetFive.text.toString(), tie_loser: lTBSetFive.text.toString()),
+     // ScoreCard(winner: wSetSix.text.toString(), loser: lSetSix.text.toString(), tie_winner: wTBSetSix.text.toString(), tie_loser: lTBSetSix.text.toString()),
+    ];
+    List<ScoreCard> secondSetValues = [
+      ScoreCard(winner: wSetF.text.toString(), loser: lSetF.text.toString(), tie_winner: wTBSetF.text.toString(), tie_loser: lTBSetF.text.toString()),
+      ScoreCard(winner: wSetS.text.toString(), loser: lSetS.text.toString(), tie_winner: wTBSetS.text.toString(), tie_loser: lTBSetS.text.toString()),
+     // ScoreCard(winner: wSetT.text.toString(), loser: lSetT.text.toString(), tie_winner: wTBSetT.text.toString(), tie_loser: lTBSetT.text.toString()),
+     // ScoreCard(winner: wSetFourth.text.toString(), loser: lSetFourth.text.toString(), tie_winner: wTBSetFourth.text.toString(), tie_loser: lTBSetFourth.text.toString()),
+    //  ScoreCard(winner: wSetFive.text.toString(), loser: lSetFive.text.toString(), tie_winner: wTBSetFive.text.toString(), tie_loser: lTBSetFive.text.toString()),
+     // ScoreCard(winner: wSetSix.text.toString(), loser: lSetSix.text.toString(), tie_winner: wTBSetSix.text.toString(), tie_loser: lTBSetSix.text.toString()),
+    ];
+    List<ScoreCard> thirdSetValues = [
+      ScoreCard(winner: wSetF.text.toString(), loser: lSetF.text.toString(), tie_winner: wTBSetF.text.toString(), tie_loser: lTBSetF.text.toString()),
+      ScoreCard(winner: wSetS.text.toString(), loser: lSetS.text.toString(), tie_winner: wTBSetS.text.toString(), tie_loser: lTBSetS.text.toString()),
+      ScoreCard(winner: wSetT.text.toString(), loser: lSetT.text.toString(), tie_winner: wTBSetT.text.toString(), tie_loser: lTBSetT.text.toString()),
+     // ScoreCard(winner: wSetFourth.text.toString(), loser: lSetFourth.text.toString(), tie_winner: wTBSetFourth.text.toString(), tie_loser: lTBSetFourth.text.toString()),
+    //  ScoreCard(winner: wSetFive.text.toString(), loser: lSetFive.text.toString(), tie_winner: wTBSetFive.text.toString(), tie_loser: lTBSetFive.text.toString()),
+    //  ScoreCard(winner: wSetSix.text.toString(), loser: lSetSix.text.toString(), tie_winner: wTBSetSix.text.toString(), tie_loser: lTBSetSix.text.toString()),
+    ];
+    List<ScoreCard> fourthSetValues = [
+      ScoreCard(winner: wSetF.text.toString(), loser: lSetF.text.toString(), tie_winner: wTBSetF.text.toString(), tie_loser: lTBSetF.text.toString()),
+      ScoreCard(winner: wSetS.text.toString(), loser: lSetS.text.toString(), tie_winner: wTBSetS.text.toString(), tie_loser: lTBSetS.text.toString()),
+      ScoreCard(winner: wSetT.text.toString(), loser: lSetT.text.toString(), tie_winner: wTBSetT.text.toString(), tie_loser: lTBSetT.text.toString()),
+      ScoreCard(winner: wSetFourth.text.toString(), loser: lSetFourth.text.toString(), tie_winner: wTBSetFourth.text.toString(), tie_loser: lTBSetFourth.text.toString()),
+    //  ScoreCard(winner: wSetFive.text.toString(), loser: lSetFive.text.toString(), tie_winner: wTBSetFive.text.toString(), tie_loser: lTBSetFive.text.toString()),
+    //  ScoreCard(winner: wSetSix.text.toString(), loser: lSetSix.text.toString(), tie_winner: wTBSetSix.text.toString(), tie_loser: lTBSetSix.text.toString()),
+    ];
+    List<ScoreCard> fiveSetValues = [
+      ScoreCard(winner: wSetF.text.toString(), loser: lSetF.text.toString(), tie_winner: wTBSetF.text.toString(), tie_loser: lTBSetF.text.toString()),
+      ScoreCard(winner: wSetS.text.toString(), loser: lSetS.text.toString(), tie_winner: wTBSetS.text.toString(), tie_loser: lTBSetS.text.toString()),
+      ScoreCard(winner: wSetT.text.toString(), loser: lSetT.text.toString(), tie_winner: wTBSetT.text.toString(), tie_loser: lTBSetT.text.toString()),
+      ScoreCard(winner: wSetFourth.text.toString(), loser: lSetFourth.text.toString(), tie_winner: wTBSetFourth.text.toString(), tie_loser: lTBSetFourth.text.toString()),
+      ScoreCard(winner: wSetFive.text.toString(), loser: lSetFive.text.toString(), tie_winner: wTBSetFive.text.toString(), tie_loser: lTBSetFive.text.toString()),
+     // ScoreCard(winner: wSetSix.text.toString(), loser: lSetSix.text.toString(), tie_winner: wTBSetSix.text.toString(), tie_loser: lTBSetSix.text.toString()),
+    ];
+    if(dropdownSets == "Set 1"){
+      setVlauest.addAll(firstSetValues);
+    }else if (dropdownSets == "Set 2"){
+      setVlauest.addAll(secondSetValues);
+    }else if (dropdownSets == "Set 3"){
+      setVlauest.addAll(thirdSetValues);
+    }else if (dropdownSets == "Set 4"){
+      setVlauest.addAll(fourthSetValues);
+    }else if (dropdownSets == "Set 5"){
+      setVlauest.addAll(fiveSetValues);
+    }
+    print(setVlauest.map((e){
+      return {
+       "winner" : e.winner,
+        "loser" : e.loser,
+        "tie_winner" : e.tie_winner,
+        "tie_loser" : e.tie_loser
+      };
+    }).toList());
+  }
+  void setNoValue(){
+    List<Map<String, dynamic>> oneSetsList = [
+      {
+        "title": 'Set 1',
+      }
+    ];
+    List<Map<String, dynamic>> twoSetsList = [
+      {
+        "title": 'Set 1',
+      },
+      {
+        "title": 'Set 2',
+      }
+    ];
+    List<Map<String, dynamic>> threeSetsList = [
+      {
+        "title": 'Set 1',
+      },
+      {
+        "title": 'Set 2',
+      },
+      {
+        "title": 'Set 3',
+      }
+    ];
+    List<Map<String, dynamic>> fourSetsList = [
+      {
+        "title": 'Set 1',
+      },
+      {
+        "title": 'Set 2',
+      },
+      {
+        "title": 'Set 3',
+      },
+      {
+        "title": 'Set 4',
+      }
+    ];
+    List<Map<String, dynamic>> fiveSetsList = [
+      {
+        "title": 'Set 1',
+      },
+      {
+        "title": 'Set 2',
+      },
+      {
+        "title": 'Set 3',
+      },
+      {
+        "title": 'Set 4',
+      },
+      {
+        "title": 'Set 5',
+      }
+    ];
+    if(selectSIndex == 1){
+      dropdownSets = 'Set 1';
+      numOfSets.addAll(oneSetsList);
+    }else if (selectSIndex == 2){
+      dropdownSets = 'Set 2';
+      numOfSets.addAll(twoSetsList);
+    }else if (selectSIndex == 3){
+      dropdownSets = 'Set 3';
+      numOfSets.addAll(threeSetsList);
+    }else if (selectSIndex == 4){
+      dropdownSets = 'Set 4';
+      numOfSets.addAll(fourSetsList);
+    }else if (selectSIndex == 5){
+      dropdownSets = 'Set 5';
+      numOfSets.addAll(fiveSetsList);
+    }
+  }
   List<Map<String, dynamic>> winnerList = [
     {
-      "title": 'Raj',
+      "title": AppConfig.AccepterName,
     },
     {
-      "title": 'Ram',
+      "title": AppConfig.ChallengerName,
     },
   ];
-  List<Map<String, dynamic>> setsList = [
-    {
-      "title": 'Set 1',
-    },
-    {
-      "title": 'Set 2',
-    },
-    {
-      "title": 'Set 3',
-    },
-    {
-      "title": 'Set 4',
-    },
-    {
-      "title": 'Set 5',
-    },
-    {
-      "title": 'Set 6',
-    },
-  ];
+
   List<Map<String, dynamic>> mStatusList = [
     {
       "title": 'Played Through',
@@ -89,6 +215,73 @@ class _AddScoreState extends State<AddScore> {
       "title": 'Opponent Injured',
     },
   ];
+  @override
+  void initState() {
+    // TODO: implement initState
+    print(AppConfig.Sets);
+    locator<ScoreCardProvider>().reSetAllValue();
+    selectSIndex = AppConfig.Sets;
+    WinnerUUID = AppConfig.AccepterUuid;
+    setNoValue();
+    super.initState();
+  }
+  void resetAllValueUpdate(String value){
+    locator<ScoreCardProvider>().reSetValue(value);
+    setState(() {
+      dropdownSets = value;
+      if(dropdownSets == 'Set 1'){
+        wSetS.text = "";
+        lSetS.text = "";
+        wTBSetS.text = "";
+        lTBSetS.text = "";
+        wSetT.text = "";
+        lSetT.text = "";
+        wTBSetT.text = "";
+        lTBSetT.text = "";
+        wSetFourth.text = "";
+        lSetFourth.text = "";
+        wTBSetFourth.text = "";
+        lTBSetFourth.text = "";
+        wSetFive.text = "";
+        lSetFive.text = "";
+        wTBSetFive.text = "";
+        lTBSetFive.text = "";
+        selectSIndex = 1;
+      }else if(dropdownSets == 'Set 2'){
+        wSetT.text = "";
+        lSetT.text = "";
+        wTBSetT.text = "";
+        lTBSetT.text = "";
+        wSetFourth.text = "";
+        lSetFourth.text = "";
+        wTBSetFourth.text = "";
+        lTBSetFourth.text = "";
+        wSetFive.text = "";
+        lSetFive.text = "";
+        wTBSetFive.text = "";
+        lTBSetFive.text = "";
+        selectSIndex = 2;
+      }else if(dropdownSets == 'Set 3'){
+        wSetFourth.text = "";
+        lSetFourth.text = "";
+        wTBSetFourth.text = "";
+        lTBSetFourth.text = "";
+        wSetFive.text = "";
+        lSetFive.text = "";
+        wTBSetFive.text = "";
+        lTBSetFive.text = "";
+        selectSIndex = 3;
+      }else if(dropdownSets == 'Set 4'){
+        wSetFive.text = "";
+        lSetFive.text = "";
+        wTBSetFive.text = "";
+        lTBSetFive.text = "";
+        selectSIndex = 4;
+      }else if(dropdownSets == 'Set 5'){
+        selectSIndex = 5;
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -227,6 +420,11 @@ class _AddScoreState extends State<AddScore> {
                       onChanged: (String? newValue) {
                          setState(() {
                            dropdownValue = newValue;
+                           if(dropdownValue == AppConfig.ChallengerName){
+                             WinnerUUID = AppConfig.ChallengerUuid;
+                           }else {
+                             WinnerUUID = AppConfig.AccepterUuid;
+                           }
                          });
                       },
                     ),
@@ -367,16 +565,14 @@ class _AddScoreState extends State<AddScore> {
                             color: MyAppTheme.black_Color,
                             fontFamily: Fonts.nunito,
                           ),
-                          items: setsList.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
+                          items: numOfSets.map<DropdownMenuItem<String>>((Map<String, dynamic> value) {
                             return DropdownMenuItem<String>(
                               value: value['title'],
                               child: Text(value['title']),
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownSets = newValue;
-                            });
+                            resetAllValueUpdate(newValue!);
                            // provider.selectSetsIndex(index,setList[index]);
                           },
                         ),
@@ -705,7 +901,9 @@ class _AddScoreState extends State<AddScore> {
                                     height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.MainColor,
+                                      border: Border.all(
+                                        color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                      ),
                                     ),
                                     child: TextField(
                                       textAlign: TextAlign.center,
@@ -715,7 +913,38 @@ class _AddScoreState extends State<AddScore> {
                                       controller: wSetF,
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        provider.firstTieBreak(wSetF.text.toString(), lSetF.text.toString());
+                                        print(value);
+                                        if(value == "5"){
+                                          setState(() {
+                                            lSetF.text = "7";
+                                            wTBSetF.text = "";
+                                            lTBSetF.text = "";
+                                          });
+                                        }else if(value == "7"){
+                                          setState(() {
+                                            lSetF.text = "5";
+                                            wTBSetF.text = "";
+                                            lTBSetF.text = "";
+                                          });
+                                        }else if(lSetF.text == "7" || lSetF.text == "5") {
+                                          setState(() {
+                                            lSetF.text = "";
+                                            wTBSetF.text = "";
+                                            lTBSetF.text = "";
+                                          });
+                                        }else if (value == "8" || value == "9"){
+                                          setState(() {
+                                            wSetF.text = "";
+                                            wTBSetF.text = "";
+                                            lTBSetF.text = "";
+                                          });
+                                        }else {
+                                          setState(() {
+                                            wTBSetF.text = "";
+                                            lTBSetF.text = "";
+                                          });
+                                        }
+                                        provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -736,7 +965,9 @@ class _AddScoreState extends State<AddScore> {
                                     height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.colorinactiveTrackColor,
+                                      border: Border.all(
+                                        color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                      ),
                                     ),
                                     child: TextField(
                                       textAlign: TextAlign.center,
@@ -746,7 +977,38 @@ class _AddScoreState extends State<AddScore> {
                                       controller: lSetF,
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        provider.firstTieBreak(wSetF.text.toString(), lSetF.text.toString());
+                                        print(value);
+                                        if(value == "5"){
+                                          setState(() {
+                                            wSetF.text = "7";
+                                            wTBSetF.text = "";
+                                            lTBSetF.text = "";
+                                          });
+                                        }else if(value == "7"){
+                                          setState(() {
+                                            wSetF.text = "5";
+                                            wTBSetF.text = "";
+                                            lTBSetF.text = "";
+                                          });
+                                        }else if(wSetF.text == "7" || wSetF.text == "5") {
+                                          setState(() {
+                                            wSetF.text = "";
+                                            wTBSetF.text = "";
+                                            lTBSetF.text = "";
+                                          });
+                                        }else if (value == "8" || value == "9"){
+                                          setState(() {
+                                            lSetF.text = "";
+                                            wTBSetF.text = "";
+                                            lTBSetF.text = "";
+                                          });
+                                        }else {
+                                          setState(() {
+                                            wTBSetF.text = "";
+                                            lTBSetF.text = "";
+                                          });
+                                        }
+                                        provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -772,7 +1034,9 @@ class _AddScoreState extends State<AddScore> {
                                         margin: const EdgeInsets.only(right: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.MainColor,
+                                          border: Border.all(
+                                            color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          ),
                                         ),
                                         child: TextField(
                                           textAlign: TextAlign.center,
@@ -782,7 +1046,7 @@ class _AddScoreState extends State<AddScore> {
                                           controller: wTBSetF,
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
-
+                                            provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -799,7 +1063,9 @@ class _AddScoreState extends State<AddScore> {
                                         margin: const EdgeInsets.only(left: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.colorinactiveTrackColor,
+                                          border: Border.all(
+                                            color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          ),
                                         ),
                                         child: TextField(
                                           textAlign: TextAlign.center,
@@ -809,7 +1075,7 @@ class _AddScoreState extends State<AddScore> {
                                           controller: lTBSetF,
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
-
+                                            provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -828,8 +1094,8 @@ class _AddScoreState extends State<AddScore> {
                             ],
                           ),
                         ),
-                        provider.selectSIndex == 1 || provider.selectSIndex == 2 || provider.selectSIndex == 3
-                            || provider.selectSIndex == 4 || provider.selectSIndex == 5 ?
+                        dropdownSets == "Set 2" || dropdownSets == "Set 3" || dropdownSets == "Set 4"
+                            || dropdownSets == "Set 5" || dropdownSets == "Set 6" ?
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
                           child: Row(
@@ -856,7 +1122,9 @@ class _AddScoreState extends State<AddScore> {
                                     height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.MainColor,
+                                      border: Border.all(
+                                        color: provider.sVCheck == true ? MyAppTheme.MainColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                      ),
                                     ),
                                     child: TextField(
                                       textAlign: TextAlign.center,
@@ -866,7 +1134,38 @@ class _AddScoreState extends State<AddScore> {
                                       controller: wSetS,
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        provider.secondTieBreak(wSetS.text.toString(), lSetS.text.toString());
+                                        print(value);
+                                        if(value == "5"){
+                                          setState(() {
+                                            lSetS.text = "7";
+                                            wTBSetS.text = "";
+                                            lTBSetS.text = "";
+                                          });
+                                        }else if(value == "7"){
+                                          setState(() {
+                                            lSetS.text = "5";
+                                            wTBSetS.text = "";
+                                            lTBSetS.text = "";
+                                          });
+                                        }else if(lSetS.text == "7" || lSetS.text == "5") {
+                                          setState(() {
+                                            lSetS.text = "";
+                                            wTBSetS.text = "";
+                                            lTBSetS.text = "";
+                                          });
+                                        }else if (value == "8" || value == "9"){
+                                          setState(() {
+                                            wSetS.text = "";
+                                            wTBSetS.text = "";
+                                            lTBSetS.text = "";
+                                          });
+                                        }else {
+                                          setState(() {
+                                            wTBSetS.text = "";
+                                            lTBSetS.text = "";
+                                          });
+                                        }
+                                        provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -887,7 +1186,9 @@ class _AddScoreState extends State<AddScore> {
                                     height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.colorinactiveTrackColor,
+                                      border: Border.all(
+                                        color: provider.sVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                      ),
                                     ),
                                     child: TextField(
                                       textAlign: TextAlign.center,
@@ -897,7 +1198,38 @@ class _AddScoreState extends State<AddScore> {
                                       controller: lSetS,
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        provider.secondTieBreak(wSetS.text.toString(), lSetS.text.toString());
+                                        print(value);
+                                        if(value == "5"){
+                                          setState(() {
+                                            wSetS.text = "7";
+                                            wTBSetS.text = "";
+                                            lTBSetS.text = "";
+                                          });
+                                        }else if(value == "7"){
+                                          setState(() {
+                                            wSetS.text = "5";
+                                            wTBSetS.text = "";
+                                            lTBSetS.text = "";
+                                          });
+                                        }else if(wSetS.text == "7" || wSetS.text == "5") {
+                                          setState(() {
+                                            wSetS.text = "";
+                                            wTBSetS.text = "";
+                                            lTBSetS.text = "";
+                                          });
+                                        }else if (value == "8" || value == "9"){
+                                          setState(() {
+                                            lSetS.text = "";
+                                            wTBSetS.text = "";
+                                            lTBSetS.text = "";
+                                          });
+                                        }else {
+                                          setState(() {
+                                            wTBSetS.text = "";
+                                            lTBSetS.text = "";
+                                          });
+                                        }
+                                        provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -923,7 +1255,9 @@ class _AddScoreState extends State<AddScore> {
                                         margin: const EdgeInsets.only(right: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.MainColor,
+                                          border: Border.all(
+                                            color: provider.sTBVCheck == true ? MyAppTheme.MainColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          ),
                                         ),
                                         child: TextField(
                                           textAlign: TextAlign.center,
@@ -933,7 +1267,7 @@ class _AddScoreState extends State<AddScore> {
                                           controller: wTBSetS,
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
-
+                                            provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -950,7 +1284,9 @@ class _AddScoreState extends State<AddScore> {
                                         margin: const EdgeInsets.only(left: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.colorinactiveTrackColor,
+                                          border: Border.all(
+                                            color: provider.sTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          ),
                                         ),
                                         child: TextField(
                                           textAlign: TextAlign.center,
@@ -960,7 +1296,7 @@ class _AddScoreState extends State<AddScore> {
                                           controller: lTBSetS,
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
-
+                                            provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -979,8 +1315,8 @@ class _AddScoreState extends State<AddScore> {
                             ],
                           ),
                         ) :SizedBox(),
-                         provider.selectSIndex == 2 || provider.selectSIndex == 3
-                             || provider.selectSIndex == 4 || provider.selectSIndex == 5 ?
+                         dropdownSets == "Set 3" || dropdownSets == "Set 4"
+                             || dropdownSets == "Set 5" || dropdownSets == "Set 6" ?
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
                           child: Row(
@@ -1007,7 +1343,9 @@ class _AddScoreState extends State<AddScore> {
                                     height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.MainColor,
+                                      border: Border.all(
+                                        color: provider.tVCheck == true ? MyAppTheme.MainColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                      ),
                                     ),
                                     child: TextField(
                                       textAlign: TextAlign.center,
@@ -1017,7 +1355,38 @@ class _AddScoreState extends State<AddScore> {
                                       controller: wSetT,
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        provider.thirdTieBreak(wSetT.text.toString(), lSetT.text.toString());
+                                        print(value);
+                                        if(value == "5"){
+                                          setState(() {
+                                            lSetT.text = "7";
+                                            wTBSetT.text = "";
+                                            lTBSetT.text = "";
+                                          });
+                                        }else if(value == "7"){
+                                          setState(() {
+                                            lSetT.text = "5";
+                                            wTBSetT.text = "";
+                                            lTBSetT.text = "";
+                                          });
+                                        }else if(lSetT.text == "7" || lSetT.text == "5") {
+                                          setState(() {
+                                            lSetT.text = "";
+                                            wTBSetT.text = "";
+                                            lTBSetT.text = "";
+                                          });
+                                        }else if (value == "8" || value == "9"){
+                                          setState(() {
+                                            wSetT.text = "";
+                                            wTBSetT.text = "";
+                                            lTBSetT.text = "";
+                                          });
+                                        }else {
+                                          setState(() {
+                                            wTBSetT.text = "";
+                                            lTBSetT.text = "";
+                                          });
+                                        }
+                                        provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -1038,7 +1407,9 @@ class _AddScoreState extends State<AddScore> {
                                     height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.colorinactiveTrackColor,
+                                      border: Border.all(
+                                        color: provider.tVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                      ),
                                     ),
                                     child: TextField(
                                       textAlign: TextAlign.center,
@@ -1048,7 +1419,38 @@ class _AddScoreState extends State<AddScore> {
                                       controller: lSetT,
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        provider.thirdTieBreak(wSetT.text.toString(), lSetT.text.toString());
+                                        print(value);
+                                        if(value == "5"){
+                                          setState(() {
+                                            wSetT.text = "7";
+                                            wTBSetT.text = "";
+                                            lTBSetT.text = "";
+                                          });
+                                        }else if(value == "7"){
+                                          setState(() {
+                                            wSetT.text = "5";
+                                            wTBSetT.text = "";
+                                            lTBSetT.text = "";
+                                          });
+                                        }else if(wSetT.text == "7" || wSetT.text == "5") {
+                                          setState(() {
+                                            wSetT.text = "";
+                                            wTBSetT.text = "";
+                                            lTBSetT.text = "";
+                                          });
+                                        }else if (value == "8" || value == "9"){
+                                          setState(() {
+                                            lSetT.text = "";
+                                            wTBSetT.text = "";
+                                            lTBSetT.text = "";
+                                          });
+                                        }else {
+                                          setState(() {
+                                            wTBSetT.text = "";
+                                            lTBSetT.text = "";
+                                          });
+                                        }
+                                        provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -1074,7 +1476,9 @@ class _AddScoreState extends State<AddScore> {
                                         margin: const EdgeInsets.only(right: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.MainColor,
+                                          border: Border.all(
+                                            color: provider.tTBVCheck == true ? MyAppTheme.MainColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          ),
                                         ),
                                         child: TextField(
                                           textAlign: TextAlign.center,
@@ -1084,7 +1488,7 @@ class _AddScoreState extends State<AddScore> {
                                           controller: wTBSetT,
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
-
+                                            provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -1101,7 +1505,9 @@ class _AddScoreState extends State<AddScore> {
                                         margin: const EdgeInsets.only(left: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.colorinactiveTrackColor,
+                                          border: Border.all(
+                                            color: provider.tTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          ),
                                         ),
                                         child: TextField(
                                           textAlign: TextAlign.center,
@@ -1111,7 +1517,7 @@ class _AddScoreState extends State<AddScore> {
                                           controller: lTBSetT,
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
-
+                                            provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -1130,7 +1536,7 @@ class _AddScoreState extends State<AddScore> {
                             ],
                           ),
                         ) :SizedBox(),
-                        provider.selectSIndex == 3 || provider.selectSIndex == 4 || provider.selectSIndex == 5?
+                        dropdownSets == "Set 4" || dropdownSets == "Set 5" || dropdownSets == "Set 6" ?
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
                           child: Row(
@@ -1157,7 +1563,9 @@ class _AddScoreState extends State<AddScore> {
                                     height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.MainColor,
+                                      border: Border.all(
+                                        color: provider.forthVCheck == true ? MyAppTheme.MainColor : lSetFourth.text.isNotEmpty && wSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                      ),
                                     ),
                                     child: TextField(
                                       textAlign: TextAlign.center,
@@ -1167,7 +1575,38 @@ class _AddScoreState extends State<AddScore> {
                                       controller: wSetFourth,
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        provider.forthTieBreak(wSetFourth.text.toString(), lSetFourth.text.toString());
+                                        print(value);
+                                        if(value == "5"){
+                                          setState(() {
+                                            lSetFourth.text = "7";
+                                            wTBSetFourth.text = "";
+                                            lTBSetFourth.text = "";
+                                          });
+                                        }else if(value == "7"){
+                                          setState(() {
+                                            lSetFourth.text = "5";
+                                            wTBSetFourth.text = "";
+                                            lTBSetFourth.text = "";
+                                          });
+                                        }else if(lSetFourth.text == "7" || lSetFourth.text == "5") {
+                                          setState(() {
+                                            lSetFourth.text = "";
+                                            wTBSetFourth.text = "";
+                                            lTBSetFourth.text = "";
+                                          });
+                                        }else if (value == "8" || value == "9"){
+                                          setState(() {
+                                            wSetFourth.text = "";
+                                            wTBSetFourth.text = "";
+                                            lTBSetFourth.text = "";
+                                          });
+                                        }else {
+                                          setState(() {
+                                            wTBSetFourth.text = "";
+                                            lTBSetFourth.text = "";
+                                          });
+                                        }
+                                        provider.furthValueCheck(wSetFourth.text.toString(), lSetFourth.text.toString());
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -1188,7 +1627,9 @@ class _AddScoreState extends State<AddScore> {
                                     height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.colorinactiveTrackColor,
+                                      border: Border.all(
+                                        color: provider.forthVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetFourth.text.isNotEmpty && wSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                      ),
                                     ),
                                     child: TextField(
                                       textAlign: TextAlign.center,
@@ -1198,7 +1639,38 @@ class _AddScoreState extends State<AddScore> {
                                       controller: lSetFourth,
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        provider.forthTieBreak(wSetFourth.text.toString(), lSetFourth.text.toString());
+                                        print(value);
+                                        if(value == "5"){
+                                          setState(() {
+                                            wSetFourth.text = "7";
+                                            wTBSetFourth.text = "";
+                                            lTBSetFourth.text = "";
+                                          });
+                                        }else if(value == "7"){
+                                          setState(() {
+                                            wSetFourth.text = "5";
+                                            wTBSetFourth.text = "";
+                                            lTBSetFourth.text = "";
+                                          });
+                                        }else if(wSetFourth.text == "7" || wSetFourth.text == "5") {
+                                          setState(() {
+                                            wSetFourth.text = "";
+                                            wTBSetFourth.text = "";
+                                            lTBSetFourth.text = "";
+                                          });
+                                        }else if (value == "8" || value == "9"){
+                                          setState(() {
+                                            lSetFourth.text = "";
+                                            wTBSetFourth.text = "";
+                                            lTBSetFourth.text = "";
+                                          });
+                                        }else {
+                                          setState(() {
+                                            wTBSetFourth.text = "";
+                                            lTBSetFourth.text = "";
+                                          });
+                                        }
+                                        provider.furthValueCheck(wSetFourth.text.toString(), lSetFourth.text.toString());
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -1224,7 +1696,9 @@ class _AddScoreState extends State<AddScore> {
                                         margin: const EdgeInsets.only(right: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.MainColor,
+                                          border: Border.all(
+                                            color: provider.forthTBVCheck == true ? MyAppTheme.MainColor : lTBSetFourth.text.isNotEmpty && wTBSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          ),
                                         ),
                                         child: TextField(
                                           textAlign: TextAlign.center,
@@ -1235,6 +1709,7 @@ class _AddScoreState extends State<AddScore> {
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
 
+                                            provider.furthTieBreakValueCheck(wTBSetFourth.text.toString(), lTBSetFourth.text.toString());
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -1251,7 +1726,9 @@ class _AddScoreState extends State<AddScore> {
                                         margin: const EdgeInsets.only(left: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.colorinactiveTrackColor,
+                                          border: Border.all(
+                                            color: provider.forthTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetFourth.text.isNotEmpty && wTBSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          ),
                                         ),
                                         child: TextField(
                                           textAlign: TextAlign.center,
@@ -1261,7 +1738,7 @@ class _AddScoreState extends State<AddScore> {
                                           controller: lTBSetFourth,
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
-
+                                            provider.furthTieBreakValueCheck(wTBSetFourth.text.toString(), lTBSetFourth.text.toString());
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -1280,7 +1757,7 @@ class _AddScoreState extends State<AddScore> {
                             ],
                           ),
                         ) :SizedBox(),
-                        provider.selectSIndex == 4 || provider.selectSIndex == 5 ?
+                        dropdownSets == "Set 5" || dropdownSets == "Set 6" ?
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
                           child: Row(
@@ -1307,7 +1784,9 @@ class _AddScoreState extends State<AddScore> {
                                     height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.MainColor,
+                                      border: Border.all(
+                                        color: provider.fiveVCheck == true ? MyAppTheme.MainColor : lSetFive.text.isNotEmpty && wSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                      ),
                                     ),
                                     child: TextField(
                                       textAlign: TextAlign.center,
@@ -1317,7 +1796,38 @@ class _AddScoreState extends State<AddScore> {
                                       controller: wSetFive,
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        provider.fiveTieBreak(wSetFive.text.toString(), lSetFive.text.toString());
+                                        print(value);
+                                        if(value == "5"){
+                                          setState(() {
+                                            lSetFive.text = "7";
+                                            wTBSetFive.text = "";
+                                            lTBSetFive.text = "";
+                                          });
+                                        }else if(value == "7"){
+                                          setState(() {
+                                            lSetFive.text = "5";
+                                            wTBSetFive.text = "";
+                                            lTBSetFive.text = "";
+                                          });
+                                        }else if(lSetFive.text == "7" || lSetFive.text == "5") {
+                                          setState(() {
+                                            lSetFive.text = "";
+                                            wTBSetFive.text = "";
+                                            lTBSetFive.text = "";
+                                          });
+                                        }else if (value == "8" || value == "9"){
+                                          setState(() {
+                                            wSetFive.text = "";
+                                            wTBSetFive.text = "";
+                                            lTBSetFive.text = "";
+                                          });
+                                        }else {
+                                          setState(() {
+                                            wTBSetFive.text = "";
+                                            lTBSetFive.text = "";
+                                          });
+                                        }
+                                        provider.fiveValueCheck(wSetFive.text.toString(), lSetFive.text.toString());
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -1338,7 +1848,9 @@ class _AddScoreState extends State<AddScore> {
                                     height: 50,
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.colorinactiveTrackColor,
+                                      border: Border.all(
+                                        color: provider.fiveVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetFive.text.isNotEmpty && wSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                      ),
                                     ),
                                     child: TextField(
                                       textAlign: TextAlign.center,
@@ -1348,7 +1860,38 @@ class _AddScoreState extends State<AddScore> {
                                       controller: lSetFive,
                                       keyboardType: TextInputType.number,
                                       onChanged: (value) {
-                                        provider.fiveTieBreak(wSetFive.text.toString(), lSetFive.text.toString());
+                                        print(value);
+                                        if(value == "5"){
+                                          setState(() {
+                                            wSetFive.text = "7";
+                                            wTBSetFive.text = "";
+                                            lTBSetFive.text = "";
+                                          });
+                                        }else if(value == "7"){
+                                          setState(() {
+                                            wSetFive.text = "5";
+                                            wTBSetFive.text = "";
+                                            lTBSetFive.text = "";
+                                          });
+                                        }else if(wSetFive.text == "7" || wSetFive.text == "5") {
+                                          setState(() {
+                                            wSetFive.text = "";
+                                            wTBSetFive.text = "";
+                                            lTBSetFive.text = "";
+                                          });
+                                        }else if (value == "8" || value == "9"){
+                                          setState(() {
+                                            lSetFive.text = "";
+                                            wTBSetFive.text = "";
+                                            lTBSetFive.text = "";
+                                          });
+                                        }else {
+                                          setState(() {
+                                            wTBSetFive.text = "";
+                                            lTBSetFive.text = "";
+                                          });
+                                        }
+                                        provider.fiveValueCheck(wSetFive.text.toString(), lSetFive.text.toString());
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -1374,7 +1917,9 @@ class _AddScoreState extends State<AddScore> {
                                         margin: const EdgeInsets.only(right: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.MainColor,
+                                          border: Border.all(
+                                            color: provider.fiveTBVCheck == true ? MyAppTheme.MainColor : lTBSetFive.text.isNotEmpty && wTBSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          ),
                                         ),
                                         child: TextField(
                                           textAlign: TextAlign.center,
@@ -1384,7 +1929,7 @@ class _AddScoreState extends State<AddScore> {
                                           controller: wTBSetFive,
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
-
+                                            provider.fiveTieBreakValueCheck(wTBSetFive.text.toString(), lTBSetFive.text.toString());
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -1401,7 +1946,9 @@ class _AddScoreState extends State<AddScore> {
                                         margin: const EdgeInsets.only(left: 10.0),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.colorinactiveTrackColor,
+                                          border: Border.all(
+                                            color: provider.fiveTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetFive.text.isNotEmpty && wTBSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          ),
                                         ),
                                         child: TextField(
                                           textAlign: TextAlign.center,
@@ -1411,157 +1958,7 @@ class _AddScoreState extends State<AddScore> {
                                           controller: lTBSetFive,
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
-
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ) :SizedBox(),
-                              ),
-
-                            ],
-                          ),
-                        ) :SizedBox(),
-                        provider.selectSIndex == 5 ?
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: width* 0.10,
-                                child: const Center(
-                                  child: Text('#6',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 16,
-                                        color: MyAppTheme.black_Color,
-                                        fontFamily: Fonts.nunito,
-                                      )),
-                                ),
-                              ),
-                              SizedBox(
-                                width: width* 0.20,
-                                child:  Center(
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.MainColor,
-                                    ),
-                                    child: TextField(
-                                      textAlign: TextAlign.center,
-                                      inputFormatters: [
-                                        LengthLimitingTextInputFormatter(1),
-                                      ],
-                                      controller: wSetSix,
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (value) {
-                                        provider.sixTieBreak(wSetSix.text.toString(), lSetSix.text.toString());
-                                      },
-                                      style: const TextStyle(
-                                          color: MyAppTheme.black_Color,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: Fonts.nunito,
-                                          fontSize: 14),
-                                      decoration: const InputDecoration(
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: width* 0.20,
-                                child: Center(
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      color: MyAppTheme.colorinactiveTrackColor,
-                                    ),
-                                    child: TextField(
-                                      textAlign: TextAlign.center,
-                                      inputFormatters: [
-                                        LengthLimitingTextInputFormatter(1),
-                                      ],
-                                      controller: lSetSix,
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (value) {
-                                        provider.sixTieBreak(wSetSix.text.toString(), lSetSix.text.toString());
-                                      },
-                                      style: const TextStyle(
-                                          color: MyAppTheme.black_Color,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: Fonts.nunito,
-                                          fontSize: 14),
-                                      decoration: const InputDecoration(
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: width* 0.40,
-                                child: provider.sixTB ==  true ?  Center(
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: 50,
-                                        height: 50,
-                                        margin: const EdgeInsets.only(right: 10.0),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.MainColor,
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(2),
-                                          ],
-                                          controller: wTBSetSix,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 50,
-                                        height: 50,
-                                        margin: const EdgeInsets.only(left: 10.0),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          color: MyAppTheme.colorinactiveTrackColor,
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(2),
-                                          ],
-                                          controller: lTBSetSix,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-
+                                            provider.fiveTieBreakValueCheck(wTBSetFive.text.toString(), lTBSetFive.text.toString());
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -1598,12 +1995,18 @@ class _AddScoreState extends State<AddScore> {
                           elevation: 5.0,
                         ),
                         onPressed: () {
-                          Navigator.pushReplacement(
-                            context,
-                            MaterialPageRoute(builder: (context) => DashBoard(selectedIndex: 0,)),
-                          );
-                          //KeyboardUtil.hideKeyboard(context);
-                         // saveData(context,provider);
+                          setValueSendData();
+                          var json1 = setVlauest.map((e){
+                            return {
+                              "winner" : e.winner,
+                              "loser" : e.loser,
+                              "tie_winner" : e.tie_winner,
+                              "tie_loser" : e.tie_loser
+                            };
+                          }).toList();
+                          print(WinnerUUID+"        "+dropdownMStatus!+"      "+json.encode(json1)+"   "+selectSIndex.toString());
+                          saveData(context,provider.fTB,provider.fTBVCheck,provider.sTB,provider.sTBVCheck,provider.tTB,provider.tTBVCheck,provider.forthTB,provider.forthTBVCheck,provider.fiveTB,provider.fiveTBVCheck,WinnerUUID,dropdownMStatus!,json.encode(json1));
+                          //provider.sendChallengeScore(context,WinnerUUID,dropdownMStatus!,json.toString());
                         },
                         child: const Padding(
                           padding: EdgeInsets.all(10.0),
@@ -1658,70 +2061,269 @@ class _AddScoreState extends State<AddScore> {
       backgroundColor: MyAppTheme.MainColor,
     );
   }
-void saveData1(BuildContext context,ScoreCardProvider provider){
-
-}
-  void saveData(BuildContext context,ScoreCardProvider provider){
-    if(wSetF.text.isNotEmpty && lSetF.text.isNotEmpty){
-      if(provider.fTB == true){
-        if(wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty){
-         if(wSetS.text.isNotEmpty && lSetS.text.isNotEmpty){
-            if(provider.sTB == true){
-              if(wTBSetS.text.isNotEmpty && lTBSetS.text.isNotEmpty){
-                if(wSetT.text.isNotEmpty && lSetT.text.isNotEmpty){
-                  if(provider.tTB == true){
-                    if(wTBSetT.text.isNotEmpty && lTBSetT.text.isNotEmpty){
-                      // call api
-                      print('call set 3 tie-break');
-                    }else {
-                      // dilog box
-                      ScoreInvalideBottomDilog(context);
-                    }
-                  }else {
-                    print('call set 3');
-                    // call api
-                  }
-                }else {
-                  // dilog box
-                  ScoreInvalideBottomDilog(context);
-                }
-                // call api
-              }else {
-                // dilog box
-                ScoreInvalideBottomDilog(context);
-              }
+  void saveData(BuildContext context,bool firstTieBreak,bool firstTBValue,bool secondTieBreak,bool secondTBValue,bool thirdTieBreak,bool thirdTBValue,bool forthTieBreak,bool forthTBValue,bool fiveTieBreak,bool fiveTBValue,String winner_uuid,String status,String score){
+    KeyboardUtil.hideKeyboard(context);
+    if (selectSIndex == 1){
+        if(firstTieBreak == true ){
+          if(wTBSetF.text != '' && lTBSetF.text != ''){
+            if(firstTBValue == true){
+              ScoreBottomDilog(context,winner_uuid,status,score);
+              print('api call true');
             }else {
-              if(wSetT.text.isNotEmpty && lSetT.text.isNotEmpty){
-                if(provider.tTB == true){
-                  if(wTBSetT.text.isNotEmpty && lTBSetT.text.isNotEmpty){
-                    print('call set 3 tie-break');
-                    // call api
-                  }else {
-                    // dilog box
-                    ScoreInvalideBottomDilog(context);
-                  }
-                }else {
-                  print('call set 3');
-                  // call api
-                }
-              }else {
-                // dilog box
-                ScoreInvalideBottomDilog(context);
-              }
+              ScoreInvalideBottomDilog(context);
             }
-         }else {
-           // diloag box
-           ScoreInvalideBottomDilog(context);
-         }
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          if(wSetF.text != '' && lSetF.text != ''){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }
+      }else if (selectSIndex == 2){
+      if(firstTieBreak == true && secondTieBreak == true){
+        if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''){
+          if(firstTBValue == true && secondTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
         }else {
           ScoreInvalideBottomDilog(context);
         }
-      }else {
-        print('call set 1');
-           // call api
+      }else if(firstTieBreak == true && secondTieBreak == false){
+        if(wTBSetF.text != '' && lTBSetF.text != '' && wSetS.text != '' && lSetS.text != ''){
+          if(firstTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      } else if(firstTieBreak == false && secondTieBreak == true){
+        if(wTBSetS.text != '' && lTBSetS.text != '' && wSetF.text != '' && lSetF.text != ''){
+          if(secondTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      } else {
+        if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != ''){
+          ScoreBottomDilog(context,winner_uuid,status,score);
+          print('api call true');
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
       }
-    }else {
-      ScoreInvalideBottomDilog(context);
+    }else if (selectSIndex == 3){
+      if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true){
+        if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != ''){
+          if(firstTBValue == true && secondTBValue == true && thirdTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false){
+        if(wTBSetF.text != '' && lTBSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != ''){
+          if(firstTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == false){
+        if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''&& wSetT.text != '' && lSetT.text != ''){
+          if(firstTBValue == true && secondTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }
+      else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == false){
+        if(wTBSetS.text != '' && lTBSetS.text != '' && wSetF.text != '' && lSetF.text != '' && wSetT.text != '' && lSetT.text != ''){
+          if(secondTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      } else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true){
+        if(wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetF.text != '' && lSetF.text != '' ){
+          if(secondTBValue == true && thirdTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }
+      else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == true){
+        if(wTBSetT.text != '' && lTBSetT.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != ''){
+          if(thirdTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }
+      else {
+        if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != ''){
+          ScoreBottomDilog(context,winner_uuid,status,score);
+          print('api call true');
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }
+    }else if (selectSIndex == 4){
+
+    }else if(selectSIndex == 5){
+      if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true && fiveTieBreak == true){
+        if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wTBSetFive.text != '' && lTBSetFive.text != ''){
+          if(firstTBValue == true && secondTBValue == true && thirdTBValue == true && forthTBValue == true && fiveTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == false && fiveTieBreak == false){
+        if(wTBSetF.text != '' && lTBSetF.text != ''  && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && wSetFive.text != '' && lSetFive.text != ''){
+          if(firstTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == false && forthTieBreak == false && fiveTieBreak == false){
+        if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''  && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && wSetFive.text != '' && lSetFive.text != ''){
+          if(firstTBValue == true && secondTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == false && fiveTieBreak == false){
+        if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && wSetFive.text != '' && lSetFive.text != ''){
+          if(firstTBValue == true && secondTBValue == true && thirdTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true && fiveTieBreak == false){
+        if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != ''){
+          if(firstTBValue == true && secondTBValue == true && thirdTBValue == true && forthTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true && fiveTieBreak == true){
+        if(wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != ''&& wTBSetFive.text != '' && lTBSetFive.text != '' && wSetF.text != '' && lSetF.text != '' ){
+          if(secondTBValue == true && thirdTBValue == true && forthTBValue == true && fiveTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == true && forthTieBreak == true && fiveTieBreak == true){
+        if( wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != ''&& wTBSetFive.text != '' && lTBSetFive.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' ){
+          if(thirdTBValue == true && forthTBValue == true && fiveTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == true && fiveTieBreak == true){
+        if(wTBSetFourth.text != '' && lTBSetFourth.text != ''&& wTBSetFive.text != '' && lTBSetFive.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' ){
+          if(forthTBValue == true && fiveTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == false && fiveTieBreak == true){
+        if(wTBSetFive.text != '' && lTBSetFive.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != ''){
+          if(fiveTBValue == true){
+            ScoreBottomDilog(context,winner_uuid,status,score);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }
+      else {
+        if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && wSetFive.text != '' && lSetFive.text != ''){
+          ScoreBottomDilog(context,winner_uuid,status,score);
+          print('api call true');
+        }else {
+          ScoreInvalideBottomDilog(context);
+        }
+      }
     }
   }
+
+}
+class ScoreCard{  //modal class
+  String? winner, loser, tie_winner,tie_loser;
+  ScoreCard({
+   this.winner,
+    this.loser,
+    this.tie_winner,
+    this.tie_loser
+  });
 }

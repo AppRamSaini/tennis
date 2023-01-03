@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/bottomdilog/my_league_challenge_request.dart';
 import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/locators.dart';
@@ -198,7 +199,7 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                                         Radius.circular(5))),
                                                 child: const Center(
                                                   child: Text(
-                                                    '12/08',
+                                                    '',
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.w600,
                                                       fontSize: 12,
@@ -219,7 +220,7 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                 ),
                                 playerlist[index]['uuid'] == user_uuid ?  SizedBox() : playerlist[index]['can_challenge'] == true && playerlist[index]['challenge'] == null ? InkWell(
                                   onTap: () {
-                                   provider.leaguesPlayerChallenge(context, widget.league_uuid, playerlist[index]['uuid'].toString());
+                                   MyLeagueChallengeRequestBottomDilog(context, widget.league_uuid, playerlist[index]['uuid'].toString(),'${playerlist[index]['name']}');
                                   },
                                   child: Container(
                                     height: 40,
@@ -265,13 +266,7 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                   ),
                                 ) : playerlist[index]['can_challenge'] == false && playerlist[index]['challenge']['challenge_status'] == "accepted" ? InkWell(
                                   onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder:
-                                              (context) =>
-                                              AddScore()),
-                                    );
+                                   provider.addScoreWithData(context, playerlist[index]['challenge']['uuid'].toString(), playerlist[index]['challenge']['challenger']['name'].toString(), playerlist[index]['challenge']['challenger']['uuid'].toString(), playerlist[index]['challenge']['accepter']['name'].toString(), playerlist[index]['challenge']['accepter']['uuid'].toString());
                                   },
                                   child: Container(
                                     height: 40,
@@ -301,7 +296,7 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                     width: 100,
                                     margin: const EdgeInsets.only(right: 5.0),
                                     decoration: const BoxDecoration(
-                                        color: MyAppTheme.DeniedBgColor,
+                                        color: MyAppTheme.PosFourthDColor,
                                         borderRadius: BorderRadius.all(
                                             Radius.circular(5))),
                                     child: const Center(

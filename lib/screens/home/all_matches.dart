@@ -3,6 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/helpers/constants.dart';
+import 'package:tennis/loaders/progress_bar.dart';
+import 'package:tennis/locators.dart';
+import 'package:tennis/providers/allmatchs.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/home/my_result.dart';
 import 'package:tennis/styles/fonts.dart';
@@ -17,6 +20,12 @@ class AllMatches extends StatefulWidget {
 
 class _AllMatchesState extends State<AllMatches> {
   @override
+  void initState() {
+    // TODO: implement initState
+    locator<AllMatchsProvider>().getMyLeaguesList(context);
+    super.initState();
+  }
+  @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: MyAppTheme.MainColor,
@@ -24,12 +33,17 @@ class _AllMatchesState extends State<AllMatches> {
     ));
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
+    bool isLoading = Provider.of<AllMatchsProvider>(context).isLoading;
+    List leagueslist = Provider.of<AllMatchsProvider>(context).leagueslist;
     return Scaffold(
       appBar: buildAppBar(context),
       backgroundColor: MyAppTheme.whiteColor,
-      body: Consumer<ScoreCardProvider>(
+      body: Consumer<AllMatchsProvider>(
         builder: (context, provider, child) {
-          return Container(
+          return (isLoading)
+              ? Progressbar()
+              : leagueslist.isNotEmpty ?
+              Container(
             width: width,
             height: height,
             padding: const EdgeInsets.only(left: 15.0, right: 15.0),
@@ -37,7 +51,7 @@ class _AllMatchesState extends State<AllMatches> {
                 physics: const AlwaysScrollableScrollPhysics(),
                 primary: false,
                 shrinkWrap: true,
-                itemCount: 8,
+                itemCount: leagueslist.length,
                 itemBuilder: (BuildContext context, int index) {
                   return Container(
                     padding: const EdgeInsets.all(10),
@@ -56,9 +70,9 @@ class _AllMatchesState extends State<AllMatches> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                      const Text(
-                      'Under 12',
-                      style: TextStyle(
+                       Text(
+                        '${leagueslist[index]['name']}',
+                      style: const TextStyle(
                         fontWeight: FontWeight.w700,
                         fontSize: 16,
                         color: MyAppTheme.black_Color,
@@ -76,12 +90,12 @@ class _AllMatchesState extends State<AllMatches> {
                                   color: MyAppTheme.LineColor,
                                   shape: BoxShape.circle
                               ),
-                              child: const Center(
+                              child:  Center(
                                 child: Padding(
                                   padding: EdgeInsets.all(8.0),
                                   child: Text(
-                                    '5',
-                                    style: TextStyle(
+                                    '${leagueslist[index]['total_matches']}',
+                                    style: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                       fontSize: 16,
                                       color: MyAppTheme.black_Color,
@@ -108,6 +122,15 @@ class _AllMatchesState extends State<AllMatches> {
                     ),
                   );
                 }),
+          ) : Container(
+            width: width,
+            height: height,
+            child: Center(
+              child: SvgPicture.asset(
+                'assets/icons/empty_image.svg',
+                allowDrawingOutsideViewBox: true,
+              ),
+            ),
           );
         },
       ),

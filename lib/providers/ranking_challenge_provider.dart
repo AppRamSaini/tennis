@@ -1,10 +1,22 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:tennis/helpers/appconfig.dart';
 import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/repository/ranking_challenge.dart';
+import 'package:tennis/screens/score_card/add_score.dart';
+import 'package:tennis/screens/score_card/score_add.dart';
 
 class RankingChallengeProvider extends ChangeNotifier {
+  void addScoreWithData(BuildContext context,String challenge_uuid,String challenger_name,String challenger_uuid,String accepter_name,accepter_uuid){
+     AppConfig.ChallengeUuid = challenge_uuid;
+     AppConfig.ChallengerName = challenger_name;
+     AppConfig.ChallengerUuid = challenger_uuid;
+     AppConfig.AccepterName = accepter_name;
+     AppConfig.AccepterUuid = accepter_uuid;
+     notifyListeners();
+     Navigator.push(context, MaterialPageRoute(builder: (context) => AddScore()));
+  }
   bool _isLoading = false;
   bool get isLoading => _isLoading;
   List playerlist = [];

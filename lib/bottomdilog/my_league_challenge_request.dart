@@ -7,10 +7,11 @@ import 'package:tennis/providers/addplayer_provider.dart';
 import 'package:tennis/providers/login_provider.dart';
 import 'package:tennis/providers/mychallenge_provider.dart';
 import 'package:tennis/providers/myleagues_provider.dart';
+import 'package:tennis/providers/ranking_challenge_provider.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
-MyChallengeRequestBottomDilog(BuildContext buildContext,String leagueName,String challengeUuid,String status){
+MyLeagueChallengeRequestBottomDilog(BuildContext buildContext,String leagues_uuid,String challenge_to,String challenger_name){
   showModalBottomSheet<void>(
     context: buildContext,
     isScrollControlled: true,
@@ -33,7 +34,7 @@ MyChallengeRequestBottomDilog(BuildContext buildContext,String leagueName,String
                 children: <Widget>[
                     Padding(
                       padding:  const EdgeInsets.only(top: 10.0,bottom: 10.0),
-                      child: Text('Are You Sure You Want to $status this $leagueName',
+                      child: Text('Are You Sure You Want to Challenge $challenger_name',
                           style: const TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
@@ -74,7 +75,7 @@ MyChallengeRequestBottomDilog(BuildContext buildContext,String leagueName,String
                         Expanded(child: InkWell(
                           onTap: (){
                             Navigator.pop(context);
-                            locator<MychallengeProvider>().sendPlayerChallengeRequestStatus(buildContext,challengeUuid,status);
+                            locator<RankingChallengeProvider>().leaguesPlayerChallenge(buildContext,leagues_uuid,challenge_to);
                           },
                           child: Container(
                             height: 45,
