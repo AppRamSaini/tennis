@@ -24,9 +24,19 @@ class Helpers {
   }
   static String DateFormatString(DateTime date) {
     try {
-      var formatter = new DateFormat('yyyy-MM-dd');
+      var formatter = new DateFormat('dd-MMM-yyyy');
       String formattedDate = formatter.format(date);
       return '$formattedDate';
+    } catch (e) {
+      return '';
+    }
+  }
+  static String addWinnerLoser(String winner,String loser) {
+    try {
+      int w = int.parse(winner);
+      int l = int.parse(loser);
+      int total = int.parse(winner)+int.parse(loser);
+      return '$total';
     } catch (e) {
       return '';
     }

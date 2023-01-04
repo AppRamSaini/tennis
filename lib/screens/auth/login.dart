@@ -6,9 +6,6 @@ import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/helpers/keyboard.dart';
 import 'package:tennis/providers/login_provider.dart';
-import 'package:tennis/screens/auth/otp.dart';
-import 'package:tennis/screens/auth/registor.dart';
-import 'package:tennis/screens/score_card/winner.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 

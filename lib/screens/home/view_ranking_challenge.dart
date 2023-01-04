@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/bottomdilog/my_league_challenge_request.dart';
 import 'package:tennis/config/sharedpref.dart';
+import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/locators.dart';
 import 'package:tennis/providers/ranking_challenge_provider.dart';
@@ -23,24 +24,6 @@ class ViewRankingChallenge extends StatefulWidget {
 
 class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
   String? user_uuid;
-  List<Map<String, String>> splashData = [
-    {
-      "title": "Olivia White",
-      "status": "Challenge",
-    },
-    {
-      "title": "Olivia White",
-      "status": "Score",
-    },
-    {
-      "title": "Olivia White",
-      "status": "Withdraw",
-    },
-    {
-      "title": "Olivia White",
-      "status": "Self",
-    },
-  ];
   var refreshKey = GlobalKey<RefreshIndicatorState>();
   Future<Null> refreshList() async {
     return null;
@@ -197,10 +180,10 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
                                                     ),
                                                     borderRadius: const BorderRadius.all(
                                                         Radius.circular(5))),
-                                                child: const Center(
+                                                child:  Center(
                                                   child: Text(
-                                                    '',
-                                                    style: TextStyle(
+                                                    '${playerlist[index]['won']}'+" / "+Helpers.addWinnerLoser('${playerlist[index]['won']}','${playerlist[index]['lost']}'),
+                                                    style: const TextStyle(
                                                       fontWeight: FontWeight.w600,
                                                       fontSize: 12,
                                                       color: MyAppTheme.TitleBlackColor,

@@ -9,7 +9,7 @@ import 'package:tennis/locators.dart';
 import 'package:tennis/providers/mychallenge_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/score_card/add_score.dart';
-import 'package:tennis/screens/score_card/winner.dart';
+
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
@@ -21,32 +21,11 @@ class MyChallenges extends StatefulWidget {
 }
 
 class _MyChallengesState extends State<MyChallenges> {
-  List<Map<String, String>> splashData = [
-    {
-      "title": "U-19 Jaipur Open 2022",
-      "oppoent": "John Browne",
-      "status": "Pending",
-      "date": "22-Nov-2022",
-      "address": "Pink city Tennis Court, C-Scheme, Jaipur",
-    },
-    {
-      "title": "U-19 Jaipur Open 2022",
-      "oppoent": "John Browne",
-      "status": "Accepted",
-      "date": "22-Nov-2022",
-      "address": "Pink city Tennis Court, C-Scheme, Jaipur",
-    },
-    {
-      "title": "U-19 Jaipur Open 2022",
-      "oppoent": "John Browne",
-      "status": "Denied",
-      "date": "22-Nov-2022",
-      "address": "Pink city Tennis Court, C-Scheme, Jaipur",
-    },
-  ];
+
   var refreshKey = GlobalKey<RefreshIndicatorState>();
 
   Future<Null> refreshList() async {
+    locator<MychallengeProvider>().challengePlayerList(context);
     return null;
   }
 
@@ -95,14 +74,13 @@ class _MyChallengesState extends State<MyChallenges> {
                                   decoration: const BoxDecoration(
                                       boxShadow: [
                                         BoxShadow(
-                                          color:
-                                              MyAppTheme.listBorderColor, //New
+                                          color: MyAppTheme.listBorderColor, //New
                                           blurRadius: 5.0,
                                         )
                                       ],
                                       color: MyAppTheme.whiteColor,
-                                      borderRadius:
-                                          BorderRadius.all(Radius.circular(5))),
+                                      borderRadius: BorderRadius.all(Radius.circular(5))
+                                  ),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,

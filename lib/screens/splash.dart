@@ -8,7 +8,7 @@ import 'package:tennis/screens/auth/login.dart';
 import 'package:tennis/screens/dashboard/dashboard.dart';
 import 'package:tennis/screens/intro.dart';
 import 'package:tennis/screens/onboarding/onboarding.dart';
-import 'package:tennis/screens/score_card/winner.dart';
+
 import 'package:tennis/styles/my_app_theme.dart';
 
 class Splash extends StatefulWidget {

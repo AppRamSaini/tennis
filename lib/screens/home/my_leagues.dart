@@ -263,10 +263,7 @@ class _MyLeaguesState extends State<MyLeagues> {
                                             itemBuilder: (context) {
                                               return [
                                                 PopupMenuItem(
-                                                    height: leagueslist[
-                                                    index]
-                                                    [
-                                                    'is_admin'] ==
+                                                    height: leagueslist[index]['is_admin'] ==
                                                         true
                                                         ? 30
                                                         : 0,
@@ -373,14 +370,11 @@ class _MyLeaguesState extends State<MyLeagues> {
                                                     value: 3,
                                                     child: InkWell(
                                                       onTap: () {
-                                                        Navigator.pop(
-                                                            context);
-                                                        Navigator.push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder:
+                                                        Navigator.pop(context);
+                                                        Navigator.push(context,
+                                                          MaterialPageRoute(builder:
                                                                   (context) =>
-                                                              const LeaguesDetails()),
+                                                               LeaguesDetails(league_name: '${leagueslist[index]['name']}', league_uuid: leagueslist[index]['uuid'], admin_email: '${leagueslist[index]['admin']['email']}', sets: leagueslist[index]['sets'],)),
                                                         );
                                                       },
                                                       child: Row(

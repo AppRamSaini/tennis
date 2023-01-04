@@ -170,18 +170,16 @@ class _NewsState extends State<News>{
                                   mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     SizedBox(
-                                        height: MediaQuery.of(context).size.height *
-                                            0.22,
+                                        height: MediaQuery.of(context).size.height * 0.22,
                                         width: MediaQuery.of(context).size.width,
                                         child: ClipRRect(
                                           borderRadius: BorderRadius.circular(5.0),
-                                          child: Center(
-                                              child: catNewsList[index]['image'] !=
+                                          child: Center(child: catNewsList[index]['image'] !=
                                                   null
                                                   ? FadeInImage(
                                                 image: NetworkImage(
                                                     catNewsList[index]['image']!),
-                                                fit: BoxFit.cover,
+                                                //fit: BoxFit.cover,
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,

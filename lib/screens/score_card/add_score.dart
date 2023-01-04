@@ -53,6 +53,7 @@ class _AddScoreState extends State<AddScore> {
   String? dropdownValue = AppConfig.AccepterName;
   String? dropdownSets;
   String? dropdownMStatus = 'Played Through';
+  String? matchsStatus = "";
   List setVlauest = [];
   List<Map<String, dynamic>> numOfSets = [];
   void setValueSendData(){
@@ -215,6 +216,22 @@ class _AddScoreState extends State<AddScore> {
       "title": 'Opponent Injured',
     },
   ];
+  void selectMatchsStatus(String value){
+    setState(() {
+      dropdownMStatus = value;
+      if(dropdownMStatus == 'Played Through'){
+        matchsStatus = "played";
+      }else if(dropdownMStatus == 'Court Time Expired'){
+        matchsStatus = "expired";
+      }else if(dropdownMStatus == 'Opponent No Show'){
+        matchsStatus = "absent";
+      }else if(dropdownMStatus == 'Opponent Forfeited'){
+        matchsStatus = "forfeited";
+      }else if(dropdownMStatus == 'Opponent Injured'){
+        matchsStatus = "injured";
+      }
+    });
+  }
   @override
   void initState() {
     // TODO: implement initState
@@ -247,6 +264,7 @@ class _AddScoreState extends State<AddScore> {
         wTBSetFive.text = "";
         lTBSetFive.text = "";
         selectSIndex = 1;
+        AppConfig.Sets = 1;
       }else if(dropdownSets == 'Set 2'){
         wSetT.text = "";
         lSetT.text = "";
@@ -261,6 +279,7 @@ class _AddScoreState extends State<AddScore> {
         wTBSetFive.text = "";
         lTBSetFive.text = "";
         selectSIndex = 2;
+        AppConfig.Sets = 2;
       }else if(dropdownSets == 'Set 3'){
         wSetFourth.text = "";
         lSetFourth.text = "";
@@ -271,14 +290,17 @@ class _AddScoreState extends State<AddScore> {
         wTBSetFive.text = "";
         lTBSetFive.text = "";
         selectSIndex = 3;
+        AppConfig.Sets = 3;
       }else if(dropdownSets == 'Set 4'){
         wSetFive.text = "";
         lSetFive.text = "";
         wTBSetFive.text = "";
         lTBSetFive.text = "";
         selectSIndex = 4;
+        AppConfig.Sets = 4;
       }else if(dropdownSets == 'Set 5'){
         selectSIndex = 5;
+        AppConfig.Sets = 5;
       }
     });
   }
@@ -304,75 +326,6 @@ class _AddScoreState extends State<AddScore> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                /*  const Text(challengerName,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: MyAppTheme.TitleTextColor,
-                        fontFamily: Fonts.nunito,
-                      )),
-                  Container(
-                    width: width,
-                    height: 50,
-                    margin: const EdgeInsets.only(top: 5.0),
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.only(left: 15.0),
-                    decoration:   BoxDecoration(
-                      color: MyAppTheme.listBGColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(5)),
-                      border: Border.all(
-                        width: 1,
-                        color: MyAppTheme.listBorderColor,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                    child: const Text(
-                      'Ram',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: MyAppTheme.black_Color,
-                        fontFamily: Fonts.nunito,
-                      ),
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 10.0),
-                    child: Text(opponent,
-                        style: TextStyle(
-                          fontWeight: FontWeight.w400,
-                          fontSize: 16,
-                          color: MyAppTheme.TitleTextColor,
-                          fontFamily: Fonts.nunito,
-                        )),
-                  ),
-                  Container(
-                    width: width,
-                    height: 50,
-                    margin: const EdgeInsets.only(top: 5.0),
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.only(left: 15.0),
-                    decoration:   BoxDecoration(
-                      color: MyAppTheme.listBGColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(5)),
-                      border: Border.all(
-                        width: 1,
-                        color: MyAppTheme.listBorderColor,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                    child: const Text(
-                      'Raju',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.w400,
-                        fontSize: 16,
-                        color: MyAppTheme.black_Color,
-                        fontFamily: Fonts.nunito,
-                      ),
-                    ),
-                  ),*/
                   const Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: Text(winner,
@@ -429,55 +382,6 @@ class _AddScoreState extends State<AddScore> {
                       },
                     ),
                   )),
-                  /*Container(
-                    width: width,
-                    height: 50,
-                    margin: const EdgeInsets.only(top: 5.0),
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.only(left: 15.0,right: 15.0),
-                    decoration:   BoxDecoration(
-                      color: MyAppTheme.listBGColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(5)),
-                      border: Border.all(
-                        width: 1,
-                        color: MyAppTheme.listBorderColor,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                    child: InkWell(
-                      onTap: (){
-                       *//* Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Winner(cWinner: 'edit',)),
-                        );*//*
-                      },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children:  [
-                          Text(
-                            provider.winnerName,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: MyAppTheme.black_Color,
-                              fontFamily: Fonts.nunito,
-                            ),
-                          ),
-                         *//* SvgPicture.asset(
-                            'assets/icons/forword_arrow.svg',
-                            allowDrawingOutsideViewBox: true,
-                            height: 15,
-                            width: 15,
-                            color: MyAppTheme.listBorderColor,
-                          )*//*
-                        ],
-                      ),
-                    )
-
-                    ,
-                  ),*/
                   const Padding(
                     padding: EdgeInsets.only(top: 10.0),
                     child: Text(numberOfSets,
@@ -488,55 +392,6 @@ class _AddScoreState extends State<AddScore> {
                           fontFamily: Fonts.nunito,
                         )),
                   ),
-                 /* Container(
-                    width: width,
-                    height: 50,
-                    margin: const EdgeInsets.only(top: 5.0),
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.only(left: 15.0,right: 15.0),
-                    decoration:   BoxDecoration(
-                      color: MyAppTheme.listBGColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(5)),
-                      border: Border.all(
-                        width: 1,
-                        color: MyAppTheme.listBorderColor,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                    child: InkWell(
-                      onTap: (){
-                       *//* Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Sets(cSet: 'edit',)),
-                        );*//*
-                      },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children:  [
-                          Text(
-                            provider.numberOfSet,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: MyAppTheme.black_Color,
-                              fontFamily: Fonts.nunito,
-                            ),
-                          ),
-                          *//*SvgPicture.asset(
-                            'assets/icons/forword_arrow.svg',
-                            allowDrawingOutsideViewBox: true,
-                            height: 15,
-                            width: 15,
-                            color: MyAppTheme.listBorderColor,
-                          )*//*
-                        ],
-                      ),
-                    )
-
-                    ,
-                  ),*/
                   Container(
                       width: width,
                       height: 50,
@@ -587,55 +442,6 @@ class _AddScoreState extends State<AddScore> {
                           fontFamily: Fonts.nunito,
                         )),
                   ),
-               /*   Container(
-                    width: width,
-                    height: 50,
-                    margin: const EdgeInsets.only(top: 5.0),
-                    alignment: Alignment.centerLeft,
-                    padding: const EdgeInsets.only(left: 15.0,right: 15.0),
-                    decoration:   BoxDecoration(
-                      color: MyAppTheme.listBGColor,
-                      borderRadius: const BorderRadius.all(Radius.circular(5)),
-                      border: Border.all(
-                        width: 1,
-                        color: MyAppTheme.listBorderColor,
-                        style: BorderStyle.solid,
-                      ),
-                    ),
-                    child: InkWell(
-                      onTap: (){
-                      *//*  Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MatchStatus(cmStatus: 'edit',)),
-                        );*//*
-                      },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children:  [
-                          Text(
-                            provider.matchStatus,
-                            textAlign: TextAlign.center,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w400,
-                              fontSize: 16,
-                              color: MyAppTheme.black_Color,
-                              fontFamily: Fonts.nunito,
-                            ),
-                          ),
-                        *//*  SvgPicture.asset(
-                            'assets/icons/forword_arrow.svg',
-                            allowDrawingOutsideViewBox: true,
-                            height: 15,
-                            width: 15,
-                            color: MyAppTheme.listBorderColor,
-                          )*//*
-                        ],
-                      ),
-                    )
-
-                    ,
-                  ),*/
                   Container(
                       width: width,
                       height: 50,
@@ -671,9 +477,7 @@ class _AddScoreState extends State<AddScore> {
                             );
                           }).toList(),
                           onChanged: (String? newValue) {
-                            setState(() {
-                              dropdownMStatus = newValue;
-                            });
+                            selectMatchsStatus(newValue!);
                           },
                         ),
                       )),
@@ -759,119 +563,6 @@ class _AddScoreState extends State<AddScore> {
                                       )),
                                 ),
                               ),
-                              /*Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: MyAppTheme.MainColor,
-                                  ),
-                                  child: TextField(
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(1),
-                                    ],
-                                    controller: wSetF,
-                                    keyboardType: TextInputType.number,
-                                    onChanged: (value) {
-
-                                    },
-                                    style: const TextStyle(
-                                        color: MyAppTheme.black_Color,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: Fonts.nunito,
-                                        fontSize: 14),
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none),
-                                  ),
-                                ),
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  margin: EdgeInsets.only(top: 5.0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: MyAppTheme.MainColor,
-                                  ),
-                                  child: TextField(
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(1),
-                                    ],
-                                    controller: wSetF,
-                                    keyboardType: TextInputType.number,
-                                    onChanged: (value) {
-
-                                    },
-                                    style: const TextStyle(
-                                        color: MyAppTheme.black_Color,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: Fonts.nunito,
-                                        fontSize: 14),
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none),
-                                  ),
-                                ),
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  margin: EdgeInsets.only(top: 5.0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: MyAppTheme.colorinactiveTrackColor,
-                                  ),
-                                  child: TextField(
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(1),
-                                    ],
-                                    controller: wSetF,
-                                    keyboardType: TextInputType.number,
-                                    onChanged: (value) {
-
-                                    },
-                                    style: const TextStyle(
-                                        color: MyAppTheme.black_Color,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: Fonts.nunito,
-                                        fontSize: 14),
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none),
-                                  ),
-                                ),
-                                Container(
-                                  width: 50,
-                                  height: 50,
-                                  margin: EdgeInsets.only(top: 5.0),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    color: MyAppTheme.colorinactiveTrackColor,
-                                  ),
-                                  child: TextField(
-                                    textAlign: TextAlign.center,
-                                    inputFormatters: [
-                                      LengthLimitingTextInputFormatter(1),
-                                    ],
-                                    controller: wSetF,
-                                    keyboardType: TextInputType.number,
-                                    onChanged: (value) {
-
-                                    },
-                                    style: const TextStyle(
-                                        color: MyAppTheme.black_Color,
-                                        fontWeight: FontWeight.w500,
-                                        fontFamily: Fonts.nunito,
-                                        fontSize: 14),
-                                    decoration: const InputDecoration(
-                                        border: InputBorder.none),
-                                  ),
-                                )
-                              ],
-                            )*/
                             ],
                           ),
                         ),
@@ -945,6 +636,7 @@ class _AddScoreState extends State<AddScore> {
                                           });
                                         }
                                         provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                        print("winner count ${provider.wcount} loser count ${provider.lcount}");
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -1009,6 +701,7 @@ class _AddScoreState extends State<AddScore> {
                                           });
                                         }
                                         provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                        print("winner count ${provider.wcount} loser count ${provider.lcount}");
                                       },
                                       style: const TextStyle(
                                           color: MyAppTheme.black_Color,
@@ -1047,6 +740,7 @@ class _AddScoreState extends State<AddScore> {
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
                                             provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                            print("winner count ${provider.wcount} loser count ${provider.lcount}");
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -1076,6 +770,7 @@ class _AddScoreState extends State<AddScore> {
                                           keyboardType: TextInputType.number,
                                           onChanged: (value) {
                                             provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                            print("winner count ${provider.wcount} loser count ${provider.lcount}");
                                           },
                                           style: const TextStyle(
                                               color: MyAppTheme.black_Color,
@@ -1315,6 +1010,7 @@ class _AddScoreState extends State<AddScore> {
                             ],
                           ),
                         ) :SizedBox(),
+
                          dropdownSets == "Set 3" || dropdownSets == "Set 4"
                              || dropdownSets == "Set 5" || dropdownSets == "Set 6" ?
                         Padding(
@@ -1757,6 +1453,7 @@ class _AddScoreState extends State<AddScore> {
                             ],
                           ),
                         ) :SizedBox(),
+
                         dropdownSets == "Set 5" || dropdownSets == "Set 6" ?
                         Padding(
                           padding: const EdgeInsets.only(top: 10.0),
@@ -2004,8 +1701,8 @@ class _AddScoreState extends State<AddScore> {
                               "tie_loser" : e.tie_loser
                             };
                           }).toList();
-                          print(WinnerUUID+"        "+dropdownMStatus!+"      "+json.encode(json1)+"   "+selectSIndex.toString());
-                          saveData(context,provider.fTB,provider.fTBVCheck,provider.sTB,provider.sTBVCheck,provider.tTB,provider.tTBVCheck,provider.forthTB,provider.forthTBVCheck,provider.fiveTB,provider.fiveTBVCheck,WinnerUUID,dropdownMStatus!,json.encode(json1));
+                          print("$WinnerUUID        ${matchsStatus!}      ${json.encode(json1)}   $selectSIndex");
+                          saveData(context,provider.fTB,provider.fTBVCheck,provider.sTB,provider.sTBVCheck,provider.tTB,provider.tTBVCheck,provider.forthTB,provider.forthTBVCheck,provider.fiveTB,provider.fiveTBVCheck,WinnerUUID,matchsStatus!,json.encode(json1));
                           //provider.sendChallengeScore(context,WinnerUUID,dropdownMStatus!,json.toString());
                         },
                         child: const Padding(

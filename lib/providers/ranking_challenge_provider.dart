@@ -5,7 +5,7 @@ import 'package:tennis/helpers/appconfig.dart';
 import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/repository/ranking_challenge.dart';
 import 'package:tennis/screens/score_card/add_score.dart';
-import 'package:tennis/screens/score_card/score_add.dart';
+
 
 class RankingChallengeProvider extends ChangeNotifier {
   void addScoreWithData(BuildContext context,String challenge_uuid,String challenger_name,String challenger_uuid,String accepter_name,accepter_uuid){

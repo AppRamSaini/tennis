@@ -80,7 +80,12 @@ class _HomeState extends State<Home> {
                 bannerList = json.decode(response.body)['data'];
                 _isLoading = false;
               });
-            } else if (json.decode(response.body)['status'] == 300) {
+            } else if (json.decode(response.body)['status'] == false) {
+              setState(() {
+                bannerList.clear();
+                bannerList = json.decode(response.body)['data'];
+                _isLoading = false;
+              });
               Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
             } else {
               Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
@@ -150,7 +155,7 @@ class _HomeState extends State<Home> {
                                   child: Center(
                                       child: FadeInImage(
                                         image: NetworkImage(bannerList[index]['banner']!),
-                                        fit: BoxFit.cover,
+                                        //fit: BoxFit.cover,
                                         width: MediaQuery.of(context).size.width,
                                         height: MediaQuery.of(context).size.height * 0.22,
                                         placeholder: const AssetImage("assets/images/t_ball.png"),

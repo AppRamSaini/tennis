@@ -5,8 +5,9 @@ import 'package:provider/provider.dart';
 import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/locators.dart';
-import 'package:tennis/providers/allmatchs.dart';
+import 'package:tennis/providers/allmatchs_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
+import 'package:tennis/screens/home/league_wish_result.dart';
 import 'package:tennis/screens/home/my_result.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
@@ -22,7 +23,7 @@ class _AllMatchesState extends State<AllMatches> {
   @override
   void initState() {
     // TODO: implement initState
-    locator<AllMatchsProvider>().getMyLeaguesList(context);
+    locator<AllMatchsProvider>().getAllMatchList(context);
     super.initState();
   }
   @override
@@ -66,60 +67,70 @@ class _AllMatchesState extends State<AllMatches> {
                         color: MyAppTheme.whiteColor,
                         borderRadius: BorderRadius.all(Radius.circular(5))
                     ),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                       Text(
-                        '${leagueslist[index]['name']}',
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 16,
-                        color: MyAppTheme.black_Color,
-                        fontFamily: Fonts.nunito,
-                      ),
-                    ),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 35,
-                              width: 35,
-                              decoration: const BoxDecoration(
-                                  color: MyAppTheme.LineColor,
-                                  shape: BoxShape.circle
-                              ),
-                              child:  Center(
-                                child: Padding(
-                                  padding: EdgeInsets.all(8.0),
-                                  child: Text(
-                                    '${leagueslist[index]['total_matches']}',
-                                    style: const TextStyle(
-                                      fontWeight: FontWeight.w700,
-                                      fontSize: 16,
-                                      color: MyAppTheme.black_Color,
-                                      fontFamily: Fonts.nunito,
+                    child: InkWell(
+                      onTap: (){
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => LeagueWishResult(league_name: '${leagueslist[index]['name']}', league_uuid: '${leagueslist[index]['uuid']}')),
+                        ); 
+                      },
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            '${leagueslist[index]['name']}',
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16,
+                              color: MyAppTheme.black_Color,
+                              fontFamily: Fonts.nunito,
+                            ),
+                          ),
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                height: 35,
+                                width: 35,
+                                decoration: const BoxDecoration(
+                                    color: MyAppTheme.LineColor,
+                                    shape: BoxShape.circle
+                                ),
+                                child:  Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8.0),
+                                    child: Text(
+                                      '${leagueslist[index]['total_matches']}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w700,
+                                        fontSize: 16,
+                                        color: MyAppTheme.black_Color,
+                                        fontFamily: Fonts.nunito,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                              child: SvgPicture.asset(
-                                'assets/icons/forword_arrow.svg',
-                                allowDrawingOutsideViewBox: true,
-                                height: 15,
-                                width: 15,
-                                color: MyAppTheme.DesBlackColor,
-                              ),
-                            )
-                          ],
-                        ),
+                              Padding(
+                                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                                child: SvgPicture.asset(
+                                  'assets/icons/forword_arrow.svg',
+                                  allowDrawingOutsideViewBox: true,
+                                  height: 15,
+                                  width: 15,
+                                  color: MyAppTheme.DesBlackColor,
+                                ),
+                              )
+                            ],
+                          ),
 
-                      ],
-                    ),
+                        ],
+                      ),
+                    )
+                    ,
                   );
                 }),
           ) : Container(

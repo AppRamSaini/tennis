@@ -1,6 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:tennis/providers/addplayer_provider.dart';
-import 'package:tennis/providers/allmatchs.dart';
+import 'package:tennis/providers/allmatchs_provider.dart';
 import 'package:tennis/providers/createleagues_provider.dart';
 import 'package:tennis/providers/editprofile_provider.dart';
 import 'package:tennis/providers/home_provider.dart';
