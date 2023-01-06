@@ -201,7 +201,7 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
                           Container(
                             padding: const EdgeInsets.only(top: 5.0),
                             width: width,
-                            height: allMResultlist[index]['score']['score'].length == 1 || allMResultlist[index]['score']['score'].length == 2 || allMResultlist[index]['score']['score'].length == 3 ? 50 : 100,
+                            height: allMResultlist[index]['score']['score'].length == 0 || allMResultlist[index]['score']['score'].length == 1 || allMResultlist[index]['score']['score'].length == 2 || allMResultlist[index]['score']['score'].length == 3 ? 50 : 100,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -218,6 +218,15 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
                                     ),
                                   ),
                                 ),
+                                allMResultlist[index]['score']['score'].length == 0 ? Text(
+                                  Helpers.showMatchStatus('${allMResultlist[index]['score']['status']}'),
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    color: MyAppTheme.TitleBlackColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
+                                ):
                                 Expanded(child: GridView.builder(
                                   gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
                                     crossAxisCount: 3,

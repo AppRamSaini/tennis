@@ -4,6 +4,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/helpers/constants.dart';
+import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/locators.dart';
 import 'package:tennis/providers/myresult_provider.dart';
@@ -166,7 +167,7 @@ class _MyResultState extends State<MyResult> {
                           Container(
                             padding: const EdgeInsets.only(top: 5.0),
                             width: width,
-                            height: resultlist[index]['score']['score'].length == 1 || resultlist[index]['score']['score'].length == 2 || resultlist[index]['score']['score'].length == 3 ? 50 : 100,
+                            height: resultlist[index]['score']['score'].length == 0 || resultlist[index]['score']['score'].length == 1 || resultlist[index]['score']['score'].length == 2 || resultlist[index]['score']['score'].length == 3 ? 50 : 100,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -183,6 +184,15 @@ class _MyResultState extends State<MyResult> {
                                     ),
                                   ),
                                 ),
+                                resultlist[index]['score']['score'].length == 0 ? Text( Helpers.showMatchStatus('${resultlist[index]['score']['status']}')
+                                  ,
+                                  style: const TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    color: MyAppTheme.TitleBlackColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
+                                ):
                                 Expanded(child: GridView.builder(
                                   gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 3,

@@ -6,7 +6,7 @@ import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
-ScoreBottomDilog(BuildContext buildContext,String winner_uuid,String status,String score){
+ScoreBottomDilog(BuildContext buildContext,String winnerUuid,String status,String score,String scoreStatus,String winnerName){
   showModalBottomSheet<void>(
     context: buildContext,
     isScrollControlled: true,
@@ -32,9 +32,15 @@ ScoreBottomDilog(BuildContext buildContext,String winner_uuid,String status,Stri
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       const SizedBox(),
-                      const Padding(
-                          padding:  EdgeInsets.only(left: 0.0),
-                          child: Text('Score Card',textAlign: TextAlign.center,
+                       Padding(
+                          padding:  const EdgeInsets.only(left: 0.0),
+                          child: scoreStatus == "valid" ? const Text('Congratulations!',textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 18,
+                                color: MyAppTheme.black_Color,
+                                fontFamily: Fonts.nunito,
+                              )): const Text('Error!',textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 18,
@@ -57,9 +63,15 @@ ScoreBottomDilog(BuildContext buildContext,String winner_uuid,String status,Stri
 
                     ],
                   ),
-                  const Padding(
-                      padding:  EdgeInsets.only(top: 10.0,bottom: 10.0),
-                      child: Text('Add Score Data  is Valid. Please Send',
+                   Padding(
+                      padding:  const EdgeInsets.only(top: 10.0,bottom: 10.0),
+                      child: scoreStatus == "valid" ?  Text('Score is valid. Please confirm that winner is $winnerName',
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w400,
+                            fontSize: 14,
+                            color: MyAppTheme.black_Color,
+                            fontFamily: Fonts.nunito,
+                          )): const Text('Entered score data is invalid. Please make sure winner has won more sets then loser.',
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
@@ -79,13 +91,13 @@ ScoreBottomDilog(BuildContext buildContext,String winner_uuid,String status,Stri
                           child: Container(
                             height: 45,
                             margin:  const EdgeInsets.only(right: 10.0),
-                            decoration:  const BoxDecoration(
-                                color: MyAppTheme.CategoryBGSelectColor,
-                                borderRadius: BorderRadius.all(Radius.circular(5))
+                            decoration:   BoxDecoration(
+                                color: scoreStatus == "valid" ?MyAppTheme.PosSMColor : MyAppTheme.CategoryBGSelectColor,
+                                borderRadius: const BorderRadius.all(Radius.circular(5))
                             ),
                             child:  const Center(
                               child: Text(
-                                'No',
+                                'Edit',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
@@ -99,24 +111,26 @@ ScoreBottomDilog(BuildContext buildContext,String winner_uuid,String status,Stri
                         )),
                         Expanded(child: InkWell(
                           onTap: (){
-                            Navigator.pop(context);
-                            locator<ScoreCardProvider>().sendChallengeScore(buildContext,winner_uuid,status,score);
+                            if(scoreStatus == "valid"){
+                              Navigator.pop(context);
+                              locator<ScoreCardProvider>().sendChallengeScore(buildContext,winnerUuid,status,score);
+                            }
                           },
                           child: Container(
                             height: 45,
                             margin:  const EdgeInsets.only(left: 10.0),
-                            decoration:  const BoxDecoration(
-                                color: MyAppTheme.EditBgColor,
-                                borderRadius: BorderRadius.all(Radius.circular(5))
+                            decoration:   BoxDecoration(
+                                color: scoreStatus == "valid" ? MyAppTheme.MainColor : MyAppTheme.PosFMColor,
+                                borderRadius: const BorderRadius.all(Radius.circular(5))
                             ),
                             child:  const Center(
                               child: Text(
-                                'Yes',
+                                'Confirm',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontWeight: FontWeight.w700,
                                   fontSize: 12,
-                                  color: MyAppTheme.black_Color,
+                                  color: MyAppTheme.whiteColor,
                                   fontFamily: Fonts.nunito,
                                 ),
                               ),

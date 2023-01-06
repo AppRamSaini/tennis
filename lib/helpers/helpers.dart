@@ -130,6 +130,21 @@ class Helpers {
     }
     return converted;
   }
+  static String showMatchStatus(String value){
+    if(value == "played"){
+      return 'Played Through';
+    }else if (value == "expired"){
+      return 'Court Time Expired';
+    }else if (value == "absent"){
+      return 'Opponent No Show';
+    }else if (value == "forfeited"){
+      return 'Opponent Forfeited';
+    }else if (value == "injured"){
+      return 'Opponent Injured';
+    }else {
+      return 'Today';
+    }
+  }
   static String TrackinTime(String time){
     var now = DateTime.now();
     var formatterDate = DateFormat('MMM dd');

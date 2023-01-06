@@ -101,6 +101,7 @@ class _NewsState extends State<News>{
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
+                    newsCateAllList.isNotEmpty ?
                     Container(
                       height: 40,
                       width: width,
@@ -143,13 +144,14 @@ class _NewsState extends State<News>{
                               ),
                             );
                           }),
-                    ),
+                    ) :const SizedBox(),
                     const SizedBox(height: 10,),
                     (isNewsLoading)
                         ? const Expanded(child: Center(
                       child:  CircularProgressIndicator(valueColor:AlwaysStoppedAnimation<Color>(MyAppTheme.errorMessageTextColor)),
                     ))
-                        : Expanded(
+                        : catNewsList.isNotEmpty ?
+                    Expanded(
                       child: ListView.builder(
                           physics: const AlwaysScrollableScrollPhysics(),
                           primary: false,
@@ -179,7 +181,7 @@ class _NewsState extends State<News>{
                                                   ? FadeInImage(
                                                 image: NetworkImage(
                                                     catNewsList[index]['image']!),
-                                                //fit: BoxFit.cover,
+                                                 fit: BoxFit.fill,
                                                 width: MediaQuery.of(context)
                                                     .size
                                                     .width,
@@ -307,6 +309,11 @@ class _NewsState extends State<News>{
                             )
                             ;
                           }),
+                    ) : Center(
+                      child: SvgPicture.asset(
+                        'assets/icons/empty_image.svg',
+                        allowDrawingOutsideViewBox: true,
+                      ),
                     ),
                   ],
                 )
