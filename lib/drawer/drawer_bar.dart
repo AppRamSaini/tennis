@@ -112,162 +112,159 @@ class _DrawerBarState extends State<DrawerBar> {
                 ],
               )
             ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Container(
-                  height: 45,
-                  alignment: Alignment.center,
-                  child: ListTile(
-                    title: const Text(myAcademy,textAlign: TextAlign.left,style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: MyAppTheme.DesBlackColor,
-                      fontFamily: Fonts.nunito,
-                    ),),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MyLeagues()),
-                      );
-                    },
-                    trailing: SvgPicture.asset(
-                      'assets/icons/forword_arrow.svg',
-                      allowDrawingOutsideViewBox: true,
-                      height: 15,
-                      width: 15,
-                      color: MyAppTheme.iconsBGColor,
-                    ),
-                  ),
+            Container(
+              height: 45,
+              alignment: Alignment.center,
+              child: ListTile(
+                title: const Text(myAcademy,textAlign: TextAlign.left,style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: MyAppTheme.DesBlackColor,
+                  fontFamily: Fonts.nunito,
+                ),),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyLeagues()),
+                  );
+                },
+                trailing: SvgPicture.asset(
+                  'assets/icons/forword_arrow.svg',
+                  allowDrawingOutsideViewBox: true,
+                  height: 15,
+                  width: 15,
+                  color: MyAppTheme.iconsBGColor,
                 ),
-                Container(
-                  height: 45,
-                  alignment: Alignment.center,
-                  child: ListTile(
-                    title: const Text(myChallenge,textAlign: TextAlign.left,style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: MyAppTheme.DesBlackColor,
-                      fontFamily: Fonts.nunito,
-                    ),),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => MyChallenges()),
-                      );
-                    },
-                    trailing: SvgPicture.asset(
-                      'assets/icons/forword_arrow.svg',
-                      allowDrawingOutsideViewBox: true,
-                      height: 15,
-                      width: 15,
-                      color: MyAppTheme.iconsBGColor,
-                    ),
-                  ),
+              ),
+            ),
+            Container(
+              height: 45,
+              alignment: Alignment.center,
+              child: ListTile(
+                title: const Text(myChallenge,textAlign: TextAlign.left,style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: MyAppTheme.DesBlackColor,
+                  fontFamily: Fonts.nunito,
+                ),),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => MyChallenges()),
+                  );
+                },
+                trailing: SvgPicture.asset(
+                  'assets/icons/forword_arrow.svg',
+                  allowDrawingOutsideViewBox: true,
+                  height: 15,
+                  width: 15,
+                  color: MyAppTheme.iconsBGColor,
                 ),
-                Container(
-                  height: 45,
-                  alignment: Alignment.center,
-                  child: ListTile(
-                    title: const Text(myResult,textAlign: TextAlign.left,style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: MyAppTheme.DesBlackColor,
-                      fontFamily: Fonts.nunito,
-                    ),),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => MyResult()),
-                      );
-                    },
-                    trailing: SvgPicture.asset(
-                      'assets/icons/forword_arrow.svg',
-                      allowDrawingOutsideViewBox: true,
-                      height: 15,
-                      width: 15,
-                      color: MyAppTheme.iconsBGColor,
-                    ),
-                  ),
+              ),
+            ),
+            Container(
+              height: 45,
+              alignment: Alignment.center,
+              child: ListTile(
+                title: const Text(myResult,textAlign: TextAlign.left,style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: MyAppTheme.DesBlackColor,
+                  fontFamily: Fonts.nunito,
+                ),),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MyResult()),
+                  );
+                },
+                trailing: SvgPicture.asset(
+                  'assets/icons/forword_arrow.svg',
+                  allowDrawingOutsideViewBox: true,
+                  height: 15,
+                  width: 15,
+                  color: MyAppTheme.iconsBGColor,
                 ),
-                Container(
-                  height: 45,
-                  alignment: Alignment.center,
-                  child: ListTile(
-                    title: const Text(allMatch,textAlign: TextAlign.left,style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: MyAppTheme.DesBlackColor,
-                      fontFamily: Fonts.nunito,
-                    ),),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => AllMatches()),
-                      );
-                    },
-                    trailing: SvgPicture.asset(
-                      'assets/icons/forword_arrow.svg',
-                      allowDrawingOutsideViewBox: true,
-                      height: 15,
-                      width: 15,
-                      color: MyAppTheme.iconsBGColor,
-                    ),
-                  ),
+              ),
+            ),
+            Container(
+              height: 45,
+              alignment: Alignment.center,
+              child: ListTile(
+                title: const Text(allMatch,textAlign: TextAlign.left,style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: MyAppTheme.DesBlackColor,
+                  fontFamily: Fonts.nunito,
+                ),),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => AllMatches()),
+                  );
+                },
+                trailing: SvgPicture.asset(
+                  'assets/icons/forword_arrow.svg',
+                  allowDrawingOutsideViewBox: true,
+                  height: 15,
+                  width: 15,
+                  color: MyAppTheme.iconsBGColor,
                 ),
-                Container(
-                  height: 45,
-                  alignment: Alignment.center,
-                  child: ListTile(
-                    title: const Text(upcomingTournament,textAlign: TextAlign.left,style: TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 16,
-                      color: MyAppTheme.DesBlackColor,
-                      fontFamily: Fonts.nunito,
-                    ),),
-                    onTap: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => UpcomingTournament()),
-                      );
-                    },
-                    trailing: SvgPicture.asset(
-                      'assets/icons/forword_arrow.svg',
-                      allowDrawingOutsideViewBox: true,
-                      height: 15,
-                      width: 15,
-                      color: MyAppTheme.iconsBGColor,
-                    ),
-                  ),
+              ),
+            ),
+            Container(
+              height: 45,
+              alignment: Alignment.center,
+              child: ListTile(
+                title: const Text(upcomingTournament,textAlign: TextAlign.left,style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: MyAppTheme.DesBlackColor,
+                  fontFamily: Fonts.nunito,
+                ),),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => UpcomingTournament()),
+                  );
+                },
+                trailing: SvgPicture.asset(
+                  'assets/icons/forword_arrow.svg',
+                  allowDrawingOutsideViewBox: true,
+                  height: 15,
+                  width: 15,
+                  color: MyAppTheme.iconsBGColor,
                 ),
-                Container(
-                  height : MediaQuery.of(context).size.height * 0.30,
-                  alignment: Alignment.bottomLeft,
-                  child: ListTile(
-                    title: const Text(logout,textAlign: TextAlign.left,style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 14,
-                      color: MyAppTheme.AcceptBgColor,
-                      fontFamily: Fonts.nunito,
-                    ),),
-                    onTap: () {
-                      Navigator.pop(context);
-                      LogoutBottomDilog(context);
-                    },
-                  ),
-                )
-                ,
-              ],
+              ),
+            ),
+            Expanded(child: Align(
+              alignment: FractionalOffset.bottomCenter,
+              child: Container(
+                height : 45,
+                alignment: Alignment.bottomLeft,
+                child: ListTile(
+                  title: const Text(logout,textAlign: TextAlign.left,style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    color: MyAppTheme.AcceptBgColor,
+                    fontFamily: Fonts.nunito,
+                  ),),
+                  onTap: () {
+                    Navigator.pop(context);
+                    LogoutBottomDilog(context);
+                  },
+                ),
+              ),
             )
+            ),
 
           ],
         ),

@@ -26,6 +26,7 @@ class _ViewRankingChallengeState extends State<ViewRankingChallenge> {
   String? user_uuid;
   var refreshKey = GlobalKey<RefreshIndicatorState>();
   Future<Null> refreshList() async {
+    locator<RankingChallengeProvider>().leaguesPlayerList(context,widget.league_uuid);
     return null;
   }
   @override
