@@ -166,11 +166,11 @@ class _HomeState extends State<Home> {
                                           fit: BoxFit.fill,
                                           width: MediaQuery.of(context).size.width,
                                           height: MediaQuery.of(context).size.height * 0.22,
-                                          placeholder: const AssetImage("assets/images/t_ball.png"),
+                                          placeholder: const AssetImage("assets/images/tennis_ball.png"),
                                           imageErrorBuilder: (context,
                                               error, stackTrace) {
                                             return Image.asset(
-                                              "assets/images/t_ball.png",
+                                              "assets/images/tennis_ball.png",
                                             );
                                           },
                                         )),

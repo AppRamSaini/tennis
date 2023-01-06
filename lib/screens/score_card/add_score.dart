@@ -4084,6 +4084,8 @@ class _AddScoreState extends State<AddScore> {
                                     ],
                                   ),
                                 ),
+                                provider.winnerTotalCount == 3 && provider.loserTotalCount == 1 || provider.winnerTotalCount == 1 && provider.loserTotalCount == 3 ?
+                                const SizedBox() :
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Row(
@@ -4982,6 +4984,116 @@ class _AddScoreState extends State<AddScore> {
           }
         }
 
+      }else if(winnerCount == 3 && loserCount == 1 || winnerCount == 1 && loserCount == 3){
+        if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true){
+          if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != ''){
+            if(firstTBValue == true && secondTBValue == true && thirdTBValue == true && forthTBValue == true ){
+              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              print('api call true');
+            }else {
+              ScoreInvalideBottomDilog(context);
+            }
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == true){
+          if(wTBSetF.text != '' && lTBSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != ''){
+            if(firstTBValue == true &&  forthTBValue == true ){
+              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              print('api call true');
+            }else {
+              ScoreInvalideBottomDilog(context);
+            }
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }
+        else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == false){
+          if(wSetF.text != '' && lSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != ''){
+            if(secondTBValue == true && thirdTBValue == true){
+              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              print('api call true');
+            }else {
+              ScoreInvalideBottomDilog(context);
+            }
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }
+        else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == false ){
+          if(wTBSetF.text != '' && lTBSetF.text != ''  && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
+            if(firstTBValue == true){
+              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              print('api call true');
+            }else {
+              ScoreInvalideBottomDilog(context);
+            }
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == false && forthTieBreak == false ){
+          if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''  && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
+            if(firstTBValue == true && secondTBValue == true){
+              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              print('api call true');
+            }else {
+              ScoreInvalideBottomDilog(context);
+            }
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == false ){
+          if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
+            if(firstTBValue == true && secondTBValue == true && thirdTBValue == true){
+              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              print('api call true');
+            }else {
+              ScoreInvalideBottomDilog(context);
+            }
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true ){
+          if(wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' ){
+            if(secondTBValue == true && thirdTBValue == true && forthTBValue == true ){
+              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              print('api call true');
+            }else {
+              ScoreInvalideBottomDilog(context);
+            }
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == true && forthTieBreak == true ){
+          if( wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' ){
+            if(thirdTBValue == true && forthTBValue == true ){
+              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              print('api call true');
+            }else {
+              ScoreInvalideBottomDilog(context);
+            }
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == true ){
+          if(wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' ){
+            if(forthTBValue == true ){
+              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              print('api call true');
+            }else {
+              ScoreInvalideBottomDilog(context);
+            }
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        } else {
+          if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != ''){
+            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            print('api call true');
+          }else {
+            ScoreInvalideBottomDilog(context);
+          }
+        }
       }else {
         if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true && fiveTieBreak == true){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wTBSetFive.text != '' && lTBSetFive.text != ''){

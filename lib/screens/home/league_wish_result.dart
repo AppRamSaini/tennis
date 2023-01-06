@@ -43,6 +43,8 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 5;
     final double itemWidth = size.width / 2;
+    final double lineFHeight = (size.height - kToolbarHeight - 24) / 12;
+    final double lineSHeight = (size.height - kToolbarHeight - 24) / 6;
     bool isLoading = Provider.of<AllMatchsProvider>(context).isLoading;
     List allMResultlist = Provider.of<AllMatchsProvider>(context).allMResultlist;
     return Scaffold(
@@ -201,7 +203,7 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
                           Container(
                             padding: const EdgeInsets.only(top: 5.0),
                             width: width,
-                            height: allMResultlist[index]['score']['score'].length == 0 || allMResultlist[index]['score']['score'].length == 1 || allMResultlist[index]['score']['score'].length == 2 || allMResultlist[index]['score']['score'].length == 3 ? 50 : 100,
+                            height: allMResultlist[index]['score']['score'].length == 0 || allMResultlist[index]['score']['score'].length == 1 || allMResultlist[index]['score']['score'].length == 2 || allMResultlist[index]['score']['score'].length == 3 ? lineFHeight : lineSHeight,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,

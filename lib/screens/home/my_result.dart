@@ -45,9 +45,10 @@ class _MyResultState extends State<MyResult> {
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     var size = MediaQuery.of(context).size;
-
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 5;
+    final double lineFHeight = (size.height - kToolbarHeight - 24) / 12;
+    final double lineSHeight = (size.height - kToolbarHeight - 24) / 6;
     final double itemWidth = size.width / 2;
     bool isLoading = Provider.of<MyResultProvider>(context).isLoading;
     List resultlist = Provider.of<MyResultProvider>(context).resultlist;
@@ -167,7 +168,7 @@ class _MyResultState extends State<MyResult> {
                           Container(
                             padding: const EdgeInsets.only(top: 5.0),
                             width: width,
-                            height: resultlist[index]['score']['score'].length == 0 || resultlist[index]['score']['score'].length == 1 || resultlist[index]['score']['score'].length == 2 || resultlist[index]['score']['score'].length == 3 ? 50 : 100,
+                            height: resultlist[index]['score']['score'].length == 0 || resultlist[index]['score']['score'].length == 1 || resultlist[index]['score']['score'].length == 2 || resultlist[index]['score']['score'].length == 3 ? lineFHeight : lineSHeight,
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
