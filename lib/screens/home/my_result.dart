@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/bottomdilog/score_edit_request.dart';
 import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/helpers/helpers.dart';
@@ -103,35 +104,59 @@ class _MyResultState extends State<MyResult> {
                                   fontFamily: Fonts.nunito,
                                 ),
                               ),
-                              Container(
-                                height: 30,
-                                width: 55,
-                                decoration:  BoxDecoration(
-                                    color: user_uuid == '${resultlist[index]['score']['winner']['uuid']}' ? MyAppTheme.MainColor : MyAppTheme.AcceptBgColor,
-                                    border: Border.all(
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+
+                                  Container(
+                                    height: 30,
+                                    width: 55,
+                                    decoration:  BoxDecoration(
                                         color: user_uuid == '${resultlist[index]['score']['winner']['uuid']}' ? MyAppTheme.MainColor : MyAppTheme.AcceptBgColor,
-                                        width : 1
+                                        border: Border.all(
+                                            color: user_uuid == '${resultlist[index]['score']['winner']['uuid']}' ? MyAppTheme.MainColor : MyAppTheme.AcceptBgColor,
+                                            width : 1
+                                        ),
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(5))),
+                                    child:   Center(
+                                      child: user_uuid == '${resultlist[index]['score']['winner']['uuid']}' ? const Text(
+                                        'Won',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12,
+                                          color: MyAppTheme.whiteColor,
+                                          fontFamily: Fonts.nunito,),
+                                      ) : const Text(
+                                        'Lose',
+                                        style: TextStyle(
+                                          fontWeight: FontWeight.w600,
+                                          fontSize: 12,
+                                          color: MyAppTheme.whiteColor,
+                                          fontFamily: Fonts.nunito,),
+                                      ),
                                     ),
-                                    borderRadius: const BorderRadius.all(
-                                        Radius.circular(5))),
-                                child:   Center(
-                                  child: user_uuid == '${resultlist[index]['score']['winner']['uuid']}' ? const Text(
-                                    'Won',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color: MyAppTheme.whiteColor,
-                                      fontFamily: Fonts.nunito,),
-                                  ) : const Text(
-                                    'Lose',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w600,
-                                      fontSize: 12,
-                                      color: MyAppTheme.whiteColor,
-                                      fontFamily: Fonts.nunito,),
                                   ),
-                                ),
+                                  InkWell(
+                                    onTap: (){
+                                      ScoreEditRequestBottomDilog(context);
+                                    },
+                                    child: Padding(
+                                      padding: const EdgeInsets.only(left: 10.0),
+                                      child: SvgPicture.asset(
+                                        'assets/icons/edit.svg',
+                                        allowDrawingOutsideViewBox: true,
+                                        height: 12,
+                                        width: 12,
+                                        color: MyAppTheme.black_Color,
+                                      ),
+                                    ),
+                                  )
+                                  ,
+                                ],
                               )
+
                             ],
                           ),
                           Padding(
