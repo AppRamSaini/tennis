@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/providers/myleagues_provider.dart';
 import 'package:tennis/screens/home/view_ranking_challenge.dart';
@@ -20,6 +21,7 @@ class LeaguesDetails extends StatefulWidget {
 }
 
 class _LeaguesDetailsState extends State<LeaguesDetails> {
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
@@ -119,7 +121,7 @@ class _LeaguesDetailsState extends State<LeaguesDetails> {
                     ),
                   ),
                 ),
-                InkWell(
+               /* InkWell(
                   onTap: (){
                   },
                   child: Container(
@@ -143,9 +145,10 @@ class _LeaguesDetailsState extends State<LeaguesDetails> {
                       ),
                     ),
                   ),
-                ),
+                ),*/
                 InkWell(
                   onTap: (){
+
                   },
                   child: Container(
                     height: 50,

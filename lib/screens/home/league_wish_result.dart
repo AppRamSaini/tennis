@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/bottomdilog/score_edit_request.dart';
 import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/loaders/progress_bar.dart';
 import 'package:tennis/locators.dart';
@@ -139,7 +140,7 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
                                   ),
                                 ),
                                  Padding(
-                                  padding: EdgeInsets.only(left: 20.0),
+                                  padding: const EdgeInsets.only(left: 20.0),
                                   child: Text(
                                     '${allMResultlist[index]['score']['loser']['name']}',
                                     style: const TextStyle(
@@ -183,7 +184,7 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
                                       width: 15,
                                     ),
                                      Padding(
-                                      padding: EdgeInsets.only(left: 5.0),
+                                      padding: const EdgeInsets.only(left: 5.0),
                                       child: Text(
                                         '${allMResultlist[index]['score']['winner']['name']}',
                                         style: const TextStyle(
@@ -321,6 +322,37 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
                               ],
                             ),
                           ),
+                          allMResultlist[index]['score']['can_report'] == true ?
+                          InkWell(
+                            onTap: (){
+                              ScoreEditRequestBottomDilog(context);
+                            },
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                const Text(
+                                  'If Your Score is Invalid. Please Can Report',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 12,
+                                    color: MyAppTheme.TitleTextColor,
+                                    fontFamily: Fonts.nunito,
+                                  ),
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/edit.svg',
+                                    allowDrawingOutsideViewBox: true,
+                                    height: 12,
+                                    width: 12,
+                                    color: MyAppTheme.black_Color,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ) : const SizedBox(),
                         ],
                       ),
                     );

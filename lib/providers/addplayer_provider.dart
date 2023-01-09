@@ -28,12 +28,13 @@ class AddPlayerProvider extends ChangeNotifier {
       notifyListeners();
     }
     void shareWhatsApp(BuildContext context,String number,String name){
-      String shareBody = "Hello $number\nI am inviting you to join\n$name \n\nDownload the Tennis Khelo app \nhttps://webzon.in/App\n\nLogin with $number\n\n" ;
+      String shareBody = "Hello $number\nI am inviting you to join\n$name \n\nDownload the Tennis Khelo app \nhttps://webzon.in/App\n\nLogin with $number\n\n";
       openwhatsapp(context,number,shareBody);
     }
     openwhatsapp(BuildContext context,String number,String message) async{
      // var whatsappURlAndroid = "whatsapp://send?phone=$number&text=$message";
-      var whatsappURlAndroid = "https://api.whatsapp.com/send?phone=$number=${Uri.parse(message)}";
+    //  var whatsappURlAndroid = "https://api.whatsapp.com/send?phone=$number?text=$message";
+      var whatsappURlAndroid = "https://wa.me/$number?text=${Uri.encodeFull(message)}";
       var whatappURLIos ="https://wa.me/$number?text=${Uri.encodeFull(message)}";
       if(Platform.isIOS){
         // for iOS phone only

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tennis/screens/auth/login.dart';
+import 'package:tennis/screens/auth/registor.dart';
 import 'package:tennis/screens/dashboard/dashboard.dart';
 import 'package:tennis/screens/intro.dart';
 import 'package:tennis/screens/onboarding/onboarding.dart';
@@ -40,15 +41,24 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
     try {
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userToken = prefs.getString('user_token') ?? '';
+      String userExist = prefs.getString('user_exist') ?? '';
       print("user_token $userToken");
       SharedPreferences prefs1 = await SharedPreferences.getInstance();
       bool seen = prefs1.getBool('seen') ?? false;
       if (seen) {
         if(userToken.isNotEmpty){
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (context) => DashBoard(selectedIndex: 0,)),
-          );
+          if(userExist == "yes"){
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => DashBoard(selectedIndex: 0,)),
+            );
+          }else {
+            Navigator.pushReplacement(
+              context,
+              MaterialPageRoute(builder: (context) => Registor()),
+            );
+          }
+
         }else{
           Navigator.pushReplacement(
             context,

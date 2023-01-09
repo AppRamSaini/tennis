@@ -190,16 +190,16 @@ class _NewsState extends State<News>{
                                                     .height *
                                                     0.22,
                                                 placeholder: const AssetImage(
-                                                    "assets/images/tennis_ball.png"),
+                                                    "assets/images/tennis_ball_banner_placeholder.png"),
                                                 imageErrorBuilder: (context,
                                                     error, stackTrace) {
                                                   return Image.asset(
-                                                    "assets/images/tennis_ball.png",
+                                                    "assets/images/tennis_ball_banner_placeholder.png",
                                                   );
                                                 },
                                               )
                                                   : Image.asset(
-                                                "assets/images/tennis_ball.png",
+                                                "assets/images/tennis_ball_banner_placeholder.png",
                                               )),
                                         )),
                                     Padding(

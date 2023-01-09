@@ -64,6 +64,7 @@ class LoginProvider extends ChangeNotifier {
                .then((response) {
              if(json.decode(response.body)['status']==true){
                SharedPref.setToken(json.decode(response.body)['access_token']);
+               SharedPref.setUserDataExist(json.decode(response.body)['exist']);
                if(json.decode(response.body)['exist'] == "yes"){
                  Navigator.pushReplacement(
                    context,

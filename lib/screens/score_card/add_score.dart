@@ -61,10 +61,11 @@ class _AddScoreState extends State<AddScore> {
   String? dropdownMStatus = 'Played Through';
   String? matchsStatus = "";
   String scoreStatus = "valid";
-  List setVlauest = [];
+  List setEmptyValueSet = [];
+  List setValueSet = [];
   List<Map<String, dynamic>> numOfSets = [];
   void setValueSendData(int totalWinnerCount, int totalLoserCount){
-    setVlauest.clear();
+    setValueSet.clear();
     if(totalWinnerCount > totalLoserCount){
       setState(() {
         scoreStatus = "valid";
@@ -133,36 +134,36 @@ class _AddScoreState extends State<AddScore> {
      // ScoreCard(winner: wSetSix.text.toString(), loser: lSetSix.text.toString(), tie_winner: wTBSetSix.text.toString(), tie_loser: lTBSetSix.text.toString()),
     ];
     if(dropdownSets == "Set 1"){
-      setVlauest.addAll(firstSetValues);
+      setValueSet.addAll(firstSetValues);
     }else if (dropdownSets == "Set 2"){
       if(totalWinnerCount == 2 && totalLoserCount == 1 || totalWinnerCount == 1 && totalLoserCount == 2){
-        setVlauest.addAll(secondSuperTieBreakerSetValues);
+        setValueSet.addAll(secondSuperTieBreakerSetValues);
       }else {
-        setVlauest.addAll(secondSetValues);
+        setValueSet.addAll(secondSetValues);
       }
     }else if (dropdownSets == "Set 3"){
       if(totalWinnerCount == 2 && totalLoserCount == 0 || totalWinnerCount == 0 && totalLoserCount == 2){
-        setVlauest.addAll(secondSetValues);
+        setValueSet.addAll(secondSetValues);
       }else {
-        setVlauest.addAll(thirdSetValues);
+        setValueSet.addAll(thirdSetValues);
       }
     }else if (dropdownSets == "Set 4"){
       if(totalWinnerCount == 3 && totalLoserCount == 2 || totalWinnerCount == 2 && totalLoserCount == 3){
-        setVlauest.addAll(fourthSuperTieBreakerSetValues);
+        setValueSet.addAll(fourthSuperTieBreakerSetValues);
       } else if(totalWinnerCount == 3 && totalLoserCount == 0 || totalWinnerCount == 0 && totalLoserCount == 3){
-        setVlauest.addAll(thirdSetValues);
+        setValueSet.addAll(thirdSetValues);
       } else {
-        setVlauest.addAll(fourthSetValues);
+        setValueSet.addAll(fourthSetValues);
       }
     }else if (dropdownSets == "Set 5"){
       if(totalWinnerCount == 3 && totalLoserCount == 0 || totalWinnerCount == 0 && totalLoserCount == 3){
-        setVlauest.addAll(thirdSetValues);
+        setValueSet.addAll(thirdSetValues);
       }else {
-        setVlauest.addAll(fiveSetValues);
+        setValueSet.addAll(fiveSetValues);
       }
       
     }
-    print(setVlauest.map((e){
+    print(setValueSet.map((e){
       return {
        "winner" : e.winner,
         "loser" : e.loser,
@@ -484,6 +485,7 @@ class _AddScoreState extends State<AddScore> {
                         child: DropdownButton<String>(
                           isExpanded: true,
                           value: dropdownSets,
+                          enableFeedback: true,
                           icon: const Icon(Icons.arrow_drop_down),
                           elevation: 16,
                           style: const TextStyle(
@@ -638,3232 +640,12 @@ class _AddScoreState extends State<AddScore> {
                             ],
                           ),
                         ),
-                        dropdownSets == "Set 1"  ?
-                        Padding(
-                          padding: const EdgeInsets.only(top: 10.0),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              SizedBox(
-                                width: width* 0.10,
-                                child: const Center(
-                                  child: Text('#1',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w400,
-                                        fontSize: 16,
-                                        color: MyAppTheme.black_Color,
-                                        fontFamily: Fonts.nunito,
-                                      )),
-                                ),
-                              ),
-                              SizedBox(
-                                width: width* 0.20,
-                                child:  Center(
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      border: Border.all(
-                                        color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                      ),
-                                    ),
-                                    child: TextField(
-                                      textAlign: TextAlign.center,
-                                      inputFormatters: [
-                                        LengthLimitingTextInputFormatter(1),
-                                      ],
-                                      controller: wSetF,
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (value) {
-                                        print(value);
-                                        if(value == "5"){
-                                          setState(() {
-                                            lSetF.text = "7";
-                                            wTBSetF.text = "";
-                                            lTBSetF.text = "";
-                                          });
-                                        }else if(value == "7"){
-                                          setState(() {
-                                            lSetF.text = "5";
-                                            wTBSetF.text = "";
-                                            lTBSetF.text = "";
-                                          });
-                                        }else if(lSetF.text == "7" || lSetF.text == "5") {
-                                          setState(() {
-                                            lSetF.text = "";
-                                            wTBSetF.text = "";
-                                            lTBSetF.text = "";
-                                          });
-                                        }else if (value == "8" || value == "9"){
-                                          setState(() {
-                                            wSetF.text = "";
-                                            wTBSetF.text = "";
-                                            lTBSetF.text = "";
-                                          });
-                                        }else {
-                                          setState(() {
-                                            wTBSetF.text = "";
-                                            lTBSetF.text = "";
-                                          });
-                                        }
-                                        provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
-                                        print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                      },
-                                      style: const TextStyle(
-                                          color: MyAppTheme.black_Color,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: Fonts.nunito,
-                                          fontSize: 14),
-                                      decoration: const InputDecoration(
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: width* 0.20,
-                                child: Center(
-                                  child: Container(
-                                    width: 50,
-                                    height: 50,
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5.0),
-                                      border: Border.all(
-                                        color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                      ),
-                                    ),
-                                    child: TextField(
-                                      textAlign: TextAlign.center,
-                                      inputFormatters: [
-                                        LengthLimitingTextInputFormatter(1),
-                                      ],
-                                      controller: lSetF,
-                                      keyboardType: TextInputType.number,
-                                      onChanged: (value) {
-                                        print(value);
-                                        if(value == "5"){
-                                          setState(() {
-                                            wSetF.text = "7";
-                                            wTBSetF.text = "";
-                                            lTBSetF.text = "";
-                                          });
-                                        }else if(value == "7"){
-                                          setState(() {
-                                            wSetF.text = "5";
-                                            wTBSetF.text = "";
-                                            lTBSetF.text = "";
-                                          });
-                                        }else if(wSetF.text == "7" || wSetF.text == "5") {
-                                          setState(() {
-                                            wSetF.text = "";
-                                            wTBSetF.text = "";
-                                            lTBSetF.text = "";
-                                          });
-                                        }else if (value == "8" || value == "9"){
-                                          setState(() {
-                                            lSetF.text = "";
-                                            wTBSetF.text = "";
-                                            lTBSetF.text = "";
-                                          });
-                                        }else {
-                                          setState(() {
-                                            wTBSetF.text = "";
-                                            lTBSetF.text = "";
-                                          });
-                                        }
-                                        provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
-                                        print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                      },
-                                      style: const TextStyle(
-                                          color: MyAppTheme.black_Color,
-                                          fontWeight: FontWeight.w500,
-                                          fontFamily: Fonts.nunito,
-                                          fontSize: 14),
-                                      decoration: const InputDecoration(
-                                          border: InputBorder.none),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: width* 0.40,
-                                child: provider.fTB ==  true ?   Center(
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Container(
-                                        width: 50,
-                                        height: 50,
-                                        margin: const EdgeInsets.only(right: 10.0),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(2),
-                                          ],
-                                          controller: wTBSetF,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
-                                            print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                      Container(
-                                        width: 50,
-                                        height: 50,
-                                        margin: const EdgeInsets.only(left: 10.0),
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(2),
-                                          ],
-                                          controller: lTBSetF,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
-                                            print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ): SizedBox(),
-                              ),
-
-                            ],
-                          ),
-                        )  : const SizedBox(),
-
-                        dropdownSets == "Set 2"  ?
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width* 0.10,
-                                    child: const Center(
-                                      child: Text('#1',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child:  Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: wSetF,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                lSetF.text = "7";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                lSetF.text = "5";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(lSetF.text == "7" || lSetF.text == "5") {
-                                              setState(() {
-                                                lSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                wSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }
-                                            provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
-                                            print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child: Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: lSetF,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                wSetF.text = "7";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                wSetF.text = "5";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(wSetF.text == "7" || wSetF.text == "5") {
-                                              setState(() {
-                                                wSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                lSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }
-                                            provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
-                                            print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.40,
-                                    child: provider.fTB ==  true ?   Center(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(right: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: wTBSetF,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
-                                                print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(left: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: lTBSetF,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
-                                                print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ): SizedBox(),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width* 0.10,
-                                    child: const Center(
-                                      child: Text('#2',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child:  Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.sVCheck == true ? MyAppTheme.MainColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: wSetS,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                lSetS.text = "7";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                lSetS.text = "5";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(lSetS.text == "7" || lSetS.text == "5") {
-                                              setState(() {
-                                                lSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                wSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }
-                                            provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
-                                            print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child: Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.sVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: lSetS,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                wSetS.text = "7";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                wSetS.text = "5";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(wSetS.text == "7" || wSetS.text == "5") {
-                                              setState(() {
-                                                wSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                lSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }
-                                            provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
-                                            print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.40,
-                                    child: provider.sTB ==  true ? Center(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(right: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.sTBVCheck == true ? MyAppTheme.MainColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: wTBSetS,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
-                                                print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(left: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.sTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: lTBSetS,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
-                                                print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ) :SizedBox(),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            provider.winnerTotalCount == 1 && provider.loserTotalCount == 1 ?
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: width,
-                                    child: const Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(bottom: 5.0),
-                                        child: Text('Super Tie-Break',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 16,
-                                              color: MyAppTheme.black_Color,
-                                              fontFamily: Fonts.nunito,
-                                            )),
-                                      ),
-                                    ),
-                                  ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: width* 0.20,
-                                        child:  Center(
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.superTieBreakerVCheck == true ? MyAppTheme.MainColor : superTieBLSet.text.isNotEmpty && superTieBWSet.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(1),
-                                              ],
-                                              controller: superTieBWSet,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                print(value);
-                                                if(value == "5"){
-                                                  setState(() {
-                                                    superTieBLSet.text = "7";
-                                                  });
-                                                }else if(value == "7"){
-                                                  setState(() {
-                                                    superTieBLSet.text = "5";
-                                                  });
-                                                }else if(superTieBLSet.text == "7" || superTieBLSet.text == "5") {
-                                                  setState(() {
-                                                    superTieBLSet.text = "";
-                                                  });
-                                                }else if (value == "8" || value == "9"){
-                                                  setState(() {
-                                                    superTieBWSet.text = "";
-                                                  });
-                                                }
-                                                provider.superTieBreakerValueCheck(superTieBWSet.text.toString(), superTieBLSet.text.toString());
-                                                print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: width* 0.20,
-                                        child: Center(
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.superTieBreakerVCheck == true ? MyAppTheme.MainColor : superTieBLSet.text.isNotEmpty && superTieBWSet.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(1),
-                                              ],
-                                              controller: superTieBLSet,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                print(value);
-                                                if(value == "5"){
-                                                  setState(() {
-                                                    superTieBWSet.text = "7";
-                                                  });
-                                                }else if(value == "7"){
-                                                  setState(() {
-                                                    superTieBWSet.text = "5";
-                                                  });
-                                                }else if(superTieBWSet.text == "7" || superTieBWSet.text == "5") {
-                                                  setState(() {
-                                                    superTieBWSet.text = "";
-                                                  });
-                                                }else if (value == "8" || value == "9"){
-                                                  setState(() {
-                                                    superTieBLSet.text = "";
-                                                  });
-                                                }
-                                                provider.superTieBreakerValueCheck(superTieBWSet.text.toString(), superTieBLSet.text.toString());
-                                                print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ) :const SizedBox(),
-
-                          ],
-                        )
-                            : const SizedBox(),
-
-                         dropdownSets == "Set 3"   ?
-
-                         Column(
-                           crossAxisAlignment: CrossAxisAlignment.start,
-                           mainAxisAlignment: MainAxisAlignment.start,
-                           children: [
-                             Padding(
-                               padding: const EdgeInsets.only(top: 10.0),
-                               child: Row(
-                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                 children: [
-                                   SizedBox(
-                                     width: width* 0.10,
-                                     child: const Center(
-                                       child: Text('#1',
-                                           style: TextStyle(
-                                             fontWeight: FontWeight.w400,
-                                             fontSize: 16,
-                                             color: MyAppTheme.black_Color,
-                                             fontFamily: Fonts.nunito,
-                                           )),
-                                     ),
-                                   ),
-                                   SizedBox(
-                                     width: width* 0.20,
-                                     child:  Center(
-                                       child: Container(
-                                         width: 50,
-                                         height: 50,
-                                         decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(5.0),
-                                           border: Border.all(
-                                             color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                           ),
-                                         ),
-                                         child: TextField(
-                                           textAlign: TextAlign.center,
-                                           inputFormatters: [
-                                             LengthLimitingTextInputFormatter(1),
-                                           ],
-                                           controller: wSetF,
-                                           keyboardType: TextInputType.number,
-                                           onChanged: (value) {
-                                             print(value);
-                                             if(value == "5"){
-                                               setState(() {
-                                                 lSetF.text = "7";
-                                                 wTBSetF.text = "";
-                                                 lTBSetF.text = "";
-                                               });
-                                             }else if(value == "7"){
-                                               setState(() {
-                                                 lSetF.text = "5";
-                                                 wTBSetF.text = "";
-                                                 lTBSetF.text = "";
-                                               });
-                                             }else if(lSetF.text == "7" || lSetF.text == "5") {
-                                               setState(() {
-                                                 lSetF.text = "";
-                                                 wTBSetF.text = "";
-                                                 lTBSetF.text = "";
-                                               });
-                                             }else if (value == "8" || value == "9"){
-                                               setState(() {
-                                                 wSetF.text = "";
-                                                 wTBSetF.text = "";
-                                                 lTBSetF.text = "";
-                                               });
-                                             }else {
-                                               setState(() {
-                                                 wTBSetF.text = "";
-                                                 lTBSetF.text = "";
-                                               });
-                                             }
-                                             provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
-                                             print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                           },
-                                           style: const TextStyle(
-                                               color: MyAppTheme.black_Color,
-                                               fontWeight: FontWeight.w500,
-                                               fontFamily: Fonts.nunito,
-                                               fontSize: 14),
-                                           decoration: const InputDecoration(
-                                               border: InputBorder.none),
-                                         ),
-                                       ),
-                                     ),
-                                   ),
-                                   SizedBox(
-                                     width: width* 0.20,
-                                     child: Center(
-                                       child: Container(
-                                         width: 50,
-                                         height: 50,
-                                         decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(5.0),
-                                           border: Border.all(
-                                             color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                           ),
-                                         ),
-                                         child: TextField(
-                                           textAlign: TextAlign.center,
-                                           inputFormatters: [
-                                             LengthLimitingTextInputFormatter(1),
-                                           ],
-                                           controller: lSetF,
-                                           keyboardType: TextInputType.number,
-                                           onChanged: (value) {
-                                             print(value);
-                                             if(value == "5"){
-                                               setState(() {
-                                                 wSetF.text = "7";
-                                                 wTBSetF.text = "";
-                                                 lTBSetF.text = "";
-                                               });
-                                             }else if(value == "7"){
-                                               setState(() {
-                                                 wSetF.text = "5";
-                                                 wTBSetF.text = "";
-                                                 lTBSetF.text = "";
-                                               });
-                                             }else if(wSetF.text == "7" || wSetF.text == "5") {
-                                               setState(() {
-                                                 wSetF.text = "";
-                                                 wTBSetF.text = "";
-                                                 lTBSetF.text = "";
-                                               });
-                                             }else if (value == "8" || value == "9"){
-                                               setState(() {
-                                                 lSetF.text = "";
-                                                 wTBSetF.text = "";
-                                                 lTBSetF.text = "";
-                                               });
-                                             }else {
-                                               setState(() {
-                                                 wTBSetF.text = "";
-                                                 lTBSetF.text = "";
-                                               });
-                                             }
-                                             provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
-                                             print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                           },
-                                           style: const TextStyle(
-                                               color: MyAppTheme.black_Color,
-                                               fontWeight: FontWeight.w500,
-                                               fontFamily: Fonts.nunito,
-                                               fontSize: 14),
-                                           decoration: const InputDecoration(
-                                               border: InputBorder.none),
-                                         ),
-                                       ),
-                                     ),
-                                   ),
-                                   SizedBox(
-                                     width: width* 0.40,
-                                     child: provider.fTB ==  true ?   Center(
-                                       child: Row(
-                                         crossAxisAlignment: CrossAxisAlignment.center,
-                                         mainAxisAlignment: MainAxisAlignment.center,
-                                         children: [
-                                           Container(
-                                             width: 50,
-                                             height: 50,
-                                             margin: const EdgeInsets.only(right: 10.0),
-                                             decoration: BoxDecoration(
-                                               borderRadius: BorderRadius.circular(5.0),
-                                               border: Border.all(
-                                                 color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                               ),
-                                             ),
-                                             child: TextField(
-                                               textAlign: TextAlign.center,
-                                               inputFormatters: [
-                                                 LengthLimitingTextInputFormatter(2),
-                                               ],
-                                               controller: wTBSetF,
-                                               keyboardType: TextInputType.number,
-                                               onChanged: (value) {
-                                                 provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
-                                                 print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                               },
-                                               style: const TextStyle(
-                                                   color: MyAppTheme.black_Color,
-                                                   fontWeight: FontWeight.w500,
-                                                   fontFamily: Fonts.nunito,
-                                                   fontSize: 14),
-                                               decoration: const InputDecoration(
-                                                   border: InputBorder.none),
-                                             ),
-                                           ),
-                                           Container(
-                                             width: 50,
-                                             height: 50,
-                                             margin: const EdgeInsets.only(left: 10.0),
-                                             decoration: BoxDecoration(
-                                               borderRadius: BorderRadius.circular(5.0),
-                                               border: Border.all(
-                                                 color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                               ),
-                                             ),
-                                             child: TextField(
-                                               textAlign: TextAlign.center,
-                                               inputFormatters: [
-                                                 LengthLimitingTextInputFormatter(2),
-                                               ],
-                                               controller: lTBSetF,
-                                               keyboardType: TextInputType.number,
-                                               onChanged: (value) {
-                                                 provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
-                                                 print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                               },
-                                               style: const TextStyle(
-                                                   color: MyAppTheme.black_Color,
-                                                   fontWeight: FontWeight.w500,
-                                                   fontFamily: Fonts.nunito,
-                                                   fontSize: 14),
-                                               decoration: const InputDecoration(
-                                                   border: InputBorder.none),
-                                             ),
-                                           ),
-                                         ],
-                                       ),
-                                     ): SizedBox(),
-                                   ),
-
-                                 ],
-                               ),
-                             ),
-                             Padding(
-                               padding: const EdgeInsets.only(top: 10.0),
-                               child: Row(
-                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                 children: [
-                                   SizedBox(
-                                     width: width* 0.10,
-                                     child: const Center(
-                                       child: Text('#2',
-                                           style: TextStyle(
-                                             fontWeight: FontWeight.w400,
-                                             fontSize: 16,
-                                             color: MyAppTheme.black_Color,
-                                             fontFamily: Fonts.nunito,
-                                           )),
-                                     ),
-                                   ),
-                                   SizedBox(
-                                     width: width* 0.20,
-                                     child:  Center(
-                                       child: Container(
-                                         width: 50,
-                                         height: 50,
-                                         decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(5.0),
-                                           border: Border.all(
-                                             color: provider.sVCheck == true ? MyAppTheme.MainColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                           ),
-                                         ),
-                                         child: TextField(
-                                           textAlign: TextAlign.center,
-                                           inputFormatters: [
-                                             LengthLimitingTextInputFormatter(1),
-                                           ],
-                                           controller: wSetS,
-                                           keyboardType: TextInputType.number,
-                                           onChanged: (value) {
-                                             print(value);
-                                             if(value == "5"){
-                                               setState(() {
-                                                 lSetS.text = "7";
-                                                 wTBSetS.text = "";
-                                                 lTBSetS.text = "";
-                                               });
-                                             }else if(value == "7"){
-                                               setState(() {
-                                                 lSetS.text = "5";
-                                                 wTBSetS.text = "";
-                                                 lTBSetS.text = "";
-                                               });
-                                             }else if(lSetS.text == "7" || lSetS.text == "5") {
-                                               setState(() {
-                                                 lSetS.text = "";
-                                                 wTBSetS.text = "";
-                                                 lTBSetS.text = "";
-                                               });
-                                             }else if (value == "8" || value == "9"){
-                                               setState(() {
-                                                 wSetS.text = "";
-                                                 wTBSetS.text = "";
-                                                 lTBSetS.text = "";
-                                               });
-                                             }else {
-                                               setState(() {
-                                                 wTBSetS.text = "";
-                                                 lTBSetS.text = "";
-                                               });
-                                             }
-                                             provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
-                                             print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                           },
-                                           style: const TextStyle(
-                                               color: MyAppTheme.black_Color,
-                                               fontWeight: FontWeight.w500,
-                                               fontFamily: Fonts.nunito,
-                                               fontSize: 14),
-                                           decoration: const InputDecoration(
-                                               border: InputBorder.none),
-                                         ),
-                                       ),
-                                     ),
-                                   ),
-                                   SizedBox(
-                                     width: width* 0.20,
-                                     child: Center(
-                                       child: Container(
-                                         width: 50,
-                                         height: 50,
-                                         decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(5.0),
-                                           border: Border.all(
-                                             color: provider.sVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                           ),
-                                         ),
-                                         child: TextField(
-                                           textAlign: TextAlign.center,
-                                           inputFormatters: [
-                                             LengthLimitingTextInputFormatter(1),
-                                           ],
-                                           controller: lSetS,
-                                           keyboardType: TextInputType.number,
-                                           onChanged: (value) {
-                                             print(value);
-                                             if(value == "5"){
-                                               setState(() {
-                                                 wSetS.text = "7";
-                                                 wTBSetS.text = "";
-                                                 lTBSetS.text = "";
-                                               });
-                                             }else if(value == "7"){
-                                               setState(() {
-                                                 wSetS.text = "5";
-                                                 wTBSetS.text = "";
-                                                 lTBSetS.text = "";
-                                               });
-                                             }else if(wSetS.text == "7" || wSetS.text == "5") {
-                                               setState(() {
-                                                 wSetS.text = "";
-                                                 wTBSetS.text = "";
-                                                 lTBSetS.text = "";
-                                               });
-                                             }else if (value == "8" || value == "9"){
-                                               setState(() {
-                                                 lSetS.text = "";
-                                                 wTBSetS.text = "";
-                                                 lTBSetS.text = "";
-                                               });
-                                             }else {
-                                               setState(() {
-                                                 wTBSetS.text = "";
-                                                 lTBSetS.text = "";
-                                               });
-                                             }
-                                             provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
-                                             print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                           },
-                                           style: const TextStyle(
-                                               color: MyAppTheme.black_Color,
-                                               fontWeight: FontWeight.w500,
-                                               fontFamily: Fonts.nunito,
-                                               fontSize: 14),
-                                           decoration: const InputDecoration(
-                                               border: InputBorder.none),
-                                         ),
-                                       ),
-                                     ),
-                                   ),
-                                   SizedBox(
-                                     width: width* 0.40,
-                                     child: provider.sTB ==  true ? Center(
-                                       child: Row(
-                                         crossAxisAlignment: CrossAxisAlignment.center,
-                                         mainAxisAlignment: MainAxisAlignment.center,
-                                         children: [
-                                           Container(
-                                             width: 50,
-                                             height: 50,
-                                             margin: const EdgeInsets.only(right: 10.0),
-                                             decoration: BoxDecoration(
-                                               borderRadius: BorderRadius.circular(5.0),
-                                               border: Border.all(
-                                                 color: provider.sTBVCheck == true ? MyAppTheme.MainColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                               ),
-                                             ),
-                                             child: TextField(
-                                               textAlign: TextAlign.center,
-                                               inputFormatters: [
-                                                 LengthLimitingTextInputFormatter(2),
-                                               ],
-                                               controller: wTBSetS,
-                                               keyboardType: TextInputType.number,
-                                               onChanged: (value) {
-                                                 provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
-                                                 print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                               },
-                                               style: const TextStyle(
-                                                   color: MyAppTheme.black_Color,
-                                                   fontWeight: FontWeight.w500,
-                                                   fontFamily: Fonts.nunito,
-                                                   fontSize: 14),
-                                               decoration: const InputDecoration(
-                                                   border: InputBorder.none),
-                                             ),
-                                           ),
-                                           Container(
-                                             width: 50,
-                                             height: 50,
-                                             margin: const EdgeInsets.only(left: 10.0),
-                                             decoration: BoxDecoration(
-                                               borderRadius: BorderRadius.circular(5.0),
-                                               border: Border.all(
-                                                 color: provider.sTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                               ),
-                                             ),
-                                             child: TextField(
-                                               textAlign: TextAlign.center,
-                                               inputFormatters: [
-                                                 LengthLimitingTextInputFormatter(2),
-                                               ],
-                                               controller: lTBSetS,
-                                               keyboardType: TextInputType.number,
-                                               onChanged: (value) {
-                                                 provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
-                                                 print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                               },
-                                               style: const TextStyle(
-                                                   color: MyAppTheme.black_Color,
-                                                   fontWeight: FontWeight.w500,
-                                                   fontFamily: Fonts.nunito,
-                                                   fontSize: 14),
-                                               decoration: const InputDecoration(
-                                                   border: InputBorder.none),
-                                             ),
-                                           ),
-                                         ],
-                                       ),
-                                     ) :SizedBox(),
-                                   ),
-
-                                 ],
-                               ),
-                             ),
-                             provider.winnerTotalCount == provider.loserTotalCount ?
-                             Padding(
-                               padding: const EdgeInsets.only(top: 10.0),
-                               child:  Row(
-                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                 children: [
-                                   SizedBox(
-                                     width: width* 0.10,
-                                     child: const Center(
-                                       child: Text('#3',
-                                           style: TextStyle(
-                                             fontWeight: FontWeight.w400,
-                                             fontSize: 16,
-                                             color: MyAppTheme.black_Color,
-                                             fontFamily: Fonts.nunito,
-                                           )),
-                                     ),
-                                   ),
-                                   SizedBox(
-                                     width: width* 0.20,
-                                     child:  Center(
-                                       child: Container(
-                                         width: 50,
-                                         height: 50,
-                                         decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(5.0),
-                                           border: Border.all(
-                                             color: provider.tVCheck == true ? MyAppTheme.MainColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                           ),
-                                         ),
-                                         child: TextField(
-                                           textAlign: TextAlign.center,
-                                           inputFormatters: [
-                                             LengthLimitingTextInputFormatter(1),
-                                           ],
-                                           controller: wSetT,
-                                           keyboardType: TextInputType.number,
-                                           onChanged: (value) {
-                                             print(value);
-                                             if(value == "5"){
-                                               setState(() {
-                                                 lSetT.text = "7";
-                                                 wTBSetT.text = "";
-                                                 lTBSetT.text = "";
-                                               });
-                                             }else if(value == "7"){
-                                               setState(() {
-                                                 lSetT.text = "5";
-                                                 wTBSetT.text = "";
-                                                 lTBSetT.text = "";
-                                               });
-                                             }else if(lSetT.text == "7" || lSetT.text == "5") {
-                                               setState(() {
-                                                 lSetT.text = "";
-                                                 wTBSetT.text = "";
-                                                 lTBSetT.text = "";
-                                               });
-                                             }else if (value == "8" || value == "9"){
-                                               setState(() {
-                                                 wSetT.text = "";
-                                                 wTBSetT.text = "";
-                                                 lTBSetT.text = "";
-                                               });
-                                             }else {
-                                               setState(() {
-                                                 wTBSetT.text = "";
-                                                 lTBSetT.text = "";
-                                               });
-                                             }
-                                             provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
-                                           },
-                                           style: const TextStyle(
-                                               color: MyAppTheme.black_Color,
-                                               fontWeight: FontWeight.w500,
-                                               fontFamily: Fonts.nunito,
-                                               fontSize: 14),
-                                           decoration: const InputDecoration(
-                                               border: InputBorder.none),
-                                         ),
-                                       ),
-                                     ),
-                                   ),
-                                   SizedBox(
-                                     width: width* 0.20,
-                                     child: Center(
-                                       child: Container(
-                                         width: 50,
-                                         height: 50,
-                                         decoration: BoxDecoration(
-                                           borderRadius: BorderRadius.circular(5.0),
-                                           border: Border.all(
-                                             color: provider.tVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                           ),
-                                         ),
-                                         child: TextField(
-                                           textAlign: TextAlign.center,
-                                           inputFormatters: [
-                                             LengthLimitingTextInputFormatter(1),
-                                           ],
-                                           controller: lSetT,
-                                           keyboardType: TextInputType.number,
-                                           onChanged: (value) {
-                                             print(value);
-                                             if(value == "5"){
-                                               setState(() {
-                                                 wSetT.text = "7";
-                                                 wTBSetT.text = "";
-                                                 lTBSetT.text = "";
-                                               });
-                                             }else if(value == "7"){
-                                               setState(() {
-                                                 wSetT.text = "5";
-                                                 wTBSetT.text = "";
-                                                 lTBSetT.text = "";
-                                               });
-                                             }else if(wSetT.text == "7" || wSetT.text == "5") {
-                                               setState(() {
-                                                 wSetT.text = "";
-                                                 wTBSetT.text = "";
-                                                 lTBSetT.text = "";
-                                               });
-                                             }else if (value == "8" || value == "9"){
-                                               setState(() {
-                                                 lSetT.text = "";
-                                                 wTBSetT.text = "";
-                                                 lTBSetT.text = "";
-                                               });
-                                             }else {
-                                               setState(() {
-                                                 wTBSetT.text = "";
-                                                 lTBSetT.text = "";
-                                               });
-                                             }
-                                             provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
-                                           },
-                                           style: const TextStyle(
-                                               color: MyAppTheme.black_Color,
-                                               fontWeight: FontWeight.w500,
-                                               fontFamily: Fonts.nunito,
-                                               fontSize: 14),
-                                           decoration: const InputDecoration(
-                                               border: InputBorder.none),
-                                         ),
-                                       ),
-                                     ),
-                                   ),
-                                   SizedBox(
-                                     width: width* 0.40,
-                                     child: provider.tTB ==  true ?  Center(
-                                       child: Row(
-                                         crossAxisAlignment: CrossAxisAlignment.center,
-                                         mainAxisAlignment: MainAxisAlignment.center,
-                                         children: [
-                                           Container(
-                                             width: 50,
-                                             height: 50,
-                                             margin: const EdgeInsets.only(right: 10.0),
-                                             decoration: BoxDecoration(
-                                               borderRadius: BorderRadius.circular(5.0),
-                                               border: Border.all(
-                                                 color: provider.tTBVCheck == true ? MyAppTheme.MainColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                               ),
-                                             ),
-                                             child: TextField(
-                                               textAlign: TextAlign.center,
-                                               inputFormatters: [
-                                                 LengthLimitingTextInputFormatter(2),
-                                               ],
-                                               controller: wTBSetT,
-                                               keyboardType: TextInputType.number,
-                                               onChanged: (value) {
-                                                 provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
-                                               },
-                                               style: const TextStyle(
-                                                   color: MyAppTheme.black_Color,
-                                                   fontWeight: FontWeight.w500,
-                                                   fontFamily: Fonts.nunito,
-                                                   fontSize: 14),
-                                               decoration: const InputDecoration(
-                                                   border: InputBorder.none),
-                                             ),
-                                           ),
-                                           Container(
-                                             width: 50,
-                                             height: 50,
-                                             margin: const EdgeInsets.only(left: 10.0),
-                                             decoration: BoxDecoration(
-                                               borderRadius: BorderRadius.circular(5.0),
-                                               border: Border.all(
-                                                 color: provider.tTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                               ),
-                                             ),
-                                             child: TextField(
-                                               textAlign: TextAlign.center,
-                                               inputFormatters: [
-                                                 LengthLimitingTextInputFormatter(2),
-                                               ],
-                                               controller: lTBSetT,
-                                               keyboardType: TextInputType.number,
-                                               onChanged: (value) {
-                                                 provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
-                                               },
-                                               style: const TextStyle(
-                                                   color: MyAppTheme.black_Color,
-                                                   fontWeight: FontWeight.w500,
-                                                   fontFamily: Fonts.nunito,
-                                                   fontSize: 14),
-                                               decoration: const InputDecoration(
-                                                   border: InputBorder.none),
-                                             ),
-                                           ),
-                                         ],
-                                       ),
-                                     ) :SizedBox(),
-                                   ),
-
-                                 ],
-                               ),
-                             ) : const SizedBox()
-                           ],
-                         )
-
-
-                             : const SizedBox(),
-
-
-                        dropdownSets == "Set 4"   ?
-
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width* 0.10,
-                                    child: const Center(
-                                      child: Text('#1',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child:  Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: wSetF,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                lSetF.text = "7";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                lSetF.text = "5";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(lSetF.text == "7" || lSetF.text == "5") {
-                                              setState(() {
-                                                lSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                wSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }
-                                            provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
-                                            print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child: Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: lSetF,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                wSetF.text = "7";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                wSetF.text = "5";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(wSetF.text == "7" || wSetF.text == "5") {
-                                              setState(() {
-                                                wSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                lSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }
-                                            provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
-                                            print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.40,
-                                    child: provider.fTB ==  true ?   Center(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(right: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: wTBSetF,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
-                                                print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(left: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: lTBSetF,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
-                                                print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ): SizedBox(),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width* 0.10,
-                                    child: const Center(
-                                      child: Text('#2',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child:  Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.sVCheck == true ? MyAppTheme.MainColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: wSetS,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                lSetS.text = "7";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                lSetS.text = "5";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(lSetS.text == "7" || lSetS.text == "5") {
-                                              setState(() {
-                                                lSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                wSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }
-                                            provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
-                                            print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child: Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.sVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: lSetS,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                wSetS.text = "7";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                wSetS.text = "5";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(wSetS.text == "7" || wSetS.text == "5") {
-                                              setState(() {
-                                                wSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                lSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }
-                                            provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
-                                            print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.40,
-                                    child: provider.sTB ==  true ? Center(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(right: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.sTBVCheck == true ? MyAppTheme.MainColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: wTBSetS,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
-                                                print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(left: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.sTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: lTBSetS,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
-                                                print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ) :SizedBox(),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child:  Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width* 0.10,
-                                    child: const Center(
-                                      child: Text('#3',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child:  Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.tVCheck == true ? MyAppTheme.MainColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: wSetT,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                lSetT.text = "7";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                lSetT.text = "5";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if(lSetT.text == "7" || lSetT.text == "5") {
-                                              setState(() {
-                                                lSetT.text = "";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                wSetT.text = "";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }
-                                            provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child: Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.tVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: lSetT,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                wSetT.text = "7";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                wSetT.text = "5";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if(wSetT.text == "7" || wSetT.text == "5") {
-                                              setState(() {
-                                                wSetT.text = "";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                lSetT.text = "";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }
-                                            provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.40,
-                                    child: provider.tTB ==  true ?  Center(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(right: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.tTBVCheck == true ? MyAppTheme.MainColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: wTBSetT,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(left: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.tTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: lTBSetT,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ) :SizedBox(),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            provider.winnerTotalCount == 3 && provider.loserTotalCount == 0 || provider.winnerTotalCount == 0 && provider.loserTotalCount == 3 ?
-                                const SizedBox() :
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width* 0.10,
-                                    child: const Center(
-                                      child: Text('#4',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child:  Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.forthVCheck == true ? MyAppTheme.MainColor : lSetFourth.text.isNotEmpty && wSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: wSetFourth,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                lSetFourth.text = "7";
-                                                wTBSetFourth.text = "";
-                                                lTBSetFourth.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                lSetFourth.text = "5";
-                                                wTBSetFourth.text = "";
-                                                lTBSetFourth.text = "";
-                                              });
-                                            }else if(lSetFourth.text == "7" || lSetFourth.text == "5") {
-                                              setState(() {
-                                                lSetFourth.text = "";
-                                                wTBSetFourth.text = "";
-                                                lTBSetFourth.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                wSetFourth.text = "";
-                                                wTBSetFourth.text = "";
-                                                lTBSetFourth.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetFourth.text = "";
-                                                lTBSetFourth.text = "";
-                                              });
-                                            }
-                                            provider.furthValueCheck(wSetFourth.text.toString(), lSetFourth.text.toString());
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child: Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.forthVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetFourth.text.isNotEmpty && wSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: lSetFourth,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                wSetFourth.text = "7";
-                                                wTBSetFourth.text = "";
-                                                lTBSetFourth.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                wSetFourth.text = "5";
-                                                wTBSetFourth.text = "";
-                                                lTBSetFourth.text = "";
-                                              });
-                                            }else if(wSetFourth.text == "7" || wSetFourth.text == "5") {
-                                              setState(() {
-                                                wSetFourth.text = "";
-                                                wTBSetFourth.text = "";
-                                                lTBSetFourth.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                lSetFourth.text = "";
-                                                wTBSetFourth.text = "";
-                                                lTBSetFourth.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetFourth.text = "";
-                                                lTBSetFourth.text = "";
-                                              });
-                                            }
-                                            provider.furthValueCheck(wSetFourth.text.toString(), lSetFourth.text.toString());
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.40,
-                                    child: provider.forthTB ==  true ?  Center(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(right: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.forthTBVCheck == true ? MyAppTheme.MainColor : lTBSetFourth.text.isNotEmpty && wTBSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: wTBSetFourth,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-
-                                                provider.furthTieBreakValueCheck(wTBSetFourth.text.toString(), lTBSetFourth.text.toString());
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(left: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.forthTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetFourth.text.isNotEmpty && wTBSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: lTBSetFourth,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.furthTieBreakValueCheck(wTBSetFourth.text.toString(), lTBSetFourth.text.toString());
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ) :SizedBox(),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            provider.winnerTotalCount == 2 && provider.loserTotalCount == 2 ?
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  SizedBox(
-                                    width: width,
-                                    child: const Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.only(bottom: 5.0),
-                                        child: Text('Super Tie-Break',
-                                            style: TextStyle(
-                                              fontWeight: FontWeight.w400,
-                                              fontSize: 16,
-                                              color: MyAppTheme.black_Color,
-                                              fontFamily: Fonts.nunito,
-                                            )),
-                                      ),
-                                    ),
-                                  ),
-                                  Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SizedBox(
-                                        width: width* 0.20,
-                                        child:  Center(
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.secSuperTieBreakerVCheck == true ? MyAppTheme.MainColor : secSuperTieBLSet.text.isNotEmpty && secSuperTieBWSet.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(1),
-                                              ],
-                                              controller: secSuperTieBWSet,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                print(value);
-                                                if(value == "5"){
-                                                  setState(() {
-                                                    secSuperTieBLSet.text = "7";
-                                                  });
-                                                }else if(value == "7"){
-                                                  setState(() {
-                                                    secSuperTieBLSet.text = "5";
-                                                  });
-                                                }else if(secSuperTieBLSet.text == "7" || secSuperTieBLSet.text == "5") {
-                                                  setState(() {
-                                                    secSuperTieBLSet.text = "";
-                                                  });
-                                                }else if (value == "8" || value == "9"){
-                                                  setState(() {
-                                                    secSuperTieBWSet.text = "";
-                                                  });
-                                                }
-                                                provider.secSuperTieBreakerValueCheck(secSuperTieBWSet.text.toString(), secSuperTieBLSet.text.toString());
-                                                print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: width* 0.20,
-                                        child: Center(
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.secSuperTieBreakerVCheck == true ? MyAppTheme.colorinactiveTrackColor : secSuperTieBLSet.text.isNotEmpty && secSuperTieBWSet.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(1),
-                                              ],
-                                              controller: secSuperTieBLSet,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                print(value);
-                                                if(value == "5"){
-                                                  setState(() {
-                                                    secSuperTieBWSet.text = "7";
-                                                  });
-                                                }else if(value == "7"){
-                                                  setState(() {
-                                                    secSuperTieBWSet.text = "5";
-                                                  });
-                                                }else if(secSuperTieBWSet.text == "7" || secSuperTieBWSet.text == "5") {
-                                                  setState(() {
-                                                    secSuperTieBWSet.text = "";
-                                                  });
-                                                }else if (value == "8" || value == "9"){
-                                                  setState(() {
-                                                    secSuperTieBLSet.text = "";
-                                                  });
-                                                }
-                                                provider.secSuperTieBreakerValueCheck(secSuperTieBWSet.text.toString(), secSuperTieBLSet.text.toString());
-                                                print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ) :const SizedBox(),
-                          ],
-                        )
-
-
-                            :const SizedBox(),
-
-
-                        dropdownSets == "Set 5" ?
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width* 0.10,
-                                    child: const Center(
-                                      child: Text('#1',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child:  Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: wSetF,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                lSetF.text = "7";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                lSetF.text = "5";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(lSetF.text == "7" || lSetF.text == "5") {
-                                              setState(() {
-                                                lSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                wSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }
-                                            provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
-                                            print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child: Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: lSetF,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                wSetF.text = "7";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                wSetF.text = "5";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if(wSetF.text == "7" || wSetF.text == "5") {
-                                              setState(() {
-                                                wSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                lSetF.text = "";
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetF.text = "";
-                                                lTBSetF.text = "";
-                                              });
-                                            }
-                                            provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
-                                            print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.40,
-                                    child: provider.fTB ==  true ?   Center(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(right: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: wTBSetF,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
-                                                print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(left: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: lTBSetF,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
-                                                print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ): SizedBox(),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width* 0.10,
-                                    child: const Center(
-                                      child: Text('#2',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child:  Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.sVCheck == true ? MyAppTheme.MainColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: wSetS,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                lSetS.text = "7";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                lSetS.text = "5";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(lSetS.text == "7" || lSetS.text == "5") {
-                                              setState(() {
-                                                lSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                wSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }
-                                            provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
-                                            print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child: Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.sVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: lSetS,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                wSetS.text = "7";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                wSetS.text = "5";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if(wSetS.text == "7" || wSetS.text == "5") {
-                                              setState(() {
-                                                wSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                lSetS.text = "";
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetS.text = "";
-                                                lTBSetS.text = "";
-                                              });
-                                            }
-                                            provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
-                                            print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.40,
-                                    child: provider.sTB ==  true ? Center(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(right: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.sTBVCheck == true ? MyAppTheme.MainColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: wTBSetS,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
-                                                print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(left: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.sTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: lTBSetS,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
-                                                print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
-
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ) :SizedBox(),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(top: 10.0),
-                              child:  Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  SizedBox(
-                                    width: width* 0.10,
-                                    child: const Center(
-                                      child: Text('#3',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w400,
-                                            fontSize: 16,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
-                                          )),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child:  Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.tVCheck == true ? MyAppTheme.MainColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: wSetT,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                lSetT.text = "7";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                lSetT.text = "5";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if(lSetT.text == "7" || lSetT.text == "5") {
-                                              setState(() {
-                                                lSetT.text = "";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                wSetT.text = "";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }
-                                            provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.20,
-                                    child: Center(
-                                      child: Container(
-                                        width: 50,
-                                        height: 50,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(5.0),
-                                          border: Border.all(
-                                            color: provider.tVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                          ),
-                                        ),
-                                        child: TextField(
-                                          textAlign: TextAlign.center,
-                                          inputFormatters: [
-                                            LengthLimitingTextInputFormatter(1),
-                                          ],
-                                          controller: lSetT,
-                                          keyboardType: TextInputType.number,
-                                          onChanged: (value) {
-                                            print(value);
-                                            if(value == "5"){
-                                              setState(() {
-                                                wSetT.text = "7";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if(value == "7"){
-                                              setState(() {
-                                                wSetT.text = "5";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if(wSetT.text == "7" || wSetT.text == "5") {
-                                              setState(() {
-                                                wSetT.text = "";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else if (value == "8" || value == "9"){
-                                              setState(() {
-                                                lSetT.text = "";
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }else {
-                                              setState(() {
-                                                wTBSetT.text = "";
-                                                lTBSetT.text = "";
-                                              });
-                                            }
-                                            provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
-                                          },
-                                          style: const TextStyle(
-                                              color: MyAppTheme.black_Color,
-                                              fontWeight: FontWeight.w500,
-                                              fontFamily: Fonts.nunito,
-                                              fontSize: 14),
-                                          decoration: const InputDecoration(
-                                              border: InputBorder.none),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  SizedBox(
-                                    width: width* 0.40,
-                                    child: provider.tTB ==  true ?  Center(
-                                      child: Row(
-                                        crossAxisAlignment: CrossAxisAlignment.center,
-                                        mainAxisAlignment: MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(right: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.tTBVCheck == true ? MyAppTheme.MainColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: wTBSetT,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                          Container(
-                                            width: 50,
-                                            height: 50,
-                                            margin: const EdgeInsets.only(left: 10.0),
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.tTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(2),
-                                              ],
-                                              controller: lTBSetT,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    ) :SizedBox(),
-                                  ),
-
-                                ],
-                              ),
-                            ),
-                            provider.winnerTotalCount == 3 && provider.loserTotalCount == 0 || provider.winnerTotalCount == 0 && provider.loserTotalCount == 3 ?
-                            const SizedBox() :
+                        matchsStatus == "played" ?
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
+                                dropdownSets == "Set 1"  ?
                                 Padding(
                                   padding: const EdgeInsets.only(top: 10.0),
                                   child: Row(
@@ -3873,7 +655,7 @@ class _AddScoreState extends State<AddScore> {
                                       SizedBox(
                                         width: width* 0.10,
                                         child: const Center(
-                                          child: Text('#4',
+                                          child: Text('#1',
                                               style: TextStyle(
                                                 fontWeight: FontWeight.w400,
                                                 fontSize: 16,
@@ -3891,7 +673,7 @@ class _AddScoreState extends State<AddScore> {
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(5.0),
                                               border: Border.all(
-                                                color: provider.forthVCheck == true ? MyAppTheme.MainColor : lSetFourth.text.isNotEmpty && wSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
                                               ),
                                             ),
                                             child: TextField(
@@ -3899,41 +681,42 @@ class _AddScoreState extends State<AddScore> {
                                               inputFormatters: [
                                                 LengthLimitingTextInputFormatter(1),
                                               ],
-                                              controller: wSetFourth,
+                                              controller: wSetF,
                                               keyboardType: TextInputType.number,
                                               onChanged: (value) {
                                                 print(value);
                                                 if(value == "5"){
                                                   setState(() {
-                                                    lSetFourth.text = "7";
-                                                    wTBSetFourth.text = "";
-                                                    lTBSetFourth.text = "";
+                                                    lSetF.text = "7";
+                                                    wTBSetF.text = "";
+                                                    lTBSetF.text = "";
                                                   });
                                                 }else if(value == "7"){
                                                   setState(() {
-                                                    lSetFourth.text = "5";
-                                                    wTBSetFourth.text = "";
-                                                    lTBSetFourth.text = "";
+                                                    lSetF.text = "5";
+                                                    wTBSetF.text = "";
+                                                    lTBSetF.text = "";
                                                   });
-                                                }else if(lSetFourth.text == "7" || lSetFourth.text == "5") {
+                                                }else if(lSetF.text == "7" || lSetF.text == "5") {
                                                   setState(() {
-                                                    lSetFourth.text = "";
-                                                    wTBSetFourth.text = "";
-                                                    lTBSetFourth.text = "";
+                                                    lSetF.text = "";
+                                                    wTBSetF.text = "";
+                                                    lTBSetF.text = "";
                                                   });
                                                 }else if (value == "8" || value == "9"){
                                                   setState(() {
-                                                    wSetFourth.text = "";
-                                                    wTBSetFourth.text = "";
-                                                    lTBSetFourth.text = "";
+                                                    wSetF.text = "";
+                                                    wTBSetF.text = "";
+                                                    lTBSetF.text = "";
                                                   });
                                                 }else {
                                                   setState(() {
-                                                    wTBSetFourth.text = "";
-                                                    lTBSetFourth.text = "";
+                                                    wTBSetF.text = "";
+                                                    lTBSetF.text = "";
                                                   });
                                                 }
-                                                provider.furthValueCheck(wSetFourth.text.toString(), lSetFourth.text.toString());
+                                                provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                                print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
                                               },
                                               style: const TextStyle(
                                                   color: MyAppTheme.black_Color,
@@ -3955,7 +738,7 @@ class _AddScoreState extends State<AddScore> {
                                             decoration: BoxDecoration(
                                               borderRadius: BorderRadius.circular(5.0),
                                               border: Border.all(
-                                                color: provider.forthVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetFourth.text.isNotEmpty && wSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
                                               ),
                                             ),
                                             child: TextField(
@@ -3963,41 +746,42 @@ class _AddScoreState extends State<AddScore> {
                                               inputFormatters: [
                                                 LengthLimitingTextInputFormatter(1),
                                               ],
-                                              controller: lSetFourth,
+                                              controller: lSetF,
                                               keyboardType: TextInputType.number,
                                               onChanged: (value) {
                                                 print(value);
                                                 if(value == "5"){
                                                   setState(() {
-                                                    wSetFourth.text = "7";
-                                                    wTBSetFourth.text = "";
-                                                    lTBSetFourth.text = "";
+                                                    wSetF.text = "7";
+                                                    wTBSetF.text = "";
+                                                    lTBSetF.text = "";
                                                   });
                                                 }else if(value == "7"){
                                                   setState(() {
-                                                    wSetFourth.text = "5";
-                                                    wTBSetFourth.text = "";
-                                                    lTBSetFourth.text = "";
+                                                    wSetF.text = "5";
+                                                    wTBSetF.text = "";
+                                                    lTBSetF.text = "";
                                                   });
-                                                }else if(wSetFourth.text == "7" || wSetFourth.text == "5") {
+                                                }else if(wSetF.text == "7" || wSetF.text == "5") {
                                                   setState(() {
-                                                    wSetFourth.text = "";
-                                                    wTBSetFourth.text = "";
-                                                    lTBSetFourth.text = "";
+                                                    wSetF.text = "";
+                                                    wTBSetF.text = "";
+                                                    lTBSetF.text = "";
                                                   });
                                                 }else if (value == "8" || value == "9"){
                                                   setState(() {
-                                                    lSetFourth.text = "";
-                                                    wTBSetFourth.text = "";
-                                                    lTBSetFourth.text = "";
+                                                    lSetF.text = "";
+                                                    wTBSetF.text = "";
+                                                    lTBSetF.text = "";
                                                   });
                                                 }else {
                                                   setState(() {
-                                                    wTBSetFourth.text = "";
-                                                    lTBSetFourth.text = "";
+                                                    wTBSetF.text = "";
+                                                    lTBSetF.text = "";
                                                   });
                                                 }
-                                                provider.furthValueCheck(wSetFourth.text.toString(), lSetFourth.text.toString());
+                                                provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                                print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
                                               },
                                               style: const TextStyle(
                                                   color: MyAppTheme.black_Color,
@@ -4012,7 +796,7 @@ class _AddScoreState extends State<AddScore> {
                                       ),
                                       SizedBox(
                                         width: width* 0.40,
-                                        child: provider.forthTB ==  true ?  Center(
+                                        child: provider.fTB ==  true ?   Center(
                                           child: Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             mainAxisAlignment: MainAxisAlignment.center,
@@ -4024,7 +808,7 @@ class _AddScoreState extends State<AddScore> {
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(5.0),
                                                   border: Border.all(
-                                                    color: provider.forthTBVCheck == true ? MyAppTheme.MainColor : lTBSetFourth.text.isNotEmpty && wTBSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                    color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
                                                   ),
                                                 ),
                                                 child: TextField(
@@ -4032,11 +816,11 @@ class _AddScoreState extends State<AddScore> {
                                                   inputFormatters: [
                                                     LengthLimitingTextInputFormatter(2),
                                                   ],
-                                                  controller: wTBSetFourth,
+                                                  controller: wTBSetF,
                                                   keyboardType: TextInputType.number,
                                                   onChanged: (value) {
-
-                                                    provider.furthTieBreakValueCheck(wTBSetFourth.text.toString(), lTBSetFourth.text.toString());
+                                                    provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                                    print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
                                                   },
                                                   style: const TextStyle(
                                                       color: MyAppTheme.black_Color,
@@ -4054,7 +838,7 @@ class _AddScoreState extends State<AddScore> {
                                                 decoration: BoxDecoration(
                                                   borderRadius: BorderRadius.circular(5.0),
                                                   border: Border.all(
-                                                    color: provider.forthTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetFourth.text.isNotEmpty && wTBSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                    color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
                                                   ),
                                                 ),
                                                 child: TextField(
@@ -4062,10 +846,11 @@ class _AddScoreState extends State<AddScore> {
                                                   inputFormatters: [
                                                     LengthLimitingTextInputFormatter(2),
                                                   ],
-                                                  controller: lTBSetFourth,
+                                                  controller: lTBSetF,
                                                   keyboardType: TextInputType.number,
                                                   onChanged: (value) {
-                                                    provider.furthTieBreakValueCheck(wTBSetFourth.text.toString(), lTBSetFourth.text.toString());
+                                                    provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                                    print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
                                                   },
                                                   style: const TextStyle(
                                                       color: MyAppTheme.black_Color,
@@ -4078,239 +863,3470 @@ class _AddScoreState extends State<AddScore> {
                                               ),
                                             ],
                                           ),
-                                        ) :SizedBox(),
+                                        ): SizedBox(),
                                       ),
 
                                     ],
                                   ),
-                                ),
-                                provider.winnerTotalCount == 3 && provider.loserTotalCount == 1 || provider.winnerTotalCount == 1 && provider.loserTotalCount == 3 ?
-                                const SizedBox() :
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 10.0),
-                                  child: Row(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      SizedBox(
-                                        width: width* 0.10,
-                                        child: const Center(
-                                          child: Text('#5',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.w400,
-                                                fontSize: 16,
-                                                color: MyAppTheme.black_Color,
-                                                fontFamily: Fonts.nunito,
-                                              )),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: width* 0.20,
-                                        child:  Center(
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.fiveVCheck == true ? MyAppTheme.MainColor : lSetFive.text.isNotEmpty && wSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
-                                              ),
-                                            ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(1),
-                                              ],
-                                              controller: wSetFive,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                print(value);
-                                                if(value == "5"){
-                                                  setState(() {
-                                                    lSetFive.text = "7";
-                                                    wTBSetFive.text = "";
-                                                    lTBSetFive.text = "";
-                                                  });
-                                                }else if(value == "7"){
-                                                  setState(() {
-                                                    lSetFive.text = "5";
-                                                    wTBSetFive.text = "";
-                                                    lTBSetFive.text = "";
-                                                  });
-                                                }else if(lSetFive.text == "7" || lSetFive.text == "5") {
-                                                  setState(() {
-                                                    lSetFive.text = "";
-                                                    wTBSetFive.text = "";
-                                                    lTBSetFive.text = "";
-                                                  });
-                                                }else if (value == "8" || value == "9"){
-                                                  setState(() {
-                                                    wSetFive.text = "";
-                                                    wTBSetFive.text = "";
-                                                    lTBSetFive.text = "";
-                                                  });
-                                                }else {
-                                                  setState(() {
-                                                    wTBSetFive.text = "";
-                                                    lTBSetFive.text = "";
-                                                  });
-                                                }
-                                                provider.fiveValueCheck(wSetFive.text.toString(), lSetFive.text.toString());
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
+                                )  : const SizedBox(),
+
+                                dropdownSets == "Set 2"  ?
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#1',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
                                             ),
                                           ),
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        width: width* 0.20,
-                                        child: Center(
-                                          child: Container(
-                                            width: 50,
-                                            height: 50,
-                                            decoration: BoxDecoration(
-                                              borderRadius: BorderRadius.circular(5.0),
-                                              border: Border.all(
-                                                color: provider.fiveVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetFive.text.isNotEmpty && wSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetF,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetF.text = "7";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetF.text = "5";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(lSetF.text == "7" || lSetF.text == "5") {
+                                                      setState(() {
+                                                        lSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }
+                                                    provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                                    print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
                                               ),
                                             ),
-                                            child: TextField(
-                                              textAlign: TextAlign.center,
-                                              inputFormatters: [
-                                                LengthLimitingTextInputFormatter(1),
-                                              ],
-                                              controller: lSetFive,
-                                              keyboardType: TextInputType.number,
-                                              onChanged: (value) {
-                                                print(value);
-                                                if(value == "5"){
-                                                  setState(() {
-                                                    wSetFive.text = "7";
-                                                    wTBSetFive.text = "";
-                                                    lTBSetFive.text = "";
-                                                  });
-                                                }else if(value == "7"){
-                                                  setState(() {
-                                                    wSetFive.text = "5";
-                                                    wTBSetFive.text = "";
-                                                    lTBSetFive.text = "";
-                                                  });
-                                                }else if(wSetFive.text == "7" || wSetFive.text == "5") {
-                                                  setState(() {
-                                                    wSetFive.text = "";
-                                                    wTBSetFive.text = "";
-                                                    lTBSetFive.text = "";
-                                                  });
-                                                }else if (value == "8" || value == "9"){
-                                                  setState(() {
-                                                    lSetFive.text = "";
-                                                    wTBSetFive.text = "";
-                                                    lTBSetFive.text = "";
-                                                  });
-                                                }else {
-                                                  setState(() {
-                                                    wTBSetFive.text = "";
-                                                    lTBSetFive.text = "";
-                                                  });
-                                                }
-                                                provider.fiveValueCheck(wSetFive.text.toString(), lSetFive.text.toString());
-                                              },
-                                              style: const TextStyle(
-                                                  color: MyAppTheme.black_Color,
-                                                  fontWeight: FontWeight.w500,
-                                                  fontFamily: Fonts.nunito,
-                                                  fontSize: 14),
-                                              decoration: const InputDecoration(
-                                                  border: InputBorder.none),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetF,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetF.text = "7";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetF.text = "5";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(wSetF.text == "7" || wSetF.text == "5") {
+                                                      setState(() {
+                                                        wSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }
+                                                    provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                                    print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
                                             ),
                                           ),
-                                        ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.fTB ==  true ?   Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetF,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                                        print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetF,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                                        print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ): SizedBox(),
+                                          ),
+
+                                        ],
                                       ),
-                                      SizedBox(
-                                        width: width* 0.40,
-                                        child: provider.fiveTB ==  true ?  Center(
-                                          child: Row(
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#2',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.sVCheck == true ? MyAppTheme.MainColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetS,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetS.text = "7";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetS.text = "5";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(lSetS.text == "7" || lSetS.text == "5") {
+                                                      setState(() {
+                                                        lSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }
+                                                    provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
+                                                    print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.sVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetS,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetS.text = "7";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetS.text = "5";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(wSetS.text == "7" || wSetS.text == "5") {
+                                                      setState(() {
+                                                        wSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }
+                                                    provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
+                                                    print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.sTB ==  true ? Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.sTBVCheck == true ? MyAppTheme.MainColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetS,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.sTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetS,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ) :SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    provider.winnerTotalCount == 1 && provider.loserTotalCount == 1
+                                        || provider.winnerTotalCount == 2 && provider.loserTotalCount == 1
+                                        || provider.winnerTotalCount == 1 && provider.loserTotalCount == 2
+                                        ?
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            width: width,
+                                            child: const Center(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(bottom: 5.0),
+                                                child: Text('Super Tie-Break',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: 16,
+                                                      color: MyAppTheme.black_Color,
+                                                      fontFamily: Fonts.nunito,
+                                                    )),
+                                              ),
+                                            ),
+                                          ),
+                                          Row(
                                             crossAxisAlignment: CrossAxisAlignment.center,
                                             mainAxisAlignment: MainAxisAlignment.center,
                                             children: [
-                                              Container(
-                                                width: 50,
-                                                height: 50,
-                                                margin: const EdgeInsets.only(right: 10.0),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(5.0),
-                                                  border: Border.all(
-                                                    color: provider.fiveTBVCheck == true ? MyAppTheme.MainColor : lTBSetFive.text.isNotEmpty && wTBSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                              SizedBox(
+                                                width: width* 0.20,
+                                                child:  Center(
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.superTieBreakerVCheck == true ? MyAppTheme.MainColor : superTieBLSet.text.isNotEmpty && superTieBWSet.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(1),
+                                                      ],
+                                                      controller: superTieBWSet,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        print(value);
+                                                        if(value == "5"){
+                                                          setState(() {
+                                                            superTieBLSet.text = "7";
+                                                          });
+                                                        }else if(value == "7"){
+                                                          setState(() {
+                                                            superTieBLSet.text = "5";
+                                                          });
+                                                        }else if(superTieBLSet.text == "7" || superTieBLSet.text == "5") {
+                                                          setState(() {
+                                                            superTieBLSet.text = "";
+                                                          });
+                                                        }else if (value == "8" || value == "9"){
+                                                          setState(() {
+                                                            superTieBWSet.text = "";
+                                                          });
+                                                        }
+                                                        provider.superTieBreakerValueCheck(superTieBWSet.text.toString(), superTieBLSet.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
                                                   ),
-                                                ),
-                                                child: TextField(
-                                                  textAlign: TextAlign.center,
-                                                  inputFormatters: [
-                                                    LengthLimitingTextInputFormatter(2),
-                                                  ],
-                                                  controller: wTBSetFive,
-                                                  keyboardType: TextInputType.number,
-                                                  onChanged: (value) {
-                                                    provider.fiveTieBreakValueCheck(wTBSetFive.text.toString(), lTBSetFive.text.toString());
-                                                  },
-                                                  style: const TextStyle(
-                                                      color: MyAppTheme.black_Color,
-                                                      fontWeight: FontWeight.w500,
-                                                      fontFamily: Fonts.nunito,
-                                                      fontSize: 14),
-                                                  decoration: const InputDecoration(
-                                                      border: InputBorder.none),
                                                 ),
                                               ),
-                                              Container(
-                                                width: 50,
-                                                height: 50,
-                                                margin: const EdgeInsets.only(left: 10.0),
-                                                decoration: BoxDecoration(
-                                                  borderRadius: BorderRadius.circular(5.0),
-                                                  border: Border.all(
-                                                    color: provider.fiveTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetFive.text.isNotEmpty && wTBSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                              SizedBox(
+                                                width: width* 0.20,
+                                                child: Center(
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.superTieBreakerVCheck == true ? MyAppTheme.colorinactiveTrackColor : superTieBLSet.text.isNotEmpty && superTieBWSet.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(1),
+                                                      ],
+                                                      controller: superTieBLSet,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        print(value);
+                                                        if(value == "5"){
+                                                          setState(() {
+                                                            superTieBWSet.text = "7";
+                                                          });
+                                                        }else if(value == "7"){
+                                                          setState(() {
+                                                            superTieBWSet.text = "5";
+                                                          });
+                                                        }else if(superTieBWSet.text == "7" || superTieBWSet.text == "5") {
+                                                          setState(() {
+                                                            superTieBWSet.text = "";
+                                                          });
+                                                        }else if (value == "8" || value == "9"){
+                                                          setState(() {
+                                                            superTieBLSet.text = "";
+                                                          });
+                                                        }
+                                                        provider.superTieBreakerValueCheck(superTieBWSet.text.toString(), superTieBLSet.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
                                                   ),
-                                                ),
-                                                child: TextField(
-                                                  textAlign: TextAlign.center,
-                                                  inputFormatters: [
-                                                    LengthLimitingTextInputFormatter(2),
-                                                  ],
-                                                  controller: lTBSetFive,
-                                                  keyboardType: TextInputType.number,
-                                                  onChanged: (value) {
-                                                    provider.fiveTieBreakValueCheck(wTBSetFive.text.toString(), lTBSetFive.text.toString());
-                                                  },
-                                                  style: const TextStyle(
-                                                      color: MyAppTheme.black_Color,
-                                                      fontWeight: FontWeight.w500,
-                                                      fontFamily: Fonts.nunito,
-                                                      fontSize: 14),
-                                                  decoration: const InputDecoration(
-                                                      border: InputBorder.none),
                                                 ),
                                               ),
                                             ],
-                                          ),
-                                        ) :SizedBox(),
+                                          )
+                                        ],
                                       ),
+                                    ) :const SizedBox(),
 
-                                    ],
-                                  ),
+                                  ],
                                 )
-                              ],
-                            )
+                                    : const SizedBox(),
 
-                          ],
-                        )
-                            :const SizedBox(),
+                                dropdownSets == "Set 3"   ?
+
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#1',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetF,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetF.text = "7";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetF.text = "5";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(lSetF.text == "7" || lSetF.text == "5") {
+                                                      setState(() {
+                                                        lSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }
+                                                    provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                                    print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetF,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetF.text = "7";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetF.text = "5";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(wSetF.text == "7" || wSetF.text == "5") {
+                                                      setState(() {
+                                                        wSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }
+                                                    provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                                    print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.fTB ==  true ?   Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetF,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                                        print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetF,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                                        print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ): SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#2',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.sVCheck == true ? MyAppTheme.MainColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetS,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetS.text = "7";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetS.text = "5";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(lSetS.text == "7" || lSetS.text == "5") {
+                                                      setState(() {
+                                                        lSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }
+                                                    provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
+                                                    print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.sVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetS,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetS.text = "7";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetS.text = "5";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(wSetS.text == "7" || wSetS.text == "5") {
+                                                      setState(() {
+                                                        wSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }
+                                                    provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
+                                                    print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.sTB ==  true ? Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.sTBVCheck == true ? MyAppTheme.MainColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetS,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.sTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetS,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ) :SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    provider.winnerTotalCount == provider.loserTotalCount ?
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child:  Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#3',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.tVCheck == true ? MyAppTheme.MainColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetT,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetT.text = "7";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetT.text = "5";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(lSetT.text == "7" || lSetT.text == "5") {
+                                                      setState(() {
+                                                        lSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }
+                                                    provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.tVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetT,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetT.text = "7";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetT.text = "5";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(wSetT.text == "7" || wSetT.text == "5") {
+                                                      setState(() {
+                                                        wSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }
+                                                    provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.tTB ==  true ?  Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.tTBVCheck == true ? MyAppTheme.MainColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetT,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.tTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetT,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ) :SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ) : const SizedBox()
+                                  ],
+                                )
+
+
+                                    : const SizedBox(),
+
+
+                                dropdownSets == "Set 4"   ?
+
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#1',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetF,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetF.text = "7";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetF.text = "5";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(lSetF.text == "7" || lSetF.text == "5") {
+                                                      setState(() {
+                                                        lSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }
+                                                    provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                                    print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetF,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetF.text = "7";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetF.text = "5";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(wSetF.text == "7" || wSetF.text == "5") {
+                                                      setState(() {
+                                                        wSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }
+                                                    provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                                    print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.fTB ==  true ?   Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetF,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                                        print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetF,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                                        print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ): SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#2',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.sVCheck == true ? MyAppTheme.MainColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetS,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetS.text = "7";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetS.text = "5";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(lSetS.text == "7" || lSetS.text == "5") {
+                                                      setState(() {
+                                                        lSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }
+                                                    provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
+                                                    print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.sVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetS,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetS.text = "7";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetS.text = "5";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(wSetS.text == "7" || wSetS.text == "5") {
+                                                      setState(() {
+                                                        wSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }
+                                                    provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
+                                                    print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.sTB ==  true ? Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.sTBVCheck == true ? MyAppTheme.MainColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetS,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.sTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetS,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ) :SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child:  Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#3',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.tVCheck == true ? MyAppTheme.MainColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetT,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetT.text = "7";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetT.text = "5";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(lSetT.text == "7" || lSetT.text == "5") {
+                                                      setState(() {
+                                                        lSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }
+                                                    provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.tVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetT,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetT.text = "7";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetT.text = "5";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(wSetT.text == "7" || wSetT.text == "5") {
+                                                      setState(() {
+                                                        wSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }
+                                                    provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.tTB ==  true ?  Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.tTBVCheck == true ? MyAppTheme.MainColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetT,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.tTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetT,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ) :SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    provider.winnerTotalCount == 3 && provider.loserTotalCount == 0 || provider.winnerTotalCount == 0 && provider.loserTotalCount == 3 ?
+                                    const SizedBox() :
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#4',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.forthVCheck == true ? MyAppTheme.MainColor : lSetFourth.text.isNotEmpty && wSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetFourth,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetFourth.text = "7";
+                                                        wTBSetFourth.text = "";
+                                                        lTBSetFourth.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetFourth.text = "5";
+                                                        wTBSetFourth.text = "";
+                                                        lTBSetFourth.text = "";
+                                                      });
+                                                    }else if(lSetFourth.text == "7" || lSetFourth.text == "5") {
+                                                      setState(() {
+                                                        lSetFourth.text = "";
+                                                        wTBSetFourth.text = "";
+                                                        lTBSetFourth.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetFourth.text = "";
+                                                        wTBSetFourth.text = "";
+                                                        lTBSetFourth.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetFourth.text = "";
+                                                        lTBSetFourth.text = "";
+                                                      });
+                                                    }
+                                                    provider.furthValueCheck(wSetFourth.text.toString(), lSetFourth.text.toString());
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.forthVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetFourth.text.isNotEmpty && wSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetFourth,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetFourth.text = "7";
+                                                        wTBSetFourth.text = "";
+                                                        lTBSetFourth.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetFourth.text = "5";
+                                                        wTBSetFourth.text = "";
+                                                        lTBSetFourth.text = "";
+                                                      });
+                                                    }else if(wSetFourth.text == "7" || wSetFourth.text == "5") {
+                                                      setState(() {
+                                                        wSetFourth.text = "";
+                                                        wTBSetFourth.text = "";
+                                                        lTBSetFourth.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetFourth.text = "";
+                                                        wTBSetFourth.text = "";
+                                                        lTBSetFourth.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetFourth.text = "";
+                                                        lTBSetFourth.text = "";
+                                                      });
+                                                    }
+                                                    provider.furthValueCheck(wSetFourth.text.toString(), lSetFourth.text.toString());
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.forthTB ==  true ?  Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.forthTBVCheck == true ? MyAppTheme.MainColor : lTBSetFourth.text.isNotEmpty && wTBSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetFourth,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+
+                                                        provider.furthTieBreakValueCheck(wTBSetFourth.text.toString(), lTBSetFourth.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.forthTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetFourth.text.isNotEmpty && wTBSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetFourth,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.furthTieBreakValueCheck(wTBSetFourth.text.toString(), lTBSetFourth.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ) :SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    provider.winnerTotalCount == 2 && provider.loserTotalCount == 2
+                                        || provider.winnerTotalCount == 3 && provider.loserTotalCount == 2
+                                        || provider.winnerTotalCount == 2 && provider.loserTotalCount == 3
+                                        ?
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          SizedBox(
+                                            width: width,
+                                            child: const Center(
+                                              child: Padding(
+                                                padding: EdgeInsets.only(bottom: 5.0),
+                                                child: Text('Super Tie-Break',
+                                                    style: TextStyle(
+                                                      fontWeight: FontWeight.w400,
+                                                      fontSize: 16,
+                                                      color: MyAppTheme.black_Color,
+                                                      fontFamily: Fonts.nunito,
+                                                    )),
+                                              ),
+                                            ),
+                                          ),
+                                          Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              SizedBox(
+                                                width: width* 0.20,
+                                                child:  Center(
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.superTieBreakerVCheck == true ? MyAppTheme.MainColor : secSuperTieBLSet.text.isNotEmpty && secSuperTieBWSet.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(1),
+                                                      ],
+                                                      controller: secSuperTieBWSet,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        print(value);
+                                                        if(value == "5"){
+                                                          setState(() {
+                                                            secSuperTieBLSet.text = "7";
+                                                          });
+                                                        }else if(value == "7"){
+                                                          setState(() {
+                                                            secSuperTieBLSet.text = "5";
+                                                          });
+                                                        }else if(secSuperTieBLSet.text == "7" || secSuperTieBLSet.text == "5") {
+                                                          setState(() {
+                                                            secSuperTieBLSet.text = "";
+                                                          });
+                                                        }else if (value == "8" || value == "9"){
+                                                          setState(() {
+                                                            secSuperTieBWSet.text = "";
+                                                          });
+                                                        }
+                                                        provider.superTieBreakerValueCheck(secSuperTieBWSet.text.toString(), secSuperTieBLSet.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: width* 0.20,
+                                                child: Center(
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.superTieBreakerVCheck == true ? MyAppTheme.colorinactiveTrackColor : secSuperTieBLSet.text.isNotEmpty && secSuperTieBWSet.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(1),
+                                                      ],
+                                                      controller: secSuperTieBLSet,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        print(value);
+                                                        if(value == "5"){
+                                                          setState(() {
+                                                            secSuperTieBWSet.text = "7";
+                                                          });
+                                                        }else if(value == "7"){
+                                                          setState(() {
+                                                            secSuperTieBWSet.text = "5";
+                                                          });
+                                                        }else if(secSuperTieBWSet.text == "7" || secSuperTieBWSet.text == "5") {
+                                                          setState(() {
+                                                            secSuperTieBWSet.text = "";
+                                                          });
+                                                        }else if (value == "8" || value == "9"){
+                                                          setState(() {
+                                                            secSuperTieBLSet.text = "";
+                                                          });
+                                                        }
+                                                        provider.superTieBreakerValueCheck(secSuperTieBWSet.text.toString(), secSuperTieBLSet.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          )
+                                        ],
+                                      ),
+                                    ) :const SizedBox(),
+                                  ],
+                                )
+
+
+                                    :const SizedBox(),
+
+
+                                dropdownSets == "Set 5" ?
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#1',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.fVCheck == true ? MyAppTheme.MainColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetF,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetF.text = "7";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetF.text = "5";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(lSetF.text == "7" || lSetF.text == "5") {
+                                                      setState(() {
+                                                        lSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }
+                                                    provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                                    print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.fVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetF.text.isNotEmpty && wSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetF,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetF.text = "7";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetF.text = "5";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if(wSetF.text == "7" || wSetF.text == "5") {
+                                                      setState(() {
+                                                        wSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetF.text = "";
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetF.text = "";
+                                                        lTBSetF.text = "";
+                                                      });
+                                                    }
+                                                    provider.firstValueCheck(wSetF.text.toString(), lSetF.text.toString());
+                                                    print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.fTB ==  true ?   Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.fTBVCheck == true ? MyAppTheme.MainColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetF,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                                        print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.fTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : wTBSetF.text.isNotEmpty && lTBSetF.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetF,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.firstTieBreakValueCheck(wTBSetF.text.toString(), lTBSetF.text.toString());
+                                                        print("winner count ${provider.fWCount} loser count ${provider.fLCount}");
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ): SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#2',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.sVCheck == true ? MyAppTheme.MainColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetS,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetS.text = "7";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetS.text = "5";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(lSetS.text == "7" || lSetS.text == "5") {
+                                                      setState(() {
+                                                        lSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }
+                                                    provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
+                                                    print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.sVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetS.text.isNotEmpty && wSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetS,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetS.text = "7";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetS.text = "5";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if(wSetS.text == "7" || wSetS.text == "5") {
+                                                      setState(() {
+                                                        wSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetS.text = "";
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetS.text = "";
+                                                        lTBSetS.text = "";
+                                                      });
+                                                    }
+                                                    provider.secondValueCheck(wSetS.text.toString(), lSetS.text.toString());
+                                                    print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.sTB ==  true ? Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.sTBVCheck == true ? MyAppTheme.MainColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetS,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.sTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetS.text.isNotEmpty && wTBSetS.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetS,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.secondTieBreakValueCheck(wTBSetS.text.toString(), lTBSetS.text.toString());
+                                                        print("winner count ${provider.sWCount} loser count ${provider.sLCount}");
+
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ) :SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child:  Row(
+                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          SizedBox(
+                                            width: width* 0.10,
+                                            child: const Center(
+                                              child: Text('#3',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 16,
+                                                    color: MyAppTheme.black_Color,
+                                                    fontFamily: Fonts.nunito,
+                                                  )),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child:  Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.tVCheck == true ? MyAppTheme.MainColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: wSetT,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        lSetT.text = "7";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        lSetT.text = "5";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(lSetT.text == "7" || lSetT.text == "5") {
+                                                      setState(() {
+                                                        lSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        wSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }
+                                                    provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.20,
+                                            child: Center(
+                                              child: Container(
+                                                width: 50,
+                                                height: 50,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(5.0),
+                                                  border: Border.all(
+                                                    color: provider.tVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetT.text.isNotEmpty && wSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                  ),
+                                                ),
+                                                child: TextField(
+                                                  textAlign: TextAlign.center,
+                                                  inputFormatters: [
+                                                    LengthLimitingTextInputFormatter(1),
+                                                  ],
+                                                  controller: lSetT,
+                                                  keyboardType: TextInputType.number,
+                                                  onChanged: (value) {
+                                                    print(value);
+                                                    if(value == "5"){
+                                                      setState(() {
+                                                        wSetT.text = "7";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(value == "7"){
+                                                      setState(() {
+                                                        wSetT.text = "5";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if(wSetT.text == "7" || wSetT.text == "5") {
+                                                      setState(() {
+                                                        wSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else if (value == "8" || value == "9"){
+                                                      setState(() {
+                                                        lSetT.text = "";
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }else {
+                                                      setState(() {
+                                                        wTBSetT.text = "";
+                                                        lTBSetT.text = "";
+                                                      });
+                                                    }
+                                                    provider.thirdValueCheck(wSetT.text.toString(), lSetT.text.toString());
+                                                  },
+                                                  style: const TextStyle(
+                                                      color: MyAppTheme.black_Color,
+                                                      fontWeight: FontWeight.w500,
+                                                      fontFamily: Fonts.nunito,
+                                                      fontSize: 14),
+                                                  decoration: const InputDecoration(
+                                                      border: InputBorder.none),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: width* 0.40,
+                                            child: provider.tTB ==  true ?  Center(
+                                              child: Row(
+                                                crossAxisAlignment: CrossAxisAlignment.center,
+                                                mainAxisAlignment: MainAxisAlignment.center,
+                                                children: [
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(right: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.tTBVCheck == true ? MyAppTheme.MainColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: wTBSetT,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                  Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    margin: const EdgeInsets.only(left: 10.0),
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.tTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetT.text.isNotEmpty && wTBSetT.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(2),
+                                                      ],
+                                                      controller: lTBSetT,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        provider.thirdTieBreakValueCheck(wTBSetT.text.toString(), lTBSetT.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ) :SizedBox(),
+                                          ),
+
+                                        ],
+                                      ),
+                                    ),
+                                    provider.winnerTotalCount == 3 && provider.loserTotalCount == 0 || provider.winnerTotalCount == 0 && provider.loserTotalCount == 3 ?
+                                    const SizedBox() :
+                                    Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 10.0),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: width* 0.10,
+                                                child: const Center(
+                                                  child: Text('#4',
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w400,
+                                                        fontSize: 16,
+                                                        color: MyAppTheme.black_Color,
+                                                        fontFamily: Fonts.nunito,
+                                                      )),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: width* 0.20,
+                                                child:  Center(
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.forthVCheck == true ? MyAppTheme.MainColor : lSetFourth.text.isNotEmpty && wSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(1),
+                                                      ],
+                                                      controller: wSetFourth,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        print(value);
+                                                        if(value == "5"){
+                                                          setState(() {
+                                                            lSetFourth.text = "7";
+                                                            wTBSetFourth.text = "";
+                                                            lTBSetFourth.text = "";
+                                                          });
+                                                        }else if(value == "7"){
+                                                          setState(() {
+                                                            lSetFourth.text = "5";
+                                                            wTBSetFourth.text = "";
+                                                            lTBSetFourth.text = "";
+                                                          });
+                                                        }else if(lSetFourth.text == "7" || lSetFourth.text == "5") {
+                                                          setState(() {
+                                                            lSetFourth.text = "";
+                                                            wTBSetFourth.text = "";
+                                                            lTBSetFourth.text = "";
+                                                          });
+                                                        }else if (value == "8" || value == "9"){
+                                                          setState(() {
+                                                            wSetFourth.text = "";
+                                                            wTBSetFourth.text = "";
+                                                            lTBSetFourth.text = "";
+                                                          });
+                                                        }else {
+                                                          setState(() {
+                                                            wTBSetFourth.text = "";
+                                                            lTBSetFourth.text = "";
+                                                          });
+                                                        }
+                                                        provider.furthValueCheck(wSetFourth.text.toString(), lSetFourth.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: width* 0.20,
+                                                child: Center(
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.forthVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetFourth.text.isNotEmpty && wSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(1),
+                                                      ],
+                                                      controller: lSetFourth,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        print(value);
+                                                        if(value == "5"){
+                                                          setState(() {
+                                                            wSetFourth.text = "7";
+                                                            wTBSetFourth.text = "";
+                                                            lTBSetFourth.text = "";
+                                                          });
+                                                        }else if(value == "7"){
+                                                          setState(() {
+                                                            wSetFourth.text = "5";
+                                                            wTBSetFourth.text = "";
+                                                            lTBSetFourth.text = "";
+                                                          });
+                                                        }else if(wSetFourth.text == "7" || wSetFourth.text == "5") {
+                                                          setState(() {
+                                                            wSetFourth.text = "";
+                                                            wTBSetFourth.text = "";
+                                                            lTBSetFourth.text = "";
+                                                          });
+                                                        }else if (value == "8" || value == "9"){
+                                                          setState(() {
+                                                            lSetFourth.text = "";
+                                                            wTBSetFourth.text = "";
+                                                            lTBSetFourth.text = "";
+                                                          });
+                                                        }else {
+                                                          setState(() {
+                                                            wTBSetFourth.text = "";
+                                                            lTBSetFourth.text = "";
+                                                          });
+                                                        }
+                                                        provider.furthValueCheck(wSetFourth.text.toString(), lSetFourth.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: width* 0.40,
+                                                child: provider.forthTB ==  true ?  Center(
+                                                  child: Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        margin: const EdgeInsets.only(right: 10.0),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(5.0),
+                                                          border: Border.all(
+                                                            color: provider.forthTBVCheck == true ? MyAppTheme.MainColor : lTBSetFourth.text.isNotEmpty && wTBSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                          ),
+                                                        ),
+                                                        child: TextField(
+                                                          textAlign: TextAlign.center,
+                                                          inputFormatters: [
+                                                            LengthLimitingTextInputFormatter(2),
+                                                          ],
+                                                          controller: wTBSetFourth,
+                                                          keyboardType: TextInputType.number,
+                                                          onChanged: (value) {
+
+                                                            provider.furthTieBreakValueCheck(wTBSetFourth.text.toString(), lTBSetFourth.text.toString());
+                                                          },
+                                                          style: const TextStyle(
+                                                              color: MyAppTheme.black_Color,
+                                                              fontWeight: FontWeight.w500,
+                                                              fontFamily: Fonts.nunito,
+                                                              fontSize: 14),
+                                                          decoration: const InputDecoration(
+                                                              border: InputBorder.none),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        margin: const EdgeInsets.only(left: 10.0),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(5.0),
+                                                          border: Border.all(
+                                                            color: provider.forthTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetFourth.text.isNotEmpty && wTBSetFourth.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                          ),
+                                                        ),
+                                                        child: TextField(
+                                                          textAlign: TextAlign.center,
+                                                          inputFormatters: [
+                                                            LengthLimitingTextInputFormatter(2),
+                                                          ],
+                                                          controller: lTBSetFourth,
+                                                          keyboardType: TextInputType.number,
+                                                          onChanged: (value) {
+                                                            provider.furthTieBreakValueCheck(wTBSetFourth.text.toString(), lTBSetFourth.text.toString());
+                                                          },
+                                                          style: const TextStyle(
+                                                              color: MyAppTheme.black_Color,
+                                                              fontWeight: FontWeight.w500,
+                                                              fontFamily: Fonts.nunito,
+                                                              fontSize: 14),
+                                                          decoration: const InputDecoration(
+                                                              border: InputBorder.none),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ) :SizedBox(),
+                                              ),
+
+                                            ],
+                                          ),
+                                        ),
+                                        provider.winnerTotalCount == 3 && provider.loserTotalCount == 1 || provider.winnerTotalCount == 1 && provider.loserTotalCount == 3 ?
+                                        const SizedBox() :
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 10.0),
+                                          child: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              SizedBox(
+                                                width: width* 0.10,
+                                                child: const Center(
+                                                  child: Text('#5',
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w400,
+                                                        fontSize: 16,
+                                                        color: MyAppTheme.black_Color,
+                                                        fontFamily: Fonts.nunito,
+                                                      )),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: width* 0.20,
+                                                child:  Center(
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.fiveVCheck == true ? MyAppTheme.MainColor : lSetFive.text.isNotEmpty && wSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(1),
+                                                      ],
+                                                      controller: wSetFive,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        print(value);
+                                                        if(value == "5"){
+                                                          setState(() {
+                                                            lSetFive.text = "7";
+                                                            wTBSetFive.text = "";
+                                                            lTBSetFive.text = "";
+                                                          });
+                                                        }else if(value == "7"){
+                                                          setState(() {
+                                                            lSetFive.text = "5";
+                                                            wTBSetFive.text = "";
+                                                            lTBSetFive.text = "";
+                                                          });
+                                                        }else if(lSetFive.text == "7" || lSetFive.text == "5") {
+                                                          setState(() {
+                                                            lSetFive.text = "";
+                                                            wTBSetFive.text = "";
+                                                            lTBSetFive.text = "";
+                                                          });
+                                                        }else if (value == "8" || value == "9"){
+                                                          setState(() {
+                                                            wSetFive.text = "";
+                                                            wTBSetFive.text = "";
+                                                            lTBSetFive.text = "";
+                                                          });
+                                                        }else {
+                                                          setState(() {
+                                                            wTBSetFive.text = "";
+                                                            lTBSetFive.text = "";
+                                                          });
+                                                        }
+                                                        provider.fiveValueCheck(wSetFive.text.toString(), lSetFive.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: width* 0.20,
+                                                child: Center(
+                                                  child: Container(
+                                                    width: 50,
+                                                    height: 50,
+                                                    decoration: BoxDecoration(
+                                                      borderRadius: BorderRadius.circular(5.0),
+                                                      border: Border.all(
+                                                        color: provider.fiveVCheck == true ? MyAppTheme.colorinactiveTrackColor : lSetFive.text.isNotEmpty && wSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                      ),
+                                                    ),
+                                                    child: TextField(
+                                                      textAlign: TextAlign.center,
+                                                      inputFormatters: [
+                                                        LengthLimitingTextInputFormatter(1),
+                                                      ],
+                                                      controller: lSetFive,
+                                                      keyboardType: TextInputType.number,
+                                                      onChanged: (value) {
+                                                        print(value);
+                                                        if(value == "5"){
+                                                          setState(() {
+                                                            wSetFive.text = "7";
+                                                            wTBSetFive.text = "";
+                                                            lTBSetFive.text = "";
+                                                          });
+                                                        }else if(value == "7"){
+                                                          setState(() {
+                                                            wSetFive.text = "5";
+                                                            wTBSetFive.text = "";
+                                                            lTBSetFive.text = "";
+                                                          });
+                                                        }else if(wSetFive.text == "7" || wSetFive.text == "5") {
+                                                          setState(() {
+                                                            wSetFive.text = "";
+                                                            wTBSetFive.text = "";
+                                                            lTBSetFive.text = "";
+                                                          });
+                                                        }else if (value == "8" || value == "9"){
+                                                          setState(() {
+                                                            lSetFive.text = "";
+                                                            wTBSetFive.text = "";
+                                                            lTBSetFive.text = "";
+                                                          });
+                                                        }else {
+                                                          setState(() {
+                                                            wTBSetFive.text = "";
+                                                            lTBSetFive.text = "";
+                                                          });
+                                                        }
+                                                        provider.fiveValueCheck(wSetFive.text.toString(), lSetFive.text.toString());
+                                                      },
+                                                      style: const TextStyle(
+                                                          color: MyAppTheme.black_Color,
+                                                          fontWeight: FontWeight.w500,
+                                                          fontFamily: Fonts.nunito,
+                                                          fontSize: 14),
+                                                      decoration: const InputDecoration(
+                                                          border: InputBorder.none),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              SizedBox(
+                                                width: width* 0.40,
+                                                child: provider.fiveTB ==  true ?  Center(
+                                                  child: Row(
+                                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        margin: const EdgeInsets.only(right: 10.0),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(5.0),
+                                                          border: Border.all(
+                                                            color: provider.fiveTBVCheck == true ? MyAppTheme.MainColor : lTBSetFive.text.isNotEmpty && wTBSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                          ),
+                                                        ),
+                                                        child: TextField(
+                                                          textAlign: TextAlign.center,
+                                                          inputFormatters: [
+                                                            LengthLimitingTextInputFormatter(2),
+                                                          ],
+                                                          controller: wTBSetFive,
+                                                          keyboardType: TextInputType.number,
+                                                          onChanged: (value) {
+                                                            provider.fiveTieBreakValueCheck(wTBSetFive.text.toString(), lTBSetFive.text.toString());
+                                                          },
+                                                          style: const TextStyle(
+                                                              color: MyAppTheme.black_Color,
+                                                              fontWeight: FontWeight.w500,
+                                                              fontFamily: Fonts.nunito,
+                                                              fontSize: 14),
+                                                          decoration: const InputDecoration(
+                                                              border: InputBorder.none),
+                                                        ),
+                                                      ),
+                                                      Container(
+                                                        width: 50,
+                                                        height: 50,
+                                                        margin: const EdgeInsets.only(left: 10.0),
+                                                        decoration: BoxDecoration(
+                                                          borderRadius: BorderRadius.circular(5.0),
+                                                          border: Border.all(
+                                                            color: provider.fiveTBVCheck == true ? MyAppTheme.colorinactiveTrackColor : lTBSetFive.text.isNotEmpty && wTBSetFive.text.isNotEmpty ? MyAppTheme.CategoryBGSelectColor : MyAppTheme.listBGColor,
+                                                          ),
+                                                        ),
+                                                        child: TextField(
+                                                          textAlign: TextAlign.center,
+                                                          inputFormatters: [
+                                                            LengthLimitingTextInputFormatter(2),
+                                                          ],
+                                                          controller: lTBSetFive,
+                                                          keyboardType: TextInputType.number,
+                                                          onChanged: (value) {
+                                                            provider.fiveTieBreakValueCheck(wTBSetFive.text.toString(), lTBSetFive.text.toString());
+                                                          },
+                                                          style: const TextStyle(
+                                                              color: MyAppTheme.black_Color,
+                                                              fontWeight: FontWeight.w500,
+                                                              fontFamily: Fonts.nunito,
+                                                              fontSize: 14),
+                                                          decoration: const InputDecoration(
+                                                              border: InputBorder.none),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ) :const SizedBox(),
+                                              ),
+
+                                            ],
+                                          ),
+                                        )
+                                      ],
+                                    )
+
+                                  ],
+                                )
+                                    :const SizedBox(),
+                              ],
+                            ):const SizedBox()
+                       
                       ],
                     ),
                   ),
@@ -4331,7 +4347,7 @@ class _AddScoreState extends State<AddScore> {
                         onPressed: () {
                           if(matchsStatus == "played"){
                             setValueSendData(provider.winnerTotalCount,provider.loserTotalCount);
-                            var json1 = setVlauest.map((e){
+                            var json1 = setValueSet.map((e){
                               return {
                                 "winner" : e.winner,
                                 "loser" : e.loser,
@@ -4342,8 +4358,8 @@ class _AddScoreState extends State<AddScore> {
                             print("$WinnerUUID        ${matchsStatus!}      ${json.encode(json1)}   $selectSIndex",);
                             saveData(context,provider.fTB,provider.fTBVCheck,provider.sTB,provider.sTBVCheck,provider.tTB,provider.tTBVCheck,provider.forthTB,provider.forthTBVCheck,provider.fiveTB,provider.fiveTBVCheck,WinnerUUID,matchsStatus!,json.encode(json1),provider.winnerTotalCount,provider.loserTotalCount,scoreStatus,dropdownValue!);
                           }else {
-                            print("$WinnerUUID        ${matchsStatus!}      ${setVlauest.toString()}   $dropdownValue!",);
-                            ScoreBottomDilog(context,WinnerUUID,matchsStatus!,setVlauest.toString(),scoreStatus,dropdownValue!);
+                            print("$WinnerUUID        ${matchsStatus!}      ${setEmptyValueSet.toString()}   $dropdownValue!",);
+                            ScoreBottomDilog(context,WinnerUUID,matchsStatus!,setEmptyValueSet.toString(),scoreStatus,dropdownValue!);
                           }
 
                         },

@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
 ScoreEditRequestBottomDilog(BuildContext buildContext){
+  final maxLines = 5;
+  TextEditingController leaguesDescription = TextEditingController();
   showModalBottomSheet<void>(
     context: buildContext,
     isScrollControlled: true,
@@ -55,29 +58,59 @@ ScoreEditRequestBottomDilog(BuildContext buildContext){
 
                     ],
                   ),
-                  const Padding(
-                      padding:  EdgeInsets.only(top: 10.0,bottom: 10.0),
-                      child: Text('If Add Score is invalid Click Below Button',
-                          style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            fontSize: 14,
-                            color: MyAppTheme.black_Color,
-                            fontFamily: Fonts.nunito,
-                          ))),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: maxLines * 25.0,
+                    margin: const EdgeInsets.only(top: 10.0),
+                    decoration: BoxDecoration(
+                        border: Border.all(
+                          color: MyAppTheme.MainColor,
+                        ),
+                        borderRadius: const BorderRadius.all(Radius.circular(5))
+                    ),
+                    child:  TextFormField(
+                      maxLines: maxLines,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      keyboardType: TextInputType.text,
+                      textAlign: TextAlign.left,
+                      controller: leaguesDescription,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Please Enter League Description';
+                        }
+                        return null;
+                      },
+                      style: const TextStyle(
+                          color: MyAppTheme.black_Color,
+                          fontWeight: FontWeight.w500,
+                          fontFamily: Fonts.nunito,
+                          fontSize: 16),
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: description,
+                        hintStyle: TextStyle(
+                          fontWeight: FontWeight.w400,
+                          fontSize: 16,
+                          color: MyAppTheme.DesBlackColor,
+                          fontFamily: Fonts.nunito,
+                        ),
+                        contentPadding: EdgeInsets.only(left: 10.0),),
+                    ),
+                  ),
                   InkWell(
                     onTap: (){
                       Navigator.pop(context);
                     },
                     child: Container(
                       height: 45,
-                      margin:  const EdgeInsets.only(left: 10.0),
+                      margin:  const EdgeInsets.only(top: 10.0),
                       decoration:  const BoxDecoration(
                           color: MyAppTheme.MainColor,
                           borderRadius: BorderRadius.all(Radius.circular(5))
                       ),
                       child:  const Center(
                         child: Text(
-                          'Confirm',
+                          'Send',
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontWeight: FontWeight.w700,

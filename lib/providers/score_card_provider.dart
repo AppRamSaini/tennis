@@ -46,8 +46,11 @@ class ScoreCardProvider extends ChangeNotifier {
    int fiveWCount = 0;
    int fiveLCount = 0;
 
+   int superTieBreakerWCount = 0;
+   int superTieBreakerLCount = 0;
+
    bool superTieBreakerVCheck = false;
-   bool secSuperTieBreakerVCheck = false;
+ //  bool secSuperTieBreakerVCheck = false;
 
    void reSetAllValue(){
      fTB = false;
@@ -71,7 +74,28 @@ class ScoreCardProvider extends ChangeNotifier {
      fiveTBVCheck = false;
 
      superTieBreakerVCheck = false;
-     secSuperTieBreakerVCheck = false;
+     //secSuperTieBreakerVCheck = false;
+
+     winnerTotalCount = 0;
+     loserTotalCount = 0;
+
+     fWCount = 0;
+     fLCount = 0;
+
+     sWCount = 0;
+     sLCount = 0;
+
+     tWCount = 0;
+     tLCount = 0;
+
+     forthWCount = 0;
+     forthLCount = 0;
+
+     fiveWCount = 0;
+     fiveLCount = 0;
+
+     superTieBreakerWCount = 0;
+     superTieBreakerLCount = 0;
      notifyListeners();
    }
    void reSetValue(String value){
@@ -93,7 +117,7 @@ class ScoreCardProvider extends ChangeNotifier {
        fiveTBVCheck = false;
 
        superTieBreakerVCheck = false;
-       secSuperTieBreakerVCheck = false;
+      // secSuperTieBreakerVCheck = false;
        notifyListeners();
      }else if(value == 'Set 2'){
        tTB = false;
@@ -107,8 +131,8 @@ class ScoreCardProvider extends ChangeNotifier {
        fiveTB = false;
        fiveVCheck = false;
        fiveTBVCheck = false;
-
-       secSuperTieBreakerVCheck = false;
+       superTieBreakerVCheck = false;
+      // secSuperTieBreakerVCheck = false;
 
        notifyListeners();
      }else if(value == 'Set 3'){
@@ -119,16 +143,16 @@ class ScoreCardProvider extends ChangeNotifier {
        fiveTB = false;
        fiveVCheck = false;
        fiveTBVCheck = false;
-
-       secSuperTieBreakerVCheck = false;
+       superTieBreakerVCheck = false;
+      // secSuperTieBreakerVCheck = false;
 
        notifyListeners();
      }else if(value == 'Set 4'){
        fiveTB = false;
        fiveVCheck = false;
        fiveTBVCheck = false;
-
-       secSuperTieBreakerVCheck = false;
+       superTieBreakerVCheck = false;
+      // secSuperTieBreakerVCheck = false;
 
        notifyListeners();
      }
@@ -248,15 +272,21 @@ class ScoreCardProvider extends ChangeNotifier {
       if(int.parse(win) > int.parse(los)){
         if(int.parse(win) == 6 && int.parse(win) - int.parse(los) == 2){
           superTieBreakerVCheck = true;
-          fWCount++;
+          superTieBreakerWCount++;
+          winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+superTieBreakerWCount;
+          loserTotalCount = fLCount+sLCount+tLCount+forthLCount+superTieBreakerLCount;
           notifyListeners();
         }else if (int.parse(win) == 6){
           superTieBreakerVCheck = true;
-          fWCount++;
+          superTieBreakerWCount++;
+          winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+superTieBreakerWCount;
+          loserTotalCount = fLCount+sLCount+tLCount+forthLCount+superTieBreakerLCount;
           notifyListeners();
         }else if (int.parse(win) == 7 && int.parse(los) == 5){
           superTieBreakerVCheck = true;
-          fWCount++;
+          superTieBreakerWCount++;
+          winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+superTieBreakerWCount;
+          loserTotalCount = fLCount+sLCount+tLCount+forthLCount+superTieBreakerLCount;
           notifyListeners();
         }
         else {
@@ -266,15 +296,21 @@ class ScoreCardProvider extends ChangeNotifier {
       }else if(int.parse(win) < int.parse(los)){
         if(int.parse(los) == 6 && int.parse(los) - int.parse(win) == 2){
           superTieBreakerVCheck = true;
-          fLCount++;
+          superTieBreakerLCount++;
+          winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+superTieBreakerWCount;
+          loserTotalCount = fLCount+sLCount+tLCount+forthLCount+superTieBreakerLCount;
           notifyListeners();
         }else if (int.parse(los) == 6){
           superTieBreakerVCheck = true;
-          fLCount++;
+          superTieBreakerLCount++;
+          winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+superTieBreakerWCount;
+          loserTotalCount = fLCount+sLCount+tLCount+forthLCount+superTieBreakerLCount;
           notifyListeners();
         } else if (int.parse(win) == 5 && int.parse(los) == 7){
           superTieBreakerVCheck = true;
-          fLCount++;
+          superTieBreakerLCount++;
+          winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+superTieBreakerWCount;
+          loserTotalCount = fLCount+sLCount+tLCount+forthLCount+superTieBreakerLCount;
           notifyListeners();
         }
         else {
@@ -282,25 +318,31 @@ class ScoreCardProvider extends ChangeNotifier {
           notifyListeners();
         }
       }else if(int.parse(win) == 6 && int.parse(los) == 6){
-        fWCount = 0;
-        fLCount = 0;
+        superTieBreakerWCount = 0;
+        superTieBreakerLCount = 0;
+        winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+superTieBreakerWCount;
+        loserTotalCount = fLCount+sLCount+tLCount+forthLCount+superTieBreakerLCount;
         superTieBreakerVCheck = true;
         notifyListeners();
       }else if(int.parse(win) == int.parse(los)){
-        fWCount = 0;
-        fLCount = 0;
+        superTieBreakerWCount = 0;
+        superTieBreakerLCount = 0;
+        winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+superTieBreakerWCount;
+        loserTotalCount = fLCount+sLCount+tLCount+forthLCount+superTieBreakerLCount;
         superTieBreakerVCheck = false;
         notifyListeners();
       }
     }else {
-      fWCount = 0;
-      fLCount = 0;
+      superTieBreakerWCount = 0;
+      superTieBreakerLCount = 0;
+      winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+superTieBreakerWCount;
+      loserTotalCount = fLCount+sLCount+tLCount+forthLCount+superTieBreakerLCount;
       superTieBreakerVCheck = false;
       notifyListeners();
     }
 
   }
-  void secSuperTieBreakerValueCheck(String win,String los){
+ /* void secSuperTieBreakerValueCheck(String win,String los){
     if(win.isNotEmpty && los.isNotEmpty){
       if(int.parse(win) > int.parse(los)){
         if(int.parse(win) == 6 && int.parse(win) - int.parse(los) == 2){
@@ -356,7 +398,7 @@ class ScoreCardProvider extends ChangeNotifier {
       notifyListeners();
     }
 
-  }
+  }*/
 ///////////////////////////////set first value ///////////////////////////////////////////
    void firstValueCheck(String win,String los){
      if(win.isNotEmpty && los.isNotEmpty){
@@ -1082,8 +1124,8 @@ class ScoreCardProvider extends ChangeNotifier {
           notifyListeners();
         }
       }else if(int.parse(win) == 6 && int.parse(los) == 6){
-        fiveWCount == 0;
-        fiveLCount == 0;
+        fiveWCount = 0;
+        fiveLCount = 0;
         winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+fiveWCount;
         loserTotalCount = fLCount+sLCount+tLCount+forthLCount+fiveLCount;
         print("total winner count${winnerTotalCount}loser total count$loserTotalCount");
@@ -1091,8 +1133,8 @@ class ScoreCardProvider extends ChangeNotifier {
         fiveTB = true;
         notifyListeners();
       }else if(int.parse(win) == int.parse(los)){
-        fiveWCount == 0;
-        fiveLCount == 0;
+        fiveWCount = 0;
+        fiveLCount = 0;
         winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+fiveWCount;
         loserTotalCount = fLCount+sLCount+tLCount+forthLCount+fiveLCount;
         print("total winner count${winnerTotalCount}loser total count$loserTotalCount");
@@ -1100,8 +1142,8 @@ class ScoreCardProvider extends ChangeNotifier {
         notifyListeners();
       }
     }else {
-      fiveWCount == 0;
-      fiveLCount == 0;
+      fiveWCount = 0;
+      fiveLCount = 0;
       winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+fiveWCount;
       loserTotalCount = fLCount+sLCount+tLCount+forthLCount+fiveLCount;
       print("total winner count${winnerTotalCount}loser total count$loserTotalCount");
@@ -1123,8 +1165,8 @@ class ScoreCardProvider extends ChangeNotifier {
             fiveTBVCheck = true;
             notifyListeners();
           }else {
-            fiveWCount == 0;
-            fiveLCount == 0;
+            fiveWCount = 0;
+            fiveLCount = 0;
             winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+fiveWCount;
             loserTotalCount = fLCount+sLCount+tLCount+forthLCount+fiveLCount;
             print("total winner count${winnerTotalCount}loser total count$loserTotalCount");
@@ -1140,8 +1182,8 @@ class ScoreCardProvider extends ChangeNotifier {
           notifyListeners();
         }
         else {
-          fiveWCount == 0;
-          fiveLCount == 0;
+          fiveWCount = 0;
+          fiveLCount = 0;
           winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+fiveWCount;
           loserTotalCount = fLCount+sLCount+tLCount+forthLCount+fiveLCount;
           print("total winner count${winnerTotalCount}loser total count$loserTotalCount");
@@ -1159,8 +1201,8 @@ class ScoreCardProvider extends ChangeNotifier {
             fiveTBVCheck = true;
             notifyListeners();
           }else {
-            fiveWCount == 0;
-            fiveLCount == 0;
+            fiveWCount = 0;
+            fiveLCount = 0;
             winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+fiveWCount;
             loserTotalCount = fLCount+sLCount+tLCount+forthLCount+fiveLCount;
             print("total winner count${winnerTotalCount}loser total count$loserTotalCount");
@@ -1176,8 +1218,8 @@ class ScoreCardProvider extends ChangeNotifier {
           notifyListeners();
         }
         else {
-          fiveWCount == 0;
-          fiveLCount == 0;
+          fiveWCount = 0;
+          fiveLCount = 0;
           winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+fiveWCount;
           loserTotalCount = fLCount+sLCount+tLCount+forthLCount+fiveLCount;
           print("total winner count${winnerTotalCount}loser total count$loserTotalCount");
@@ -1186,8 +1228,8 @@ class ScoreCardProvider extends ChangeNotifier {
         }
 
       }else if(int.parse(win) == int.parse(los)){
-        fiveWCount == 0;
-        fiveLCount == 0;
+        fiveWCount = 0;
+        fiveLCount = 0;
         winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+fiveWCount;
         loserTotalCount = fLCount+sLCount+tLCount+forthLCount+fiveLCount;
         print("total winner count${winnerTotalCount}loser total count$loserTotalCount");
@@ -1195,8 +1237,8 @@ class ScoreCardProvider extends ChangeNotifier {
         notifyListeners();
       }
     }else {
-      fiveWCount == 0;
-      fiveLCount == 0;
+      fiveWCount = 0;
+      fiveLCount = 0;
       winnerTotalCount = fWCount+sWCount+tWCount+forthWCount+fiveWCount;
       loserTotalCount = fLCount+sLCount+tLCount+forthLCount+fiveLCount;
       print("total winner count${winnerTotalCount}loser total count$loserTotalCount");

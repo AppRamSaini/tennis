@@ -308,10 +308,7 @@ class _MyLeaguesState extends State<MyLeagues> {
                                                     )
                                                         : SizedBox()),
                                                 PopupMenuItem(
-                                                    height: leagueslist[
-                                                    index]
-                                                    [
-                                                    'is_admin'] ==
+                                                    height: leagueslist[index]['is_admin'] ==
                                                         true
                                                         ? 30
                                                         : 0,

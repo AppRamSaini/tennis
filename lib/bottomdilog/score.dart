@@ -84,16 +84,43 @@ ScoreBottomDilog(BuildContext buildContext,String winnerUuid,String status,Strin
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Expanded(child: InkWell(
+                        scoreStatus == "valid" ?
+                            Expanded(child: InkWell(
+                              onTap: (){
+                                if(scoreStatus == "valid"){
+                                  Navigator.pop(context);
+                                  locator<ScoreCardProvider>().sendChallengeScore(buildContext,winnerUuid,status,score);
+                                }
+                              },
+                              child: Container(
+                                height: 45,
+                                decoration:   const BoxDecoration(
+                                    color: MyAppTheme.MainColor,
+                                    borderRadius: BorderRadius.all(Radius.circular(5))
+                                ),
+                                child:  const Center(
+                                  child: Text(
+                                    'Confirm',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                      fontSize: 12,
+                                      color: MyAppTheme.whiteColor,
+                                      fontFamily: Fonts.nunito,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ))
+                         : Expanded(child: InkWell(
                           onTap: (){
                             Navigator.pop(context);
                           },
                           child: Container(
                             height: 45,
-                            margin:  const EdgeInsets.only(right: 10.0),
-                            decoration:   BoxDecoration(
-                                color: scoreStatus == "valid" ?MyAppTheme.PosSMColor : MyAppTheme.CategoryBGSelectColor,
-                                borderRadius: const BorderRadius.all(Radius.circular(5))
+                            decoration:   const BoxDecoration(
+                                color: MyAppTheme.CategoryBGSelectColor,
+                                borderRadius: BorderRadius.all(Radius.circular(5))
                             ),
                             child:  const Center(
                               child: Text(
@@ -108,35 +135,8 @@ ScoreBottomDilog(BuildContext buildContext,String winnerUuid,String status,Strin
                               ),
                             ),
                           ),
-                        )),
-                        Expanded(child: InkWell(
-                          onTap: (){
-                            if(scoreStatus == "valid"){
-                              Navigator.pop(context);
-                              locator<ScoreCardProvider>().sendChallengeScore(buildContext,winnerUuid,status,score);
-                            }
-                          },
-                          child: Container(
-                            height: 45,
-                            margin:  const EdgeInsets.only(left: 10.0),
-                            decoration:   BoxDecoration(
-                                color: scoreStatus == "valid" ? MyAppTheme.MainColor : MyAppTheme.PosFMColor,
-                                borderRadius: const BorderRadius.all(Radius.circular(5))
-                            ),
-                            child:  const Center(
-                              child: Text(
-                                'Confirm',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 12,
-                                  color: MyAppTheme.whiteColor,
-                                  fontFamily: Fonts.nunito,
-                                ),
-                              ),
-                            ),
-                          ),
-                        )),
+                        ))
+
 
                       ],
                     ),

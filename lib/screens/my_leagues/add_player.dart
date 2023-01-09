@@ -231,7 +231,7 @@ class _AddPlayerState extends State<AddPlayer> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children:   [
                           Text(
-                            '+91 '+provider.number,
+                            '+91 ${provider.number}',
                             style: const TextStyle(
                               fontWeight: FontWeight.w700,
                               fontSize: 16,
@@ -253,7 +253,7 @@ class _AddPlayerState extends State<AddPlayer> {
                       provider.inviteBtn == true ?
                       InkWell(
                         onTap: (){
-                          provider.shareWhatsApp(context, "+91"+provider.number,widget.league_name);
+                          provider.shareWhatsApp(context, "91${provider.number}",widget.league_name);
                           provider.addLeaguesInvitePlayer(context,widget.league_uuid,provider.number);
                         },
                         child:Container(

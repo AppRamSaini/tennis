@@ -7,6 +7,10 @@ class SharedPref {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('user_token', token);
   }
+  static setUserDataExist(String exist) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('user_exist', exist);
+  }
   static setLoginType(String type) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.setString('user_type', type);
@@ -44,6 +48,10 @@ class SharedPref {
     return prefs.getString(key) ?? " ";
   }
   static Future<String> getToken(String key) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    return prefs.getString(key) ?? " ";
+  }
+  static Future<String> getUserDataExist(String key) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     return prefs.getString(key) ?? " ";
   }

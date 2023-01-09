@@ -39,7 +39,7 @@ class ApiUrls {
   static const String catNews = "${apiWPBaseUrl}posts/news";
   ////////////////url/////////////////////////
   static const String privacyPolicy = "https://phpdemo.futureprofilez.com/ankesh/jdt/blogs/privacy-policy/";
-  static const String termsConditions = "https://phpdemo.futureprofilez.com/ankesh/jdt/blogs/terms-conditions/";
+  static const String termsConditions = "https://phpdemo.futureprofilez.com/ankesh/jdt/blogs/terms-and-conditions/";
 
 }
 
