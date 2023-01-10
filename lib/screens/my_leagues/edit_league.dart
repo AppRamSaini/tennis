@@ -10,19 +10,23 @@ import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
-class CreateLeagues extends StatefulWidget {
-
-  const CreateLeagues({Key? key}) : super(key: key);
+class EditLeague extends StatefulWidget {
+      String leagueUUID;
+      String leagueName;
+      String leagueType;
+      String leagueDesc;
+      int leagueSets;
+     EditLeague({Key? key,required this.leagueUUID,required this.leagueName,required this.leagueType,required this.leagueDesc,required this.leagueSets}) : super(key: key);
 
   @override
-  State<CreateLeagues> createState() => _CreateLeaguesState();
+  State<EditLeague> createState() => _EditLeagueState();
 }
 
-class _CreateLeaguesState extends State<CreateLeagues> {
+class _EditLeagueState extends State<EditLeague> {
   final maxLines = 5;
   TextEditingController leagueName = TextEditingController();
   TextEditingController leaguesDescription = TextEditingController();
-  String? dropdownMStatus = 'Leagues Type';
+  String? dropdownMStatus;
   final _formKey = GlobalKey<FormState>();
   List<Map<String, dynamic>> mStatusList = [
     {
@@ -44,7 +48,10 @@ class _CreateLeaguesState extends State<CreateLeagues> {
   @override
   void initState() {
     // TODO: implement initState
-    locator<CreateLeaguesProvider>().SetValue();
+    locator<CreateLeaguesProvider>().SetValueUpdate(widget.leagueSets);
+    dropdownMStatus = widget.leagueType;
+    leagueName.text = widget.leagueName;
+    leaguesDescription.text = widget.leagueDesc;
     super.initState();
   }
   @override
@@ -297,7 +304,7 @@ class _CreateLeaguesState extends State<CreateLeagues> {
                         if (_formKey.currentState!.validate()) {
                            if(dropdownMStatus != "Leagues Type"){
                              if(provider.NSet != 0){
-                              provider.createLeagueData(context, leagueName.text.toString(), dropdownMStatus!, leaguesDescription.text.toString(), provider.NSet);
+                              provider.updateLeagueData(context,widget.leagueUUID,leagueName.text.toString(), dropdownMStatus!, leaguesDescription.text.toString(), provider.NSet);
                              }else {
                                Helpers.messageToastFalseBottom(context,'Select Number of Sets');
                              }
@@ -316,7 +323,7 @@ class _CreateLeaguesState extends State<CreateLeagues> {
                         ),
                         child: const Center(
                           child: Text(
-                            save,
+                            update,
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               fontWeight: FontWeight.w700,

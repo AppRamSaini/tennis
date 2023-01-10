@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/bottomdilog/leave_league.dart';
 import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/providers/myleagues_provider.dart';
@@ -14,7 +15,8 @@ class LeaguesDetails extends StatefulWidget {
   String league_uuid;
   String admin_email;
   int sets;
-  LeaguesDetails({Key? key,required this.league_name,required this.league_uuid,required this.admin_email,required this.sets}) : super(key: key);
+  String role;
+  LeaguesDetails({Key? key,required this.league_name,required this.league_uuid,required this.admin_email,required this.sets,required this.role}) : super(key: key);
 
   @override
   State<LeaguesDetails> createState() => _LeaguesDetailsState();
@@ -146,9 +148,10 @@ class _LeaguesDetailsState extends State<LeaguesDetails> {
                     ),
                   ),
                 ),*/
+                widget.role != 'admin' ?
                 InkWell(
                   onTap: (){
-
+                    LeaveLeagueBottomDilog(context,widget.league_uuid,widget.league_name);
                   },
                   child: Container(
                     height: 50,
@@ -171,7 +174,7 @@ class _LeaguesDetailsState extends State<LeaguesDetails> {
                       ),
                     ),
                   ),
-                ),
+                ) : const SizedBox(),
               ],
             ),
           );

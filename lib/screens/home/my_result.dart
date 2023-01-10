@@ -299,7 +299,7 @@ class _MyResultState extends State<MyResult> {
                           resultlist[index]['score']['can_report'] == true ?
                           InkWell(
                             onTap: (){
-                              ScoreEditRequestBottomDilog(context);
+                              ScoreEditRequestBottomDilog(context,'${resultlist[index]['uuid']}','${resultlist[index]['score']['uuid']}');
                             },
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,

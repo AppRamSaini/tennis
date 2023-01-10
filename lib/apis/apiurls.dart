@@ -18,6 +18,7 @@ class ApiUrls {
   static const String editProfileImage = "${apiBaseUrl}edit-profile-image";
   static const String editProfileDetails = "${apiBaseUrl}edit-profile-details";
   static const String createLeague = "${apiBaseUrl}leagues/create-league";
+  static const String leagueUpdateLeague = "${apiBaseUrl}leagues/update-league/";
   static const String leaguesList = "${apiBaseUrl}leagues/list";
   static const String inviteSearchPlayer = "${apiBaseUrl}leagues/invite-search-player";
   static const String leaguesInvitePlayer = "${apiBaseUrl}leagues/invite-player";
@@ -33,6 +34,12 @@ class ApiUrls {
   static const String leaguesAllMatches = "${apiBaseUrl}leagues/all-matches";
   static const String leaguesAllMatcheslist = "${apiBaseUrl}leagues/match-league-list";
   static const String leaguesChallengeRequest = "${apiBaseUrl}leagues/challenge-request/";
+  static const String leaguesReportScore = "${apiBaseUrl}leagues/report-score";
+  static const String leaguesScorePendingReports = "${apiBaseUrl}leagues/score-pending-reports";
+  static const String leaguesLeave = "${apiBaseUrl}leagues/leave";
+  static const String leaguesDelete = "${apiBaseUrl}leagues/delete/";
+  static const String scorePendingReportsCount = "${apiBaseUrl}leagues/score-pending-reports/count";
+  static const String pendingCounts = "${apiBaseUrl}pending-counts";
   ////////////////Wordpress API /////////////////////////////////////
   static const String category = "${apiWPBaseUrl}post/category";
   static const String banner = "${apiWPBaseUrl}home/banner";

@@ -322,37 +322,6 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
                               ],
                             ),
                           ),
-                          allMResultlist[index]['score']['can_report'] == true ?
-                          InkWell(
-                            onTap: (){
-                              ScoreEditRequestBottomDilog(context);
-                            },
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                const Text(
-                                  'If Your Score is Invalid. Please Can Report',
-                                  style: TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 12,
-                                    color: MyAppTheme.TitleTextColor,
-                                    fontFamily: Fonts.nunito,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 10.0),
-                                  child: SvgPicture.asset(
-                                    'assets/icons/edit.svg',
-                                    allowDrawingOutsideViewBox: true,
-                                    height: 12,
-                                    width: 12,
-                                    color: MyAppTheme.black_Color,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ) : const SizedBox(),
                         ],
                       ),
                     );

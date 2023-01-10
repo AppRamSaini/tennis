@@ -117,14 +117,14 @@ class _EditProfileState extends State<EditProfile> {
         context: context,
         builder: (BuildContext bc) {
           return SafeArea(
-            child: new Wrap(
+            child:  Wrap(
               children: <Widget>[
-                new ListTile(
-                    leading: new Icon(
+                 ListTile(
+                    leading:  const Icon(
                       Icons.photo_library,
                       color: MyAppTheme.black_Color,
                     ),
-                    title: new Text(
+                    title:  const Text(
                       'Photo Library',
                       style: TextStyle(
                           fontSize: 15.0,
@@ -136,10 +136,10 @@ class _EditProfileState extends State<EditProfile> {
                       _FromGallery(context);
                       Navigator.of(context).pop();
                     }),
-                new ListTile(
-                  leading: new Icon(Icons.photo_camera,
+                 ListTile(
+                  leading:  const Icon(Icons.photo_camera,
                       color: MyAppTheme.black_Color),
-                  title: new Text(
+                  title:  const Text(
                     'Camera',
                     style: TextStyle(
                         fontSize: 15.0,
@@ -267,7 +267,7 @@ class _EditProfileState extends State<EditProfile> {
                                         /*   image: DecorationImage(
                                           fit: BoxFit.cover, image: NetworkImage(user_profile!)),*/
                                         border: Border.all(color: MyAppTheme.CategoryBGSelectColor,width: 1),
-                                        borderRadius: BorderRadius.all(Radius.circular(100.0)),
+                                        borderRadius: const BorderRadius.all(Radius.circular(100.0)),
                                       ),
                                       child: ClipRRect(
                                         borderRadius: BorderRadius.circular(100),

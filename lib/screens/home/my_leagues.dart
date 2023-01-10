@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
+import 'package:tennis/bottomdilog/delete_league.dart';
 import 'package:tennis/bottomdilog/my_league_request.dart';
 import 'package:tennis/helpers/appconfig.dart';
 import 'package:tennis/helpers/constants.dart';
@@ -11,6 +12,7 @@ import 'package:tennis/providers/myleagues_provider.dart';
 import 'package:tennis/screens/home/view_ranking_challenge.dart';
 import 'package:tennis/screens/my_leagues/add_player.dart';
 import 'package:tennis/screens/my_leagues/create_leagues.dart';
+import 'package:tennis/screens/my_leagues/edit_league.dart';
 import 'package:tennis/screens/my_leagues/leagues_details.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
@@ -48,8 +50,7 @@ class _MyLeaguesState extends State<MyLeagues> {
     var height = MediaQuery.of(context).size.height;
     bool isLoading = Provider.of<MyLeaguesProvider>(context).isLoading;
     List leagueslist = Provider.of<MyLeaguesProvider>(context).leagueslist;
-    List pendingLeagueslist =
-        Provider.of<MyLeaguesProvider>(context).pendingLeagueslist;
+    List pendingLeagueslist = Provider.of<MyLeaguesProvider>(context).pendingLeagueslist;
     return  RefreshIndicator(
       key: refreshKey,
       onRefresh: refreshList,
@@ -205,7 +206,8 @@ class _MyLeaguesState extends State<MyLeagues> {
                             ),
                           );
                         }),
-                    //  leagueslist.isNotEmpty || pendingLeagueslist.isNotEmpty
+                      leagueslist.isNotEmpty ||
+                          pendingLeagueslist.isNotEmpty ?
                     Expanded(
                         child: ListView.builder(
                             physics:
@@ -275,8 +277,10 @@ class _MyLeaguesState extends State<MyLeagues> {
                                                         true
                                                         ? InkWell(
                                                       onTap: () {
-                                                        Navigator.pop(
-                                                            context);
+                                                        Navigator.pop(context);
+                                                        Navigator.push(context, MaterialPageRoute(
+                                                            builder: (context) =>   EditLeague(leagueUUID: '${leagueslist[index]['uuid']}',leagueName: '${leagueslist[index]['name']}', leagueType: '${leagueslist[index]['type']}', leagueDesc: '${leagueslist[index]['description']}', leagueSets: leagueslist[index]['sets'], ))).then(
+                                                                (value) => {provider.getMyLeaguesList(context)});
                                                       },
                                                       child: Row(
                                                         children: <
@@ -371,8 +375,9 @@ class _MyLeaguesState extends State<MyLeagues> {
                                                         Navigator.push(context,
                                                           MaterialPageRoute(builder:
                                                                   (context) =>
-                                                               LeaguesDetails(league_name: '${leagueslist[index]['name']}', league_uuid: leagueslist[index]['uuid'], admin_email: '${leagueslist[index]['admin']['email']}', sets: leagueslist[index]['sets'],)),
-                                                        );
+                                                               LeaguesDetails(league_name: '${leagueslist[index]['name']}', league_uuid: leagueslist[index]['uuid'], admin_email: '${leagueslist[index]['admin']['email']}', sets: leagueslist[index]['sets'], role: '${leagueslist[index]['admin']['role']}',)),
+                                                        ).then(
+                                                                (value) => {provider.getMyLeaguesList(context)});
                                                       },
                                                       child: Row(
                                                         children: <
@@ -423,8 +428,8 @@ class _MyLeaguesState extends State<MyLeagues> {
                                                         true
                                                         ? InkWell(
                                                       onTap: () {
-                                                        Navigator.pop(
-                                                            context);
+                                                        Navigator.pop(context);
+                                                        DeleteLeagueBottomDilog(context,'${leagueslist[index]['uuid']}','${leagueslist[index]['name']}');
                                                       },
                                                       child: Row(
                                                         children: <
@@ -516,11 +521,11 @@ class _MyLeaguesState extends State<MyLeagues> {
                                   ],
                                 ),
                               );
-                            })) ,
-                    /*       Expanded(child: SvgPicture.asset(
-                    'assets/icons/empty_my_league.svg',
+                            })) :
+                           Expanded(child: SvgPicture.asset(
+                    'assets/icons/empty_image.svg',
                     allowDrawingOutsideViewBox: true,
-                  )),*/
+                  )),
                     SizedBox(
                       height: provider.userRequest == "null"
                           ? 130
@@ -533,10 +538,8 @@ class _MyLeaguesState extends State<MyLeagues> {
             floatingActionButton: provider.userRole == AppConfig.USERROLE
                 ? FloatingActionButton(
               onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const CreateLeagues()),
+                Navigator.push(context, MaterialPageRoute(
+                      builder: (context) =>  const CreateLeagues()),
                 ).then(
                         (value) => {provider.getMyLeaguesList(context)});
               },

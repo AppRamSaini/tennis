@@ -18,8 +18,7 @@ class MyLeaguesProvider extends ChangeNotifier {
   void leaguesPermissionStatus(BuildContext context) async {
     try {
       Helpers.verifyInternet().then((intenet) {
-        _isLoading = true;
-        notifyListeners();
+
         if (intenet != null && intenet) {
           getLeaguesPermissionStatus(context).then((response) {
             if (json.decode(response.body)['status'] == true) {
@@ -35,11 +34,9 @@ class MyLeaguesProvider extends ChangeNotifier {
                   userRole = json.decode(response.body)['role'];
                   print(json.decode(response.body)['request']['request_status']);
                 }
-                _isLoading = false;
-                notifyListeners();
+
             } else if (json.decode(response.body)['status'] == false) {
-              _isLoading = false;
-              notifyListeners();
+
               Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
             }
           });
@@ -76,12 +73,17 @@ class MyLeaguesProvider extends ChangeNotifier {
   void getMyLeaguesList(BuildContext context) async {
     try {
       Helpers.verifyInternet().then((intenet) {
+        _isLoading = true;
+        notifyListeners();
         if (intenet != null && intenet) {
           getLeaguesList(context).then((response) {
             if (json.decode(response.body)['status'] == true) {
               leagueslist = json.decode(response.body)['leagues'];
+              _isLoading = false;
               notifyListeners();
             } else if (json.decode(response.body)['status'] == false) {
+              _isLoading = false;
+              notifyListeners();
               Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
             }
           });
@@ -124,6 +126,66 @@ class MyLeaguesProvider extends ChangeNotifier {
               Helpers.createSnackBar(context, json.decode(response)['message'].toString());
             } else if (json.decode(response)['status'] == false) {
               Helpers.createErrorSnackBar(context, json.decode(response)['message'].toString());
+            }
+          });
+        } else {
+          Helpers.createErrorSnackBar(context, "Please check your internet connection");
+        }
+      });
+    } catch (err) {
+      print('Something went wrong');
+    }
+  }
+
+  void leaveLeague(BuildContext context,String leagueUuid,String reason) async {
+    try {
+      Helpers.verifyInternet().then((intenet) {
+        if (intenet != null && intenet) {
+          sendLeaveLeague(context,leagueUuid,reason).then((response) {
+            if (json.decode(response)['status'] == true) {
+              Navigator.pop(context);
+            } else if (json.decode(response)['status'] == false) {
+              Helpers.createErrorSnackBar(context, json.decode(response)['message'].toString());
+            }
+          });
+        } else {
+          Helpers.createErrorSnackBar(context, "Please check your internet connection");
+        }
+      });
+    } catch (err) {
+      print('Something went wrong');
+    }
+  }
+  void deleteLeague(BuildContext context,String leagueUuid) async {
+    try {
+      Helpers.verifyInternet().then((intenet) {
+        if (intenet != null && intenet) {
+          sendDeleteLeague(context,leagueUuid).then((response) {
+            if (json.decode(response.body)['status'] == true) {
+              getRefMyLeaguesList(context);
+            } else if (json.decode(response.body)['status'] == false) {
+              Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
+            }
+          });
+        } else {
+          Helpers.createErrorSnackBar(context, "Please check your internet connection");
+        }
+      });
+    } catch (err) {
+      print('Something went wrong');
+    }
+  }
+  void getRefMyLeaguesList(BuildContext context) async {
+    try {
+      Helpers.verifyInternet().then((intenet) {
+        if (intenet != null && intenet) {
+          getLeaguesList(context).then((response) {
+            if (json.decode(response.body)['status'] == true) {
+              leagueslist = json.decode(response.body)['leagues'];
+              notifyListeners();
+            } else if (json.decode(response.body)['status'] == false) {
+              notifyListeners();
+              Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
             }
           });
         } else {

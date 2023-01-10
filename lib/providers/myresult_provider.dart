@@ -33,4 +33,23 @@ class MyResultProvider extends ChangeNotifier {
       print('Something went wrong');
     }
   }
+  void sendCanReport(BuildContext context,String challengeUuid,String scoreUuid,String details) async {
+    try {
+      Helpers.verifyInternet().then((intenet) {
+        if (intenet != null && intenet) {
+          sendEditCanReport(context,challengeUuid,scoreUuid,details).then((response) {
+            if (json.decode(response)['status'] == true) {
+              Helpers.createSnackBar(context, json.decode(response)['message'].toString());
+            } else if (json.decode(response)['status'] == false) {
+              Helpers.createErrorSnackBar(context, json.decode(response)['message'].toString());
+            }
+          });
+        } else {
+          Helpers.createErrorSnackBar(context, "Please check your internet connection");
+        }
+      });
+    } catch (err) {
+      print('Something went wrong');
+    }
+  }
 }

@@ -111,7 +111,70 @@ Future setCreateLeague(BuildContext context,String league_name,String type,Strin
   //request.fields["device_type"] = Preferences.deviceType;
   request.fields["name"] = league_name;
   request.fields["sets"] = no_sets.toString();
-  request.fields["descriptions"] = desc;
+  request.fields["description"] = desc;
+  request.fields["type"] = type;
+
+/*  request.files.add(
+      http.MultipartFile(
+          'photo',
+          File(fill.path).readAsBytes().asStream(),
+          File(fill.path).lengthSync(),
+          filename: fill.path.split("/").last
+      )
+  );*/
+  var response = await request.send();
+  var responseData = await response.stream.toBytes();
+  var responseString = String.fromCharCodes(responseData);
+  if (response.statusCode == 200) {
+    Helpers.hideLoader(loader);
+    bool status;
+    status=json.decode(responseString)['status'];
+    if(status == true){
+      return responseString;
+    } else{
+      Helpers.createErrorSnackBar(context, json.decode(responseString)['message'].toString());
+      return responseString;
+    }
+  }
+  else if(response.statusCode == 403){
+    Helpers.hideLoader(loader);
+    Helpers.messagetoastfalse(context,json.decode(responseString)['message'].toString());
+  }else if(response.statusCode == 422){
+    Helpers.hideLoader(loader);
+    Helpers.messagetoastfalse(context,json.decode(responseString)['message'].toString());
+  }else if(response.statusCode == 500){
+    Helpers.hideLoader(loader);
+    Helpers.messagetoastfalse(context,json.decode(responseString)['message'].toString());
+  }else {
+    Helpers.hideLoader(loader);
+    print(response.statusCode);
+  }
+}
+Future updateCreateLeague(BuildContext context,String leagueUuid,String leagueName,String type,String desc,int noSets) async {
+  OverlayEntry loader = Helpers.overlayLoader(context);
+  Overlay.of(context)!.insert(loader);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  print('${prefs.getString("user_token")}');
+  var url;
+  url = Uri.parse(ApiUrls.leagueUpdateLeague+leagueUuid);
+  var headers = {
+    'authorization': 'Bearer ${prefs.getString("user_token")}',
+    "Accept": "application/json"
+  };
+  var request = http.MultipartRequest(
+    "POST",
+    url,
+  );
+  //add text fields
+
+  request.headers["authorization"] = 'Bearer ${prefs.getString("user_token")}';
+  request.headers["Accept"] = "application/json";
+  //request.fields["device_id"] = Preferences.deviceId;
+  // request.fields["device_token"] = Preferences.deviceToken;
+  //request.fields["device_type"] = Preferences.deviceType;
+  request.fields["name"] = leagueName;
+  request.fields["sets"] = noSets.toString();
+  request.fields["description"] = desc;
   request.fields["type"] = type;
 
 /*  request.files.add(
@@ -311,6 +374,90 @@ Future sendPlayerLeagueRequest(BuildContext context,String uuid,String status) a
   }else if(response.statusCode == 500){
     Helpers.hideLoader(loader);
     Helpers.messagetoastfalse(context,json.decode(responseString)['message'].toString());
+  }else {
+    Helpers.hideLoader(loader);
+    print(response.statusCode);
+  }
+}
+Future sendLeaveLeague(BuildContext context,String leagueUuid,String reason) async {
+  OverlayEntry loader = Helpers.overlayLoader(context);
+  Overlay.of(context)!.insert(loader);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  print('${prefs.getString("user_token")}');
+  var url;
+  url = Uri.parse(ApiUrls.leaguesLeave);
+  var request = http.MultipartRequest(
+    "POST",
+    url,
+  );
+  //add text fields
+
+  request.headers["authorization"] = 'Bearer ${prefs.getString("user_token")}';
+  request.headers["Accept"] = "application/json";
+  request.fields["league"] = leagueUuid;
+  request.fields["reason"] = reason;
+  var response = await request.send();
+  var responseData = await response.stream.toBytes();
+  var responseString = String.fromCharCodes(responseData);
+  if (response.statusCode == 200) {
+    Helpers.hideLoader(loader);
+    bool status;
+    status=json.decode(responseString)['status'];
+    if(status == true){
+      return responseString;
+    } else{
+      Helpers.createErrorSnackBar(context, json.decode(responseString)['message'].toString());
+      return responseString;
+    }
+  }
+  else if(response.statusCode == 403){
+    Helpers.hideLoader(loader);
+    Helpers.messagetoastfalse(context,json.decode(responseString)['message'].toString());
+  }else if(response.statusCode == 422){
+    Helpers.hideLoader(loader);
+    Helpers.messagetoastfalse(context,json.decode(responseString)['message'].toString());
+  }else if(response.statusCode == 500){
+    Helpers.hideLoader(loader);
+    Helpers.messagetoastfalse(context,json.decode(responseString)['message'].toString());
+  }else {
+    Helpers.hideLoader(loader);
+    print(response.statusCode);
+  }
+}
+Future sendDeleteLeague(BuildContext context,String leagueUuid) async {
+  OverlayEntry loader = Helpers.overlayLoader(context);
+  Overlay.of(context)!.insert(loader);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  print('${prefs.getString("user_token")}');
+  var url;
+  url = Uri.parse(ApiUrls.leaguesDelete+leagueUuid);
+  var headers = {
+    'authorization': 'Bearer ${prefs.getString("user_token")}',
+    "Accept": "application/json"
+  };
+  http.Response response = await http.get(
+      url, headers: headers
+  );
+  if (response.statusCode == 200) {
+    Helpers.hideLoader(loader);
+    bool status;
+    status=json.decode(response.body)['status'];
+    if(status == true){
+      return response;
+    }
+    else{
+      return response;
+    }
+  }
+  else if(response.statusCode == 403){
+    Helpers.hideLoader(loader);
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else if(response.statusCode == 422){
+    Helpers.hideLoader(loader);
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else if(response.statusCode == 500){
+    Helpers.hideLoader(loader);
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
   }else {
     Helpers.hideLoader(loader);
     print(response.statusCode);

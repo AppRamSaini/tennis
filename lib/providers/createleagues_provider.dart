@@ -10,6 +10,10 @@ class CreateLeaguesProvider extends ChangeNotifier {
     NSet = 1;
     notifyListeners();
   }
+  void SetValueUpdate(int value){
+    NSet = value;
+    notifyListeners();
+  }
   void AddNSet(){
     if(NSet <= 4){
       NSet++;
@@ -27,6 +31,25 @@ class CreateLeaguesProvider extends ChangeNotifier {
       Helpers.verifyInternet().then((intenet) {
         if (intenet != null && intenet) {
           setCreateLeague(context,league_name,type,desc,sets).then((response) {
+            if (json.decode(response)['status'] == true) {
+              Navigator.pop(context);
+            } else if (json.decode(response)['status'] == false) {
+              Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
+            }
+          });
+        } else {
+          Helpers.createErrorSnackBar(context, "Please check your internet connection");
+        }
+      });
+    } catch (err) {
+      print('Something went wrong');
+    }
+  }
+  void updateLeagueData(BuildContext context,String league_uuid,String league_name,String type,String desc,int sets) async {
+    try {
+      Helpers.verifyInternet().then((intenet) {
+        if (intenet != null && intenet) {
+          updateCreateLeague(context,league_uuid,league_name,type,desc,sets).then((response) {
             if (json.decode(response)['status'] == true) {
               Navigator.pop(context);
             } else if (json.decode(response)['status'] == false) {

@@ -7,6 +7,7 @@ import 'package:tennis/screens/home/all_matches.dart';
 import 'package:tennis/screens/home/my_challenges.dart';
 import 'package:tennis/screens/home/my_leagues.dart';
 import 'package:tennis/screens/home/my_result.dart';
+import 'package:tennis/screens/score_card/score_can_report.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 import 'package:tennis/upcoming_tournament/upcoming_tournament.dart';
@@ -22,6 +23,7 @@ class _DrawerBarState extends State<DrawerBar> {
   String? user_profile;
   String? user_name;
   String? user_email;
+  String? user_role;
   void getUserData(){
     SharedPref.getProfileImage("user_profile").then((value) => setState(() {
       user_profile = value;
@@ -32,6 +34,9 @@ class _DrawerBarState extends State<DrawerBar> {
     }));
     SharedPref.getUserEmail("user_email").then((value) => setState(() {
       user_email = value;
+    }));
+    SharedPref.getLoginType("user_type").then((value) => setState(() {
+      user_role = value;
     }));
   }
   @override
@@ -129,12 +134,44 @@ class _DrawerBarState extends State<DrawerBar> {
                     MaterialPageRoute(builder: (context) => MyLeagues()),
                   );
                 },
-                trailing: SvgPicture.asset(
-                  'assets/icons/forword_arrow.svg',
-                  allowDrawingOutsideViewBox: true,
-                  height: 15,
-                  width: 15,
-                  color: MyAppTheme.iconsBGColor,
+                trailing: SizedBox(
+                  width: 50,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                   /*   Container(
+                        height: 25,
+                        width: 25,
+                        margin: const EdgeInsets.only(right: 10),
+                        decoration: const BoxDecoration(
+                            color: MyAppTheme.LineColor,
+                            shape: BoxShape.circle
+                        ),
+                        child:  const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(2.0),
+                            child: Text(
+                              '21',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12,
+                                color: MyAppTheme.black_Color,
+                                fontFamily: Fonts.nunito,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),*/
+                      SvgPicture.asset(
+                        'assets/icons/forword_arrow.svg',
+                        allowDrawingOutsideViewBox: true,
+                        height: 15,
+                        width: 15,
+                        color: MyAppTheme.iconsBGColor,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -156,12 +193,44 @@ class _DrawerBarState extends State<DrawerBar> {
                         builder: (context) => MyChallenges()),
                   );
                 },
-                trailing: SvgPicture.asset(
-                  'assets/icons/forword_arrow.svg',
-                  allowDrawingOutsideViewBox: true,
-                  height: 15,
-                  width: 15,
-                  color: MyAppTheme.iconsBGColor,
+                trailing: SizedBox(
+                  width: 50,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                     /* Container(
+                        height: 25,
+                        width: 25,
+                        margin: const EdgeInsets.only(right: 10),
+                        decoration: const BoxDecoration(
+                            color: MyAppTheme.LineColor,
+                            shape: BoxShape.circle
+                        ),
+                        child:  const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(2.0),
+                            child: Text(
+                              '21',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12,
+                                color: MyAppTheme.black_Color,
+                                fontFamily: Fonts.nunito,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),*/
+                      SvgPicture.asset(
+                        'assets/icons/forword_arrow.svg',
+                        allowDrawingOutsideViewBox: true,
+                        height: 15,
+                        width: 15,
+                        color: MyAppTheme.iconsBGColor,
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -233,10 +302,10 @@ class _DrawerBarState extends State<DrawerBar> {
                   Navigator.push(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => UpcomingTournament()),
+                        builder: (context) => const UpcomingTournament()),
                   );
                 },
-                trailing: SvgPicture.asset(
+                trailing:  SvgPicture.asset(
                   'assets/icons/forword_arrow.svg',
                   allowDrawingOutsideViewBox: true,
                   height: 15,
@@ -245,6 +314,67 @@ class _DrawerBarState extends State<DrawerBar> {
                 ),
               ),
             ),
+            user_role == 'admin' ?
+            Container(
+              height: 45,
+              alignment: Alignment.center,
+              child: ListTile(
+                title: const Text(canReport,textAlign: TextAlign.left,style: TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: 16,
+                  color: MyAppTheme.DesBlackColor,
+                  fontFamily: Fonts.nunito,
+                ),),
+                onTap: () {
+                  Navigator.pop(context);
+                /*  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ScoreCanReport()),
+                  );*/
+                },
+                trailing:  SizedBox(
+                  width: 50,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                   /*   Container(
+                        height: 25,
+                        width: 25,
+                        margin: const EdgeInsets.only(right: 10),
+                        decoration: const BoxDecoration(
+                            color: MyAppTheme.LineColor,
+                            shape: BoxShape.circle
+                        ),
+                        child:  const Center(
+                          child: Padding(
+                            padding: EdgeInsets.all(2.0),
+                            child: Text(
+                              '21',
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 12,
+                                color: MyAppTheme.black_Color,
+                                fontFamily: Fonts.nunito,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),*/
+                      SvgPicture.asset(
+                        'assets/icons/forword_arrow.svg',
+                        allowDrawingOutsideViewBox: true,
+                        height: 15,
+                        width: 15,
+                        color: MyAppTheme.iconsBGColor,
+                      ),
+                    ],
+                  ),
+                )
+
+              ),
+            ) :const SizedBox(),
             Expanded(child: Align(
               alignment: FractionalOffset.bottomCenter,
               child: Container(

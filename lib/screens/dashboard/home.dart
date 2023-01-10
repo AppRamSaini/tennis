@@ -262,6 +262,29 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                               /*   Container(
+                                    height: 25,
+                                    width: 25,
+                                    margin: const EdgeInsets.only(right: 10),
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.LineColor,
+                                        shape: BoxShape.circle
+                                    ),
+                                    child:  const Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(2.0),
+                                        child: Text(
+                                          '21',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 12,
+                                            color: MyAppTheme.black_Color,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),*/
                                   Container(
                                     height: 25,
                                     width: 25,
@@ -354,6 +377,29 @@ class _HomeState extends State<Home> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                /*  Container(
+                                    height: 25,
+                                    width: 25,
+                                    margin: const EdgeInsets.only(right: 10),
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.LineColor,
+                                        shape: BoxShape.circle
+                                    ),
+                                    child:  const Center(
+                                      child: Padding(
+                                        padding: EdgeInsets.all(2.0),
+                                        child: Text(
+                                          '21',
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 12,
+                                            color: MyAppTheme.black_Color,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),*/
                                   Container(
                                     height: 25,
                                     width: 25,

@@ -47,10 +47,7 @@ class _RegistorState extends State<Registor> {
     },
     {
       "title": 'female',
-    },
-    {
-      "title": 'other',
-    },
+    }
   ];
   @override
   void initState() {

@@ -1,12 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tennis/helpers/constants.dart';
+import 'package:tennis/helpers/helpers.dart';
+import 'package:tennis/locators.dart';
+import 'package:tennis/providers/myresult_provider.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 
-ScoreEditRequestBottomDilog(BuildContext buildContext){
+ScoreEditRequestBottomDilog(BuildContext buildContext,String challengeUuid,String scoreUuid){
   final maxLines = 5;
+  bool checkLength = false;
   TextEditingController leaguesDescription = TextEditingController();
   showModalBottomSheet<void>(
     context: buildContext,
@@ -70,13 +75,16 @@ ScoreEditRequestBottomDilog(BuildContext buildContext){
                     ),
                     child:  TextFormField(
                       maxLines: maxLines,
+                      maxLength: 655,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       keyboardType: TextInputType.text,
                       textAlign: TextAlign.left,
                       controller: leaguesDescription,
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please Enter League Description';
+                          return 'Please Enter League Descriptions';
+                        }else if (value.length < 20){
+                          return 'Please Enter minimum 20 Characters';
                         }
                         return null;
                       },
@@ -84,13 +92,13 @@ ScoreEditRequestBottomDilog(BuildContext buildContext){
                           color: MyAppTheme.black_Color,
                           fontWeight: FontWeight.w500,
                           fontFamily: Fonts.nunito,
-                          fontSize: 16),
+                          fontSize: 14),
                       decoration: const InputDecoration(
                         border: InputBorder.none,
-                        hintText: description,
+                        hintText: 'League Description',
                         hintStyle: TextStyle(
                           fontWeight: FontWeight.w400,
-                          fontSize: 16,
+                          fontSize: 14,
                           color: MyAppTheme.DesBlackColor,
                           fontFamily: Fonts.nunito,
                         ),
@@ -99,7 +107,12 @@ ScoreEditRequestBottomDilog(BuildContext buildContext){
                   ),
                   InkWell(
                     onTap: (){
-                      Navigator.pop(context);
+                      if(leaguesDescription.text.isNotEmpty && leaguesDescription.text.length >= 20){
+                        Navigator.pop(context);
+                        locator<MyResultProvider>().sendCanReport(buildContext,challengeUuid,scoreUuid,leaguesDescription.text.toString());
+                      }else {
+                        Helpers.messageToastFalseBottom(context,'Enter Details with Minimum 20 Characters');
+                      }
                     },
                     child: Container(
                       height: 45,
