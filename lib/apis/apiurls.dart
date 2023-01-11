@@ -40,6 +40,7 @@ class ApiUrls {
   static const String leaguesDelete = "${apiBaseUrl}leagues/delete/";
   static const String scorePendingReportsCount = "${apiBaseUrl}leagues/score-pending-reports/count";
   static const String pendingCounts = "${apiBaseUrl}pending-counts";
+  static const String leaguesScoreReportUpdate = "${apiBaseUrl}leagues/score-report-update/";
   ////////////////Wordpress API /////////////////////////////////////
   static const String category = "${apiWPBaseUrl}post/category";
   static const String banner = "${apiWPBaseUrl}home/banner";

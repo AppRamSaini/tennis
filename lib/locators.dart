@@ -11,6 +11,7 @@ import 'package:tennis/providers/myresult_provider.dart';
 import 'package:tennis/providers/news_provider.dart';
 import 'package:tennis/providers/otp_provider.dart';
 import 'package:tennis/providers/ranking_challenge_provider.dart';
+import 'package:tennis/providers/reports_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 /// Locators to get instances of classes mostly singletons
 GetIt locator = GetIt.I;
@@ -56,5 +57,8 @@ void setupLocators() {
   );
   locator.registerLazySingleton<AllMatchsProvider>(
         () => AllMatchsProvider(),
+  );
+  locator.registerLazySingleton<ReportsProvider>(
+        () => ReportsProvider(),
   );
 }

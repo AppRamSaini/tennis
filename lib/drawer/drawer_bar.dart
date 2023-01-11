@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:tennis/bottomdilog/logout.dart';
+import 'package:tennis/config/prefConstatnt.dart';
 import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/screens/home/all_matches.dart';
 import 'package:tennis/screens/home/my_challenges.dart';
 import 'package:tennis/screens/home/my_leagues.dart';
 import 'package:tennis/screens/home/my_result.dart';
-import 'package:tennis/screens/score_card/score_can_report.dart';
+import 'package:tennis/screens/reports/score_can_report.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 import 'package:tennis/upcoming_tournament/upcoming_tournament.dart';
@@ -140,7 +141,7 @@ class _DrawerBarState extends State<DrawerBar> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                   /*   Container(
+                      if (Preferences.leagueRequestsCount != "0") Container(
                         height: 25,
                         width: 25,
                         margin: const EdgeInsets.only(right: 10),
@@ -148,12 +149,12 @@ class _DrawerBarState extends State<DrawerBar> {
                             color: MyAppTheme.LineColor,
                             shape: BoxShape.circle
                         ),
-                        child:  const Center(
+                        child:   Center(
                           child: Padding(
-                            padding: EdgeInsets.all(2.0),
+                            padding: const EdgeInsets.all(2.0),
                             child: Text(
-                              '21',
-                              style: TextStyle(
+                              Preferences.leagueRequestsCount,
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12,
                                 color: MyAppTheme.black_Color,
@@ -162,7 +163,7 @@ class _DrawerBarState extends State<DrawerBar> {
                             ),
                           ),
                         ),
-                      ),*/
+                      ) else const SizedBox(),
                       SvgPicture.asset(
                         'assets/icons/forword_arrow.svg',
                         allowDrawingOutsideViewBox: true,
@@ -199,7 +200,7 @@ class _DrawerBarState extends State<DrawerBar> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                     /* Container(
+                      if (Preferences.challengeRequestsCount != "0") Container(
                         height: 25,
                         width: 25,
                         margin: const EdgeInsets.only(right: 10),
@@ -207,12 +208,12 @@ class _DrawerBarState extends State<DrawerBar> {
                             color: MyAppTheme.LineColor,
                             shape: BoxShape.circle
                         ),
-                        child:  const Center(
+                        child:   Center(
                           child: Padding(
-                            padding: EdgeInsets.all(2.0),
+                            padding: const EdgeInsets.all(2.0),
                             child: Text(
-                              '21',
-                              style: TextStyle(
+                              Preferences.challengeRequestsCount,
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12,
                                 color: MyAppTheme.black_Color,
@@ -221,7 +222,7 @@ class _DrawerBarState extends State<DrawerBar> {
                             ),
                           ),
                         ),
-                      ),*/
+                      ) else const SizedBox(),
                       SvgPicture.asset(
                         'assets/icons/forword_arrow.svg',
                         allowDrawingOutsideViewBox: true,
@@ -327,11 +328,11 @@ class _DrawerBarState extends State<DrawerBar> {
                 ),),
                 onTap: () {
                   Navigator.pop(context);
-                /*  Navigator.push(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                         builder: (context) => const ScoreCanReport()),
-                  );*/
+                  );
                 },
                 trailing:  SizedBox(
                   width: 50,
@@ -339,7 +340,7 @@ class _DrawerBarState extends State<DrawerBar> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                   /*   Container(
+                      if (Preferences.reportsCount != "0") Container(
                         height: 25,
                         width: 25,
                         margin: const EdgeInsets.only(right: 10),
@@ -347,12 +348,12 @@ class _DrawerBarState extends State<DrawerBar> {
                             color: MyAppTheme.LineColor,
                             shape: BoxShape.circle
                         ),
-                        child:  const Center(
+                        child:   Center(
                           child: Padding(
-                            padding: EdgeInsets.all(2.0),
+                            padding: const EdgeInsets.all(2.0),
                             child: Text(
-                              '21',
-                              style: TextStyle(
+                              Preferences.reportsCount,
+                              style: const TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 12,
                                 color: MyAppTheme.black_Color,
@@ -361,7 +362,7 @@ class _DrawerBarState extends State<DrawerBar> {
                             ),
                           ),
                         ),
-                      ),*/
+                      ) else const SizedBox(),
                       SvgPicture.asset(
                         'assets/icons/forword_arrow.svg',
                         allowDrawingOutsideViewBox: true,

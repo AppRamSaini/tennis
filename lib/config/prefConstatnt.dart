@@ -8,5 +8,8 @@ class Preferences {
   static  String deviceType = "android";
   static  String userID = "";
   static  String shopId = "";
+  static  String reportsCount = "0";
+  static  String leagueRequestsCount = "0";
+  static  String challengeRequestsCount = "0";
 
 }

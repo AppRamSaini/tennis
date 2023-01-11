@@ -317,20 +317,13 @@ class _MyLeaguesState extends State<MyLeagues> {
                                                         ? 30
                                                         : 0,
                                                     value: 2,
-                                                    child: leagueslist[
-                                                    index]
-                                                    [
-                                                    'is_admin'] ==
+                                                    child: leagueslist[index]['is_admin'] ==
                                                         true
                                                         ? InkWell(
                                                       onTap: () {
-                                                        Navigator.pop(
-                                                            context);
-                                                        Navigator
-                                                            .push(
-                                                          context,
-                                                          MaterialPageRoute(
-                                                              builder: (context) =>
+                                                        Navigator.pop(context);
+                                                        Navigator.push(context,
+                                                          MaterialPageRoute(builder: (context) =>
                                                                   AddPlayer(
                                                                     league_uuid: leagueslist[index]['uuid'],
                                                                     league_name: '${leagueslist[index]['name']}',
@@ -375,7 +368,7 @@ class _MyLeaguesState extends State<MyLeagues> {
                                                         Navigator.push(context,
                                                           MaterialPageRoute(builder:
                                                                   (context) =>
-                                                               LeaguesDetails(league_name: '${leagueslist[index]['name']}', league_uuid: leagueslist[index]['uuid'], admin_email: '${leagueslist[index]['admin']['email']}', sets: leagueslist[index]['sets'], role: '${leagueslist[index]['admin']['role']}',)),
+                                                               LeaguesDetails(league_name: '${leagueslist[index]['name']}', league_uuid: leagueslist[index]['uuid'], admin_email: '${leagueslist[index]['admin']['email']}', sets: leagueslist[index]['sets'], role: leagueslist[index]['is_admin'],)),
                                                         ).then(
                                                                 (value) => {provider.getMyLeaguesList(context)});
                                                       },

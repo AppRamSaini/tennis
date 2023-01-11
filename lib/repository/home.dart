@@ -38,6 +38,64 @@ Future homeData(BuildContext context) async {
     print(response.statusCode);
   }
 }
+Future getScorePendingReportsCount(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  print('${prefs.getString("user_token")}');
+  var url;
+  url = Uri.parse(ApiUrls.scorePendingReportsCount);
+  var headers = {
+    'authorization': 'Bearer ${prefs.getString("user_token")}',
+    "Accept": "application/json"
+  };
+  http.Response response = await http.get(
+      url, headers: headers
+  );
+  if (response.statusCode == 200) {
+    bool status;
+    status=json.decode(response.body)['status'];
+    if(status==true){
+      return response;
+    }
+    else{
+      return response;
+    }
+
+  }
+  else if(response.statusCode == 403){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else if(response.statusCode == 422){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else if(response.statusCode == 500){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else {
+    print(response.statusCode);
+  }
+}
+Future getPendingCounts(BuildContext context) async {
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+  print('${prefs.getString("user_token")}');
+  var url;
+  url = Uri.parse(ApiUrls.pendingCounts);
+  var headers = {
+    'authorization': 'Bearer ${prefs.getString("user_token")}',
+    "Accept": "application/json"
+  };
+  http.Response response = await http.get(
+      url, headers: headers
+  );
+  if (response.statusCode == 200) {
+    return response;
+  }
+  else if(response.statusCode == 403){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else if(response.statusCode == 422){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else if(response.statusCode == 500){
+    Helpers.messagetoastfalse(context,json.decode(response.body)['message']);
+  }else {
+    print(response.statusCode);
+  }
+}
 Future bannerHomeData(BuildContext context) async {
   SharedPreferences prefs = await SharedPreferences.getInstance();
   print('${prefs.getString("user_token")}');

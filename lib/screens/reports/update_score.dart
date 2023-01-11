@@ -5,25 +5,31 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tennis/bottomdilog/score.dart';
 import 'package:tennis/bottomdilog/scoreinvalide.dart';
+import 'package:tennis/bottomdilog/update_score.dart';
 import 'package:tennis/helpers/appconfig.dart';
 import 'package:tennis/helpers/constants.dart';
 import 'package:tennis/helpers/helpers.dart';
 import 'package:tennis/helpers/keyboard.dart';
 import 'package:tennis/locators.dart';
+import 'package:tennis/providers/reports_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/dashboard/dashboard.dart';
 import 'package:tennis/styles/fonts.dart';
 import 'package:tennis/styles/my_app_theme.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class AddScore extends StatefulWidget {
-  const AddScore({Key? key}) : super(key: key);
+class UpdateScore extends StatefulWidget {
+  String reportUUID;
+  String sets;
+  String status;
+  List score;
+  UpdateScore({Key? key,required this.reportUUID,required this.sets,required this.status,required this.score}) : super(key: key);
 
   @override
-  State<AddScore> createState() => _AddScoreState();
+  State<UpdateScore> createState() => _UpdateScoreState();
 }
 
-class _AddScoreState extends State<AddScore> {
+class _UpdateScoreState extends State<UpdateScore> {
   TextEditingController wSetF = TextEditingController();
   TextEditingController lSetF =  TextEditingController();
   TextEditingController wTBSetF =  TextEditingController();
@@ -56,7 +62,7 @@ class _AddScoreState extends State<AddScore> {
   TextEditingController secSuperTieBLSet =  TextEditingController();
   String WinnerUUID = "";
   late int selectSIndex;
-  String? dropdownValue = AppConfig.AccepterName;
+  String? dropdownValue;
   String? dropdownSets;
   String? dropdownMStatus = 'Played Through';
   String? matchsStatus = "";
@@ -247,10 +253,10 @@ class _AddScoreState extends State<AddScore> {
   }
   List<Map<String, dynamic>> winnerList = [
     {
-      "title": AppConfig.AccepterName,
+      "title": AppConfig.winnerName,
     },
     {
-      "title": AppConfig.ChallengerName,
+      "title": AppConfig.loserName,
     },
   ];
 
@@ -290,16 +296,101 @@ class _AddScoreState extends State<AddScore> {
   @override
   void initState() {
     // TODO: implement initState
-    print(AppConfig.Sets);
-    locator<ScoreCardProvider>().reSetAllValue();
-    selectSIndex = AppConfig.Sets;
-    WinnerUUID = AppConfig.AccepterUuid;
-    matchsStatus = "played";
+    selectSIndex = int.parse(widget.sets);
+    WinnerUUID = AppConfig.winnerUuid;
+    matchsStatus = widget.status;
+    dropdownValue = AppConfig.winnerName;
+    AppConfig.Sets = int.parse(widget.sets);
+    setAllBoxValue(widget.score);
     setNoValue();
     super.initState();
   }
+  void setAllBoxValue(List score){
+    for(int i = 0 ; i < score.length ; i++){
+      setState(() {
+        if(i == 0){
+          wSetF.text = score[i]['winner'];
+          lSetF.text = score[i]['loser'];
+          locator<ReportsProvider>().firstValueCheck(wSetF.text.toString(),lSetF.text.toString());
+
+          if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
+            wTBSetF.text = score[i]['tie_winner'];
+            lTBSetF.text = score[i]['tie_loser'];
+
+            locator<ReportsProvider>().firstTieBreakValueCheck(wTBSetF.text.toString(),lTBSetF.text.toString());
+          }
+        }else if (i == 1){
+          wSetS.text = score[i]['winner'];
+          lSetS.text = score[i]['loser'];
+          locator<ReportsProvider>().secondValueCheck(wSetS.text.toString(),lSetS.text.toString());
+
+          if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
+
+            wTBSetS.text = score[i]['tie_winner'];
+            lTBSetS.text = score[i]['tie_loser'];
+
+            locator<ReportsProvider>().secondTieBreakValueCheck(wTBSetS.text.toString(),lTBSetS.text.toString());
+          }
+        }else if (i == 2){
+          if(widget.sets == "2"){
+            superTieBWSet.text = score[i]['winner'];
+            superTieBLSet.text = score[i]['loser'];
+
+            locator<ReportsProvider>().superTieBreakerValueCheck(superTieBWSet.text.toString(),superTieBLSet.text.toString());
+          }else {
+            wSetT.text = score[i]['winner'];
+            lSetT.text = score[i]['loser'];
+
+            locator<ReportsProvider>().thirdValueCheck( wSetT.text.toString(),lSetT.text.toString());
+
+            if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
+
+              wTBSetT.text = score[i]['tie_winner'];
+              lTBSetT.text = score[i]['tie_loser'];
+
+              locator<ReportsProvider>().thirdTieBreakValueCheck(wTBSetT.text.toString(),lTBSetT.text.toString());
+            }
+          }
+        }else if (i == 3){
+          wSetFourth.text = score[i]['winner'];
+          lSetFourth.text = score[i]['loser'];
+
+          locator<ReportsProvider>().furthValueCheck(wSetFourth.text.toString(),lSetFourth.text.toString());
+
+          if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
+
+            wTBSetFourth.text = score[i]['tie_winner'];
+            lTBSetFourth.text = score[i]['tie_loser'];
+
+            locator<ReportsProvider>().furthTieBreakValueCheck(wTBSetFourth.text.toString(),lTBSetFourth.text.toString());
+          }
+        }else if (i == 4){
+          if(widget.sets == "4"){
+            secSuperTieBWSet.text = score[i]['winner'];
+            secSuperTieBLSet.text = score[i]['loser'];
+
+            locator<ReportsProvider>().superTieBreakerValueCheck(secSuperTieBWSet.text.toString(),secSuperTieBLSet.text.toString());
+
+          }else {
+            wSetFive.text = score[i]['winner'];
+            lSetFive.text = score[i]['loser'];
+
+            locator<ReportsProvider>().fiveValueCheck(wSetFive.text.toString(),lSetFive.text.toString());
+
+            if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
+
+              wTBSetFive.text = score[i]['tie_winner'];
+              lTBSetFive.text = score[i]['tie_loser'];
+
+              locator<ReportsProvider>().fiveTieBreakValueCheck(wTBSetFive.text.toString(),lTBSetFive.text.toString());
+            }
+          }
+        }
+      });
+    }
+  }
   void resetAllValueUpdate(String value){
-    locator<ScoreCardProvider>().reSetValue(value);
+    locator<ReportsProvider>().reSetValue(value);
     setState(() {
       dropdownSets = value;
       if(dropdownSets == 'Set 1'){
@@ -388,7 +479,7 @@ class _AddScoreState extends State<AddScore> {
     return Scaffold(
       appBar: buildAppBar(context),
       backgroundColor: MyAppTheme.whiteColor,
-      body: Consumer<ScoreCardProvider>(
+      body: Consumer<ReportsProvider>(
         builder: (context,provider,child){
           return Container(
             width: width,
@@ -446,10 +537,10 @@ class _AddScoreState extends State<AddScore> {
                       onChanged: (String? newValue) {
                          setState(() {
                            dropdownValue = newValue;
-                           if(dropdownValue == AppConfig.ChallengerName){
-                             WinnerUUID = AppConfig.ChallengerUuid;
+                           if(dropdownValue == AppConfig.loserName){
+                             WinnerUUID = AppConfig.loserUuid;
                            }else {
-                             WinnerUUID = AppConfig.AccepterUuid;
+                             WinnerUUID = AppConfig.winnerUuid;
                            }
                          });
                       },
@@ -1927,9 +2018,8 @@ class _AddScoreState extends State<AddScore> {
                                       ),
                                     ),
                                     provider.winnerTotalCount == provider.loserTotalCount
-                                        || provider.winnerTotalCount == 1 && provider.loserTotalCount == 2
+                                    || provider.winnerTotalCount == 1 && provider.loserTotalCount == 2
                                         || provider.winnerTotalCount == 2 && provider.loserTotalCount == 1
-
                                         ?
                                     Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
@@ -3057,6 +3147,7 @@ class _AddScoreState extends State<AddScore> {
                                     provider.winnerTotalCount == 2 && provider.loserTotalCount == 2
                                         || provider.winnerTotalCount == 3 && provider.loserTotalCount == 2
                                         || provider.winnerTotalCount == 2 && provider.loserTotalCount == 3
+
                                         ?
                                     Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
@@ -4363,13 +4454,13 @@ class _AddScoreState extends State<AddScore> {
                             saveData(context,provider.fTB,provider.fTBVCheck,provider.sTB,provider.sTBVCheck,provider.tTB,provider.tTBVCheck,provider.forthTB,provider.forthTBVCheck,provider.fiveTB,provider.fiveTBVCheck,WinnerUUID,matchsStatus!,json.encode(json1),provider.winnerTotalCount,provider.loserTotalCount,scoreStatus,dropdownValue!);
                           }else {
                             print("$WinnerUUID        ${matchsStatus!}      ${setEmptyValueSet.toString()}   $dropdownValue!",);
-                            ScoreBottomDilog(context,WinnerUUID,matchsStatus!,setEmptyValueSet.toString(),scoreStatus,dropdownValue!);
+                            UpdateScoreBottomDilog(context,widget.reportUUID,WinnerUUID,matchsStatus!,setEmptyValueSet.toString(),scoreStatus,dropdownValue!);
                           }
 
                         },
                         child: const Padding(
                           padding: EdgeInsets.all(10.0),
-                          child: Text(save,
+                          child: Text(update,
                               style: TextStyle(
                                 fontWeight: FontWeight.w700,
                                 fontSize: 18,
@@ -4426,7 +4517,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true ){
           if(wTBSetF.text != '' && lTBSetF.text != ''){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4436,7 +4527,7 @@ class _AddScoreState extends State<AddScore> {
           }
         }else {
           if(wSetF.text != '' && lSetF.text != ''){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -4447,7 +4538,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true && secondTieBreak == true){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && superTieBWSet.text != '' && superTieBLSet.text != ''){
             if(firstTBValue == true && secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4458,7 +4549,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wSetS.text != '' && lSetS.text != '' && superTieBWSet.text != '' && superTieBLSet.text != ''){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4469,7 +4560,7 @@ class _AddScoreState extends State<AddScore> {
         } else if(firstTieBreak == false && secondTieBreak == true){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wSetF.text != '' && lSetF.text != '' && superTieBWSet.text != '' && superTieBLSet.text != ''){
             if(secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4479,7 +4570,7 @@ class _AddScoreState extends State<AddScore> {
           }
         } else {
           if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && superTieBWSet.text != '' && superTieBLSet.text != ''){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -4489,7 +4580,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true && secondTieBreak == true){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''){
             if(firstTBValue == true && secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4500,7 +4591,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wSetS.text != '' && lSetS.text != ''){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4511,7 +4602,7 @@ class _AddScoreState extends State<AddScore> {
         } else if(firstTieBreak == false && secondTieBreak == true){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wSetF.text != '' && lSetF.text != ''){
             if(secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4521,7 +4612,7 @@ class _AddScoreState extends State<AddScore> {
           }
         } else {
           if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != ''){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -4533,7 +4624,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != ''){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4544,7 +4635,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != ''){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4555,7 +4646,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''&& wSetT.text != '' && lSetT.text != ''){
             if(firstTBValue == true && secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4567,7 +4658,7 @@ class _AddScoreState extends State<AddScore> {
         else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == false){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wSetF.text != '' && lSetF.text != '' && wSetT.text != '' && lSetT.text != ''){
             if(secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4578,7 +4669,7 @@ class _AddScoreState extends State<AddScore> {
         } else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetF.text != '' && lSetF.text != '' ){
             if(secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4590,7 +4681,7 @@ class _AddScoreState extends State<AddScore> {
         else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == true){
           if(wTBSetT.text != '' && lTBSetT.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != ''){
             if(thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4601,7 +4692,7 @@ class _AddScoreState extends State<AddScore> {
         }
         else {
           if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != ''){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -4612,7 +4703,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true && secondTieBreak == true){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''){
             if(firstTBValue == true && secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4623,7 +4714,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wSetS.text != '' && lSetS.text != ''){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4634,7 +4725,7 @@ class _AddScoreState extends State<AddScore> {
         } else if(firstTieBreak == false && secondTieBreak == true){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wSetF.text != '' && lSetF.text != ''){
             if(secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4644,7 +4735,7 @@ class _AddScoreState extends State<AddScore> {
           }
         } else {
           if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != ''){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -4657,7 +4748,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true ){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && secSuperTieBWSet.text != '' && secSuperTieBLSet.text != ''){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true && forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4668,7 +4759,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == false ){
           if(wTBSetF.text != '' && lTBSetF.text != ''  && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && secSuperTieBWSet.text != '' && secSuperTieBLSet.text != ''){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4679,7 +4770,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == true ){
           if(wTBSetF.text != '' && lTBSetF.text != ''  && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && secSuperTieBWSet.text != '' && secSuperTieBLSet.text != ''){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4691,7 +4782,7 @@ class _AddScoreState extends State<AddScore> {
         else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == false && forthTieBreak == false ){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''  && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && secSuperTieBWSet.text != '' && secSuperTieBLSet.text != ''){
             if(firstTBValue == true && secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4702,7 +4793,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == false ){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && secSuperTieBWSet.text != '' && secSuperTieBLSet.text != ''){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4713,7 +4804,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == false ){
           if(wSetF.text != '' && lSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && secSuperTieBWSet.text != '' && secSuperTieBLSet.text != ''){
             if(secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4725,7 +4816,7 @@ class _AddScoreState extends State<AddScore> {
         else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true ){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' && secSuperTieBWSet.text != '' && secSuperTieBLSet.text != ''){
             if(secondTBValue == true && thirdTBValue == true && forthTBValue == true && fiveTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4736,7 +4827,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == true && forthTieBreak == true ){
           if( wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && secSuperTieBWSet.text != '' && secSuperTieBLSet.text != ''){
             if(thirdTBValue == true && forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4747,7 +4838,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == true ){
           if(wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && secSuperTieBWSet.text != '' && secSuperTieBLSet.text != ''){
             if(forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4757,7 +4848,7 @@ class _AddScoreState extends State<AddScore> {
           }
         } else {
           if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && secSuperTieBWSet.text != '' && secSuperTieBLSet.text != ''){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -4767,7 +4858,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true ){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' ){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4778,7 +4869,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true ){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != ''  && wSetF.text != '' && lSetF.text != '' ){
             if(secondTBValue == true && thirdTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4789,7 +4880,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == true ){
           if( wTBSetT.text != '' && lTBSetT.text != ''  && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' ){
             if(thirdTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4799,7 +4890,7 @@ class _AddScoreState extends State<AddScore> {
           }
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == false ){
           if( wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' ){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -4807,7 +4898,7 @@ class _AddScoreState extends State<AddScore> {
         }
         else {
           if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' ){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -4817,7 +4908,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true ){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' ){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true && forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4828,7 +4919,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == false ){
           if(wTBSetF.text != '' && lTBSetF.text != ''  && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4839,7 +4930,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == true ){
           if(wTBSetF.text != '' && lTBSetF.text != ''  && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' ){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4851,7 +4942,7 @@ class _AddScoreState extends State<AddScore> {
         else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == false && forthTieBreak == false ){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''  && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
             if(firstTBValue == true && secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4862,7 +4953,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == false ){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4873,7 +4964,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == false ){
           if(wSetF.text != '' && lSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
             if(secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4885,7 +4976,7 @@ class _AddScoreState extends State<AddScore> {
         else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true ){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' ){
             if(secondTBValue == true && thirdTBValue == true && forthTBValue == true && fiveTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4896,7 +4987,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == true && forthTieBreak == true ){
           if( wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' ){
             if(thirdTBValue == true && forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4907,7 +4998,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == true ){
           if(wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' ){
             if(forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4917,7 +5008,7 @@ class _AddScoreState extends State<AddScore> {
           }
         } else {
           if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -4929,7 +5020,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != ''){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4940,7 +5031,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != ''){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4951,7 +5042,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''&& wSetT.text != '' && lSetT.text != ''){
             if(firstTBValue == true && secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4963,7 +5054,7 @@ class _AddScoreState extends State<AddScore> {
         else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == false){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wSetF.text != '' && lSetF.text != '' && wSetT.text != '' && lSetT.text != ''){
             if(secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4974,7 +5065,7 @@ class _AddScoreState extends State<AddScore> {
         } else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetF.text != '' && lSetF.text != '' ){
             if(secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4986,7 +5077,7 @@ class _AddScoreState extends State<AddScore> {
         else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == true){
           if(wTBSetT.text != '' && lTBSetT.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != ''){
             if(thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -4997,7 +5088,7 @@ class _AddScoreState extends State<AddScore> {
         }
         else {
           if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != ''){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -5008,7 +5099,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != ''){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true && forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5019,7 +5110,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == true){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != ''){
             if(firstTBValue == true &&  forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5031,7 +5122,7 @@ class _AddScoreState extends State<AddScore> {
         else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == false){
           if(wSetF.text != '' && lSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != ''){
             if(secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5043,7 +5134,7 @@ class _AddScoreState extends State<AddScore> {
         else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == false ){
           if(wTBSetF.text != '' && lTBSetF.text != ''  && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5054,7 +5145,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == false && forthTieBreak == false ){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''  && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
             if(firstTBValue == true && secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5065,7 +5156,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == false ){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' ){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5076,7 +5167,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true ){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' ){
             if(secondTBValue == true && thirdTBValue == true && forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5087,7 +5178,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == true && forthTieBreak == true ){
           if( wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' ){
             if(thirdTBValue == true && forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5098,7 +5189,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == true ){
           if(wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' ){
             if(forthTBValue == true ){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5108,7 +5199,7 @@ class _AddScoreState extends State<AddScore> {
           }
         } else {
           if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != ''){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);
@@ -5118,7 +5209,7 @@ class _AddScoreState extends State<AddScore> {
         if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true && fiveTieBreak == true){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wTBSetFive.text != '' && lTBSetFive.text != ''){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true && forthTBValue == true && fiveTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5129,7 +5220,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == false && fiveTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != ''  && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && wSetFive.text != '' && lSetFive.text != ''){
             if(firstTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5140,7 +5231,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == false && forthTieBreak == false && fiveTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != ''  && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && wSetFive.text != '' && lSetFive.text != ''){
             if(firstTBValue == true && secondTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5151,7 +5242,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == false && fiveTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && wSetFive.text != '' && lSetFive.text != ''){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5162,7 +5253,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == true && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true && fiveTieBreak == false){
           if(wTBSetF.text != '' && lTBSetF.text != '' && wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != '' && wSetFive.text != '' && lSetFive.text != ''){
             if(firstTBValue == true && secondTBValue == true && thirdTBValue == true && forthTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5173,7 +5264,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == true && thirdTieBreak == true && forthTieBreak == true && fiveTieBreak == true){
           if(wTBSetS.text != '' && lTBSetS.text != '' && wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != ''&& wTBSetFive.text != '' && lTBSetFive.text != '' && wSetF.text != '' && lSetF.text != '' ){
             if(secondTBValue == true && thirdTBValue == true && forthTBValue == true && fiveTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5184,7 +5275,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == true && forthTieBreak == true && fiveTieBreak == true){
           if( wTBSetT.text != '' && lTBSetT.text != '' && wTBSetFourth.text != '' && lTBSetFourth.text != ''&& wTBSetFive.text != '' && lTBSetFive.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' ){
             if(thirdTBValue == true && forthTBValue == true && fiveTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5195,7 +5286,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == true && fiveTieBreak == true){
           if(wTBSetFourth.text != '' && lTBSetFourth.text != ''&& wTBSetFive.text != '' && lTBSetFive.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' ){
             if(forthTBValue == true && fiveTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5206,7 +5297,7 @@ class _AddScoreState extends State<AddScore> {
         }else if(firstTieBreak == false && secondTieBreak == false && thirdTieBreak == false && forthTieBreak == false && fiveTieBreak == true){
           if(wTBSetFive.text != '' && lTBSetFive.text != '' && wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != ''){
             if(fiveTBValue == true){
-              ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+              UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
               print('api call true');
             }else {
               ScoreInvalideBottomDilog(context);
@@ -5217,7 +5308,7 @@ class _AddScoreState extends State<AddScore> {
         }
         else {
           if(wSetF.text != '' && lSetF.text != '' && wSetS.text != '' && lSetS.text != '' && wSetT.text != '' && lSetT.text != '' && wSetFourth.text != '' && lSetFourth.text != '' && wSetFive.text != '' && lSetFive.text != ''){
-            ScoreBottomDilog(context,winnerUuid,status,score,scoreStatus,winnerName);
+            UpdateScoreBottomDilog(context,widget.reportUUID,winnerUuid,status,score,scoreStatus,winnerName);
             print('api call true');
           }else {
             ScoreInvalideBottomDilog(context);

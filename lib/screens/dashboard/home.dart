@@ -6,6 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:tennis/config/prefConstatnt.dart';
 import 'package:tennis/config/sharedpref.dart';
 import 'package:tennis/drawer/drawer_bar.dart';
 import 'package:tennis/helpers/constants.dart';
@@ -46,6 +47,8 @@ class _HomeState extends State<Home> {
     _controller = PageController(initialPage: 0);
     getHomeBannerData(context);
     locator<HomeProvider>().getHomeData(context);
+    locator<HomeProvider>().scorePendingReportsCount(context);
+    locator<HomeProvider>().pendingCounts(context);
     WidgetsBinding.instance.addPostFrameCallback((_) => _animateSlider());
     super.initState();
 
@@ -109,6 +112,8 @@ class _HomeState extends State<Home> {
   Future<Null> refreshList() async {
     getHomeBannerData(context);
     locator<HomeProvider>().getHomeData(context);
+    locator<HomeProvider>().scorePendingReportsCount(context);
+    locator<HomeProvider>().pendingCounts(context);
     return null;
   }
   @override
@@ -128,581 +133,592 @@ class _HomeState extends State<Home> {
           : RefreshIndicator(
         key: refreshKey,
         onRefresh: refreshList,
-        child: Container(
-            width: width,
-            height: height,
-            padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 15.0),
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height * 0.20,
-                    child: bannerList.isNotEmpty
-                        ? Stack(
-                      children: [
-                        SizedBox(
-                          width: MediaQuery.of(context).size.width,
-                          child: PageView.builder(
-                            controller: _controller,
-                            padEnds: false,
-                            onPageChanged: (value) {
-                              setState(() {
-                                currentIndex = value;
-                              });
-                            },
-                            itemCount: bannerList.length,
-                            itemBuilder: (_, index) {
-                              return SizedBox(
-                                  height: MediaQuery.of(context).size.height * 0.22,
-                                  width: MediaQuery.of(context).size.width,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.circular(5.0),
-                                    child: Center(
-                                        child: FadeInImage(
-                                          image: NetworkImage(bannerList[index]['banner']!),
-                                          fit: BoxFit.fill,
-                                          width: MediaQuery.of(context).size.width,
-                                          height: MediaQuery.of(context).size.height * 0.22,
-                                          placeholder: const AssetImage("assets/images/tennis_ball_banner_placeholder.png"),
-                                          imageErrorBuilder: (context,
-                                              error, stackTrace) {
-                                            return Image.asset(
-                                              "assets/images/tennis_ball_banner_placeholder.png",
-                                            );
-                                          },
-                                        )),
-                                  ));
-                            },
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.bottomCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
-                            child: SmoothPageIndicator(
+        child: Consumer<HomeProvider>(
+          builder: (context, provider, child) {
+            return Container(
+                width: width,
+                height: height,
+                padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 15.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.20,
+                        child: bannerList.isNotEmpty
+                            ? Stack(
+                          children: [
+                            SizedBox(
+                              width: MediaQuery.of(context).size.width,
+                              child: PageView.builder(
                                 controller: _controller,
-                                count: bannerList.length,
-                                effect: const ScrollingDotsEffect(
-                                    radius: 8,
-                                    spacing: 8,
-                                    dotHeight: 8,
-                                    dotWidth: 8,
-                                    activeDotColor: MyAppTheme.MainColor)),
-                          ),
+                                padEnds: false,
+                                onPageChanged: (value) {
+                                  setState(() {
+                                    currentIndex = value;
+                                  });
+                                },
+                                itemCount: bannerList.length,
+                                itemBuilder: (_, index) {
+                                  return SizedBox(
+                                      height: MediaQuery.of(context).size.height * 0.22,
+                                      width: MediaQuery.of(context).size.width,
+                                      child: ClipRRect(
+                                        borderRadius: BorderRadius.circular(5.0),
+                                        child: Center(
+                                            child: FadeInImage(
+                                              image: NetworkImage(bannerList[index]['banner']!),
+                                              fit: BoxFit.fill,
+                                              width: MediaQuery.of(context).size.width,
+                                              height: MediaQuery.of(context).size.height * 0.22,
+                                              placeholder: const AssetImage("assets/images/tennis_ball_banner_placeholder.png"),
+                                              imageErrorBuilder: (context,
+                                                  error, stackTrace) {
+                                                return Image.asset(
+                                                  "assets/images/tennis_ball_banner_placeholder.png",
+                                                );
+                                              },
+                                            )),
+                                      ));
+                                },
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.bottomCenter,
+                              child: Padding(
+                                padding: const EdgeInsets.only(bottom: 10.0),
+                                child: SmoothPageIndicator(
+                                    controller: _controller,
+                                    count: bannerList.length,
+                                    effect: const ScrollingDotsEffect(
+                                        radius: 8,
+                                        spacing: 8,
+                                        dotHeight: 8,
+                                        dotWidth: 8,
+                                        activeDotColor: MyAppTheme.MainColor)),
+                              ),
+                            )
+                          ],
                         )
-                      ],
-                    )
-                        : const SizedBox(),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 15.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyLeagues()),
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Container(
-                          height: height * 0.11,
-                          width: width,
-                          padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/my_academy.jpg"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.homeBgColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/my_academy.svg',
-                                        allowDrawingOutsideViewBox: true,
-                                        height: 20,
-                                        width: 20,
-                                      ),
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 10.0),
-                                    child: Text(
-                                      myAcademy,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                        color: MyAppTheme.whiteColor,
-                                        fontFamily: Fonts.nunito,
-                                      ),
-                                    ),
-                                  )
-                                ],
+                            : const SizedBox(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 15.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyLeagues()),
+                            ).then((value) => {
+                              provider.scorePendingReportsCount(context),
+                              provider.pendingCounts(context)
+                            });
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Container(
+                              height: height * 0.11,
+                              width: width,
+                              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/my_academy.jpg"),
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              Row(
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                               /*   Container(
-                                    height: 25,
-                                    width: 25,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.LineColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child:  const Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.all(2.0),
-                                        child: Text(
-                                          '21',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
-                                            fontFamily: Fonts.nunito,
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.homeBgColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/my_academy.svg',
+                                            allowDrawingOutsideViewBox: true,
+                                            height: 20,
+                                            width: 20,
                                           ),
                                         ),
                                       ),
-                                    ),
-                                  ),*/
-                                  Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.whiteColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(7.0),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/forword_arrow.svg',
-                                        allowDrawingOutsideViewBox: true,
-                                        height: 20,
-                                        width: 20,
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyChallenges()),
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Container(
-                          height: height * 0.11,
-                          width: width,
-                          padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/my_challenge.jpg"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.homeBgColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/my_challenge.svg',
-                                        allowDrawingOutsideViewBox: true,
-                                        height: 20,
-                                        width: 20,
-                                      ),
-                                    ),
-                                  ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 10.0),
-                                    child: Text(
-                                      myChallenge,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                        color: MyAppTheme.whiteColor,
-                                        fontFamily: Fonts.nunito,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                /*  Container(
-                                    height: 25,
-                                    width: 25,
-                                    margin: const EdgeInsets.only(right: 10),
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.LineColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child:  const Center(
-                                      child: Padding(
-                                        padding: EdgeInsets.all(2.0),
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 10.0),
                                         child: Text(
-                                          '21',
+                                          myAcademy,
+                                          textAlign: TextAlign.center,
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12,
-                                            color: MyAppTheme.black_Color,
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18,
+                                            color: MyAppTheme.whiteColor,
                                             fontFamily: Fonts.nunito,
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                  ),*/
-                                  Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.whiteColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(7.0),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/forword_arrow.svg',
-                                        allowDrawingOutsideViewBox: true,
-                                        height: 20,
-                                        width: 20,
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                    ),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      if (Preferences.leagueRequestsCount != "0") Container(
+                                        height: 25,
+                                        width: 25,
+                                        margin: const EdgeInsets.only(right: 10),
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.LineColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child:   Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: Text(
+                                              Preferences.leagueRequestsCount,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 12,
+                                                color: MyAppTheme.black_Color,
+                                                fontFamily: Fonts.nunito,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ) else const SizedBox(),
+                                      Container(
+                                        height: 25,
+                                        width: 25,
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.whiteColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(7.0),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/forword_arrow.svg',
+                                            allowDrawingOutsideViewBox: true,
+                                            height: 20,
+                                            width: 20,
+                                            color: MyAppTheme.MainColor,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   )
                                 ],
-                              )
-                            ],
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => MyResult()),
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Container(
-                          height: height * 0.11,
-                          width: width,
-                          padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/my_result.jpg"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => MyChallenges()),
+                            ).then((value) => {
+                              provider.scorePendingReportsCount(context),
+                              provider.pendingCounts(context)
+                            });
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Container(
+                              height: height * 0.11,
+                              width: width,
+                              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/my_challenge.jpg"),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.homeBgColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/my_result.svg',
-                                        allowDrawingOutsideViewBox: true,
-                                        height: 20,
-                                        width: 20,
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.homeBgColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/my_challenge.svg',
+                                            allowDrawingOutsideViewBox: true,
+                                            height: 20,
+                                            width: 20,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 10.0),
+                                        child: Text(
+                                          myChallenge,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18,
+                                            color: MyAppTheme.whiteColor,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 10.0),
-                                    child: Text(
-                                      myResult,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                        color: MyAppTheme.whiteColor,
-                                        fontFamily: Fonts.nunito,
-                                      ),
-                                    ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      if (Preferences.challengeRequestsCount != "0") Container(
+                                        height: 25,
+                                        width: 25,
+                                        margin: const EdgeInsets.only(right: 10),
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.LineColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child:   Center(
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(2.0),
+                                            child: Text(
+                                              Preferences.challengeRequestsCount,
+                                              style: const TextStyle(
+                                                fontWeight: FontWeight.w700,
+                                                fontSize: 12,
+                                                color: MyAppTheme.black_Color,
+                                                fontFamily: Fonts.nunito,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ) else const SizedBox(),
+                                      Container(
+                                        height: 25,
+                                        width: 25,
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.whiteColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(7.0),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/forword_arrow.svg',
+                                            allowDrawingOutsideViewBox: true,
+                                            height: 20,
+                                            width: 20,
+                                            color: MyAppTheme.MainColor,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   )
                                 ],
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.whiteColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(7.0),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/forword_arrow.svg',
-                                        allowDrawingOutsideViewBox: true,
-                                        height: 20,
-                                        width: 20,
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => AllMatches()),
-                        );
-                      },
-                      child:ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Container(
-                          height: height * 0.11,
-                          width: width,
-                          padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/all_match.jpg"),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => MyResult()),
+                            );
+                          },
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Container(
+                              height: height * 0.11,
+                              width: width,
+                              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/my_result.jpg"),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.homeBgColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/all_match.svg',
-                                        allowDrawingOutsideViewBox: true,
-                                        height: 20,
-                                        width: 20,
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.homeBgColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/my_result.svg',
+                                            allowDrawingOutsideViewBox: true,
+                                            height: 20,
+                                            width: 20,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 10.0),
+                                        child: Text(
+                                          myResult,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18,
+                                            color: MyAppTheme.whiteColor,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 10.0),
-                                    child: Text(
-                                      allMatch,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                        color: MyAppTheme.whiteColor,
-                                        fontFamily: Fonts.nunito,
-                                      ),
-                                    ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 25,
+                                        width: 25,
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.whiteColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(7.0),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/forword_arrow.svg',
+                                            allowDrawingOutsideViewBox: true,
+                                            height: 20,
+                                            width: 20,
+                                            color: MyAppTheme.MainColor,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   )
                                 ],
                               ),
-                              Row(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.whiteColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(7.0),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/forword_arrow.svg',
-                                        allowDrawingOutsideViewBox: true,
-                                        height: 20,
-                                        width: 20,
-                                        color: MyAppTheme.MainColor,
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
-                    child: InkWell(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => UpcomingTournament()),
-                        );
-                      },
-                      child:ClipRRect(
-                        borderRadius: BorderRadius.circular(8.0),
-                        child: Container(
-                          height: height * 0.11,
-                          width: width,
-                          padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                          decoration: const BoxDecoration(
-                            image: DecorationImage(
-                              image: AssetImage("assets/images/upcoming.jpg"),
-                              fit: BoxFit.cover,
                             ),
                           ),
-                          child: Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => AllMatches()),
+                            );
+                          },
+                          child:ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Container(
+                              height: height * 0.11,
+                              width: width,
+                              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/all_match.jpg"),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    height: 50,
-                                    width: 50,
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.homeBgColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(12.0),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/upcoming.svg',
-                                        allowDrawingOutsideViewBox: true,
-                                        height: 20,
-                                        width: 20,
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.homeBgColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/all_match.svg',
+                                            allowDrawingOutsideViewBox: true,
+                                            height: 20,
+                                            width: 20,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 10.0),
+                                        child: Text(
+                                          allMatch,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18,
+                                            color: MyAppTheme.whiteColor,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   ),
-                                  const Padding(
-                                    padding: EdgeInsets.only(left: 10.0),
-                                    child: Text(
-                                      upcomingTournament,
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.w600,
-                                        fontSize: 18,
-                                        color: MyAppTheme.whiteColor,
-                                        fontFamily: Fonts.nunito,
-                                      ),
-                                    ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 25,
+                                        width: 25,
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.whiteColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(7.0),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/forword_arrow.svg',
+                                            allowDrawingOutsideViewBox: true,
+                                            height: 20,
+                                            width: 20,
+                                            color: MyAppTheme.MainColor,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   )
                                 ],
                               ),
-                              Row(
+                            ),
+                          ),),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 10.0,bottom: 10.0),
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => UpcomingTournament()),
+                            );
+                          },
+                          child:ClipRRect(
+                            borderRadius: BorderRadius.circular(8.0),
+                            child: Container(
+                              height: height * 0.11,
+                              width: width,
+                              padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                  image: AssetImage("assets/images/upcoming.jpg"),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                              child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Container(
-                                    height: 25,
-                                    width: 25,
-                                    decoration: const BoxDecoration(
-                                        color: MyAppTheme.whiteColor,
-                                        shape: BoxShape.circle
-                                    ),
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(7.0),
-                                      child: SvgPicture.asset(
-                                        'assets/icons/forword_arrow.svg',
-                                        allowDrawingOutsideViewBox: true,
-                                        height: 20,
-                                        width: 20,
-                                        color: MyAppTheme.MainColor,
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 50,
+                                        width: 50,
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.homeBgColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(12.0),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/upcoming.svg',
+                                            allowDrawingOutsideViewBox: true,
+                                            height: 20,
+                                            width: 20,
+                                          ),
+                                        ),
                                       ),
-                                    ),
+                                      const Padding(
+                                        padding: EdgeInsets.only(left: 10.0),
+                                        child: Text(
+                                          upcomingTournament,
+                                          textAlign: TextAlign.center,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 18,
+                                            color: MyAppTheme.whiteColor,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 25,
+                                        width: 25,
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.whiteColor,
+                                            shape: BoxShape.circle
+                                        ),
+                                        child: Padding(
+                                          padding: const EdgeInsets.all(7.0),
+                                          child: SvgPicture.asset(
+                                            'assets/icons/forword_arrow.svg',
+                                            allowDrawingOutsideViewBox: true,
+                                            height: 20,
+                                            width: 20,
+                                            color: MyAppTheme.MainColor,
+                                          ),
+                                        ),
+                                      )
+                                    ],
                                   )
                                 ],
-                              )
-                            ],
-                          ),
-                        ),
-                      ),),
-                  )
-                ],
-              ),
-            )
-        ),
+                              ),
+                            ),
+                          ),),
+                      )
+                    ],
+                  ),
+                )
+            );
+          },
+        )
+        ,
       ),
       drawer: const DrawerBar(),
     );

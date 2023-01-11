@@ -7,4 +7,8 @@ class AppConfig {
   static String AccepterName = "";
   static String ChallengerUuid = "";
   static String ChallengerName = "";
+  static String winnerUuid = "";
+  static String winnerName = "";
+  static String loserUuid = "";
+  static String loserName = "";
 }

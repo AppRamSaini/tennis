@@ -51,11 +51,8 @@ dependencies:
   flutter_launcher_icons: ^0.11.0
   # pin code fields
   pin_code_fields: ^7.4.0
-  # video player
-  video_player: ^2.4.8
   # smooth page indicator
   smooth_page_indicator: ^1.0.0+2
-  carousel_slider: ^4.1.1
   # share plus
   share_plus: ^6.3.0
   # path provider

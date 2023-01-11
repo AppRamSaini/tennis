@@ -15,7 +15,7 @@ class LeaguesDetails extends StatefulWidget {
   String league_uuid;
   String admin_email;
   int sets;
-  String role;
+  bool role;
   LeaguesDetails({Key? key,required this.league_name,required this.league_uuid,required this.admin_email,required this.sets,required this.role}) : super(key: key);
 
   @override
@@ -148,7 +148,7 @@ class _LeaguesDetailsState extends State<LeaguesDetails> {
                     ),
                   ),
                 ),*/
-                widget.role != 'admin' ?
+                widget.role != true ?
                 InkWell(
                   onTap: (){
                     LeaveLeagueBottomDilog(context,widget.league_uuid,widget.league_name);

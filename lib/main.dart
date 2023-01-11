@@ -13,6 +13,7 @@ import 'package:tennis/providers/myresult_provider.dart';
 import 'package:tennis/providers/news_provider.dart';
 import 'package:tennis/providers/otp_provider.dart';
 import 'package:tennis/providers/ranking_challenge_provider.dart';
+import 'package:tennis/providers/reports_provider.dart';
 import 'package:tennis/providers/score_card_provider.dart';
 import 'package:tennis/screens/splash.dart';
 void main() async{
@@ -40,6 +41,7 @@ class MyApp extends StatelessWidget {
       ChangeNotifierProvider(create: (context) => locator<MychallengeProvider>()),
       ChangeNotifierProvider(create: (context) => locator<AllMatchsProvider>()),
       ChangeNotifierProvider(create: (context) => locator<MyResultProvider>()),
+      ChangeNotifierProvider(create: (context) => locator<ReportsProvider>()),
       ChangeNotifierProvider(create: (context) => LoginProvider(),builder: (context, child) {
         return MaterialApp(
           debugShowCheckedModeBanner: false,
