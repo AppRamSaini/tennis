@@ -71,7 +71,7 @@ class _AddPlayerState extends State<AddPlayer> {
                       },
                       decoration: const InputDecoration(
                           border: InputBorder.none,
-                          hintText: 'search player with whatsApp number',
+                          hintText: 'Search Player With WhatsApp Number',
                           suffixIcon: Icon(Icons.search,color: Colors.black,),
                           hintStyle: TextStyle(
                             fontWeight: FontWeight.w400,
@@ -240,7 +240,7 @@ class _AddPlayerState extends State<AddPlayer> {
                             ),
                           ),
                           const Text(
-                            'This user does not exist, please invite first and add after join Tennis Khelo',
+                            'This User Does Not Exist, Please Invite First and Add After Join Tennis Khelo',
                             style: TextStyle(
                               fontWeight: FontWeight.w400,
                               fontSize: 10,
@@ -279,7 +279,7 @@ class _AddPlayerState extends State<AddPlayer> {
                             ),
                           ),
                         ),
-                      ) : SizedBox(width: 80,)
+                      ) : const SizedBox(width: 80,)
 
 
                     ],

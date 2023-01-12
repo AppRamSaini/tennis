@@ -102,7 +102,7 @@ class _AllMatchesState extends State<AllMatches> {
                                   ),
                                   child:  Center(
                                     child: Padding(
-                                      padding: EdgeInsets.all(8.0),
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text(
                                         '${leagueslist[index]['total_matches']}',
                                         style: const TextStyle(

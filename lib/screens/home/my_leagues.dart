@@ -70,468 +70,472 @@ class _MyLeaguesState extends State<MyLeagues> {
                 width: width,
                 height: height,
                 padding: const EdgeInsets.all(10),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    ListView.builder(
-                        physics: const AlwaysScrollableScrollPhysics(),
-                        primary: false,
-                        shrinkWrap: true,
-                        itemCount: pendingLeagueslist.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Card(
-                            elevation: 2,
-                            child: Container(
-                              padding: const EdgeInsets.all(10),
-                              margin: const EdgeInsets.only(top: 10.0),
-                              decoration: const BoxDecoration(
-                                  color: MyAppTheme.whiteColor,
-                                  borderRadius: BorderRadius.all(Radius.circular(5))),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Text(
-                                        '${pendingLeagueslist[index]['league']['name']}',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: MyAppTheme.TitleBlackColor,
-                                          fontFamily: Fonts.nunito,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.center,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${pendingLeagueslist[index]['league']['members_count']} Members',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 12,
-                                          color: MyAppTheme.DesBlackColor,
-                                          fontFamily: Fonts.nunito,
-                                        ),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10.0),
-                                    child: Row(
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      ListView.builder(
+                        // physics: const AlwaysScrollableScrollPhysics(),
+                        //primary: false,
+                        // shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: pendingLeagueslist.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Card(
+                              elevation: 2,
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                    color: MyAppTheme.whiteColor,
+                                    borderRadius: BorderRadius.all(Radius.circular(5))),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: [
+                                    Row(
                                       crossAxisAlignment:
                                       CrossAxisAlignment.center,
                                       mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Expanded(
-                                            child: InkWell(
-                                              onTap: () {
-                                                MyLeagueRequestBottomDilog(context,'${pendingLeagueslist[index]['league']['name']}','${pendingLeagueslist[index]['uuid']}','accept');
-                                              },
-                                              child: Container(
-                                                height: 50,
-                                                margin:
-                                                const EdgeInsets.only(right: 5.0),
-                                                decoration: BoxDecoration(
-                                                    color: MyAppTheme.MainColor,
-                                                    border: Border.all(
-                                                        color:
-                                                        MyAppTheme.MainColor,
-                                                        width: 1),
-                                                    borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(5))),
-                                                child: const Center(
-                                                  child: Text(
-                                                    'Accepted',
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 12,
-                                                      color:
-                                                      MyAppTheme.whiteColor,
-                                                      fontFamily: Fonts.nunito,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            )),
-                                        Expanded(
-                                            child: InkWell(
-                                              onTap: () {
-                                                MyLeagueRequestBottomDilog(context,'${pendingLeagueslist[index]['league']['name']}','${pendingLeagueslist[index]['uuid']}','reject');
-                                              },
-                                              child: Container(
-                                                height: 50,
-                                                margin:
-                                                const EdgeInsets.only(left: 5.0),
-                                                decoration: BoxDecoration(
-                                                    color:
-                                                    MyAppTheme.AcceptBgColor,
-                                                    border: Border.all(
-                                                        color: MyAppTheme
-                                                            .AcceptBgColor,
-                                                        width: 1),
-                                                    borderRadius:
-                                                    const BorderRadius.all(
-                                                        Radius.circular(5))),
-                                                child: const Center(
-                                                  child: Text(
-                                                    'Rejected',
-                                                    style: TextStyle(
-                                                      fontWeight: FontWeight.w600,
-                                                      fontSize: 12,
-                                                      color:
-                                                      MyAppTheme.whiteColor,
-                                                      fontFamily: Fonts.nunito,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ))
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          )
-                            ;
-                        }),
-                      leagueslist.isNotEmpty ||
-                          pendingLeagueslist.isNotEmpty ?
-                    Expanded(
-                        child: ListView.builder(
-                            physics:
-                            const AlwaysScrollableScrollPhysics(),
-                            primary: false,
-                            shrinkWrap: true,
-                            itemCount: leagueslist.length,
-                            itemBuilder:
-                                (BuildContext context, int index) {
-                              return Card(
-                                elevation: 2,
-                                child: Container(
-                                  padding: const EdgeInsets.all(10),
-                                  decoration: const BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: MyAppTheme
-                                              .listBorderColor, //New
-                                          blurRadius: 5.0,
-                                        )
-                                      ],
-                                      color: MyAppTheme.whiteColor,
-                                      borderRadius: BorderRadius.all(
-                                          Radius.circular(5))),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                    CrossAxisAlignment.start,
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.start,
-                                    children: [
-                                      Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment
-                                            .spaceBetween,
-                                        children: [
-                                          Text(
-                                            '${leagueslist[index]['name']}',
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 16,
-                                              color: MyAppTheme
-                                                  .TitleBlackColor,
-                                              fontFamily: Fonts.nunito,
-                                            ),
-                                          ),
-                                          PopupMenuButton(
-                                              child: SizedBox(
-                                                width: 20,
-                                                height: 20,
-                                                child: Image.asset(
-                                                    "assets/images/more.png"),
-                                              ),
-                                              itemBuilder: (context) {
-                                                return [
-                                                  PopupMenuItem(
-                                                      height: leagueslist[index]['is_admin'] ==
-                                                          true
-                                                          ? 30
-                                                          : 0,
-                                                      value: 1,
-                                                      child: leagueslist[
-                                                      index]
-                                                      [
-                                                      'is_admin'] ==
-                                                          true
-                                                          ? InkWell(
-                                                        onTap: () {
-                                                          Navigator.pop(context);
-                                                          Navigator.push(context, MaterialPageRoute(
-                                                              builder: (context) =>   EditLeague(leagueUUID: '${leagueslist[index]['uuid']}',leagueName: '${leagueslist[index]['name']}', leagueType: '${leagueslist[index]['type']}', leagueDesc: '${leagueslist[index]['description']}', leagueSets: leagueslist[index]['sets'], ))).then(
-                                                                  (value) => {provider.getMyLeaguesList(context)});
-                                                        },
-                                                        child: Row(
-                                                          children: <
-                                                              Widget>[
-                                                            SvgPicture
-                                                                .asset(
-                                                              'assets/icons/edit_details.svg',
-                                                              allowDrawingOutsideViewBox:
-                                                              true,
-                                                              height:
-                                                              15,
-                                                              width:
-                                                              15,
-                                                            ),
-                                                            const Padding(
-                                                              padding:
-                                                              EdgeInsets.only(left: 10),
-                                                              child: Text(
-                                                                  editDetails,
-                                                                  style: TextStyle(
-                                                                    fontWeight: FontWeight.w500,
-                                                                    fontSize: 13,
-                                                                    color: MyAppTheme.black_Color,
-                                                                    fontFamily: Fonts.nunito,
-                                                                  )),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )
-                                                          : SizedBox()),
-                                                  PopupMenuItem(
-                                                      height: leagueslist[index]['is_admin'] ==
-                                                          true
-                                                          ? 30
-                                                          : 0,
-                                                      value: 2,
-                                                      child: leagueslist[index]['is_admin'] ==
-                                                          true
-                                                          ? InkWell(
-                                                        onTap: () {
-                                                          Navigator.pop(context);
-                                                          Navigator.push(context,
-                                                            MaterialPageRoute(builder: (context) =>
-                                                                AddPlayer(
-                                                                  league_uuid: leagueslist[index]['uuid'],
-                                                                  league_name: '${leagueslist[index]['name']}',
-                                                                )),
-                                                          );
-                                                        },
-                                                        child: Row(
-                                                          children: <
-                                                              Widget>[
-                                                            SvgPicture
-                                                                .asset(
-                                                              'assets/icons/add_player.svg',
-                                                              allowDrawingOutsideViewBox:
-                                                              true,
-                                                              height:
-                                                              15,
-                                                              width:
-                                                              15,
-                                                            ),
-                                                            const Padding(
-                                                              padding:
-                                                              EdgeInsets.only(left: 10),
-                                                              child: Text(
-                                                                  addPlayer,
-                                                                  style: TextStyle(
-                                                                    fontWeight: FontWeight.w500,
-                                                                    fontSize: 13,
-                                                                    color: MyAppTheme.black_Color,
-                                                                    fontFamily: Fonts.nunito,
-                                                                  )),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )
-                                                          : SizedBox()),
-                                                  PopupMenuItem(
-                                                      height: 30,
-                                                      value: 3,
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          Navigator.pop(context);
-                                                          Navigator.push(context,
-                                                            MaterialPageRoute(builder:
-                                                                (context) =>
-                                                                LeaguesDetails(league_name: '${leagueslist[index]['name']}', league_uuid: leagueslist[index]['uuid'], admin_email: '${leagueslist[index]['admin']['email']}', sets: leagueslist[index]['sets'], role: leagueslist[index]['is_admin'],)),
-                                                          ).then(
-                                                                  (value) => {provider.getMyLeaguesList(context)});
-                                                        },
-                                                        child: Row(
-                                                          children: <
-                                                              Widget>[
-                                                            SvgPicture
-                                                                .asset(
-                                                              'assets/icons/league_details.svg',
-                                                              allowDrawingOutsideViewBox:
-                                                              true,
-                                                              height: 15,
-                                                              width: 15,
-                                                            ),
-                                                            const Padding(
-                                                              padding: EdgeInsets
-                                                                  .only(
-                                                                  left:
-                                                                  10),
-                                                              child: Text(
-                                                                  leagueDetails,
-                                                                  style:
-                                                                  TextStyle(
-                                                                    fontWeight:
-                                                                    FontWeight.w500,
-                                                                    fontSize:
-                                                                    13,
-                                                                    color:
-                                                                    MyAppTheme.black_Color,
-                                                                    fontFamily:
-                                                                    Fonts.nunito,
-                                                                  )),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )),
-                                                  PopupMenuItem(
-                                                      height: leagueslist[
-                                                      index]
-                                                      [
-                                                      'is_admin'] ==
-                                                          true
-                                                          ? 30
-                                                          : 0,
-                                                      value: 4,
-                                                      child: leagueslist[
-                                                      index]
-                                                      [
-                                                      'is_admin'] ==
-                                                          true
-                                                          ? InkWell(
-                                                        onTap: () {
-                                                          Navigator.pop(context);
-                                                          DeleteLeagueBottomDilog(context,'${leagueslist[index]['uuid']}','${leagueslist[index]['name']}');
-                                                        },
-                                                        child: Row(
-                                                          children: <
-                                                              Widget>[
-                                                            SvgPicture
-                                                                .asset(
-                                                              'assets/icons/delete_league.svg',
-                                                              allowDrawingOutsideViewBox:
-                                                              true,
-                                                              height:
-                                                              15,
-                                                              width:
-                                                              15,
-                                                            ),
-                                                            const Padding(
-                                                              padding:
-                                                              EdgeInsets.only(left: 10),
-                                                              child: Text(
-                                                                  deleteLeague,
-                                                                  style: TextStyle(
-                                                                    fontWeight: FontWeight.w500,
-                                                                    fontSize: 13,
-                                                                    color: MyAppTheme.CategoryBGSelectColor,
-                                                                    fontFamily: Fonts.nunito,
-                                                                  )),
-                                                            )
-                                                          ],
-                                                        ),
-                                                      )
-                                                          : SizedBox()),
-                                                ];
-                                              })
-                                        ],
-                                      ),
-                                      Row(
-                                        crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                        MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            '${leagueslist[index]['members_count']} Members',
-                                            style: const TextStyle(
-                                              fontWeight: FontWeight.w700,
-                                              fontSize: 12,
-                                              color: MyAppTheme
-                                                  .DesBlackColor,
-                                              fontFamily: Fonts.nunito,
-                                            ),
-                                          )
-                                        ],
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                          provider.setNoSets(leagueslist[index]['sets']);
-                                          Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    ViewRankingChallenge(
-                                                      name: '${leagueslist[index]['name']}', league_uuid: leagueslist[index]['uuid'],
-                                                    )),
-                                          );
-                                        },
-                                        child: Container(
-                                          height: 50,
-                                          width: width,
-                                          margin: const EdgeInsets.only(
-                                            right: 5.0,
-                                            top: 10.0,
-                                          ),
-                                          decoration: const BoxDecoration(
-                                              color: MyAppTheme.MainColor,
-                                              borderRadius:
-                                              BorderRadius.all(
-                                                  Radius.circular(
-                                                      5))),
-                                          child: const Center(
-                                            child: Text(
-                                              'View Rankings / challenge',
-                                              style: TextStyle(
-                                                  fontSize: 16,
-                                                  color: MyAppTheme
-                                                      .whiteColor),
-                                            ),
+                                        Text(
+                                          '${pendingLeagueslist[index]['league']['name']}',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16,
+                                            color: MyAppTheme.TitleBlackColor,
+                                            fontFamily: Fonts.nunito,
                                           ),
                                         ),
+                                      ],
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${pendingLeagueslist[index]['league']['members_count']} Members',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 12,
+                                            color: MyAppTheme.DesBlackColor,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10.0),
+                                      child: Row(
+                                        crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Expanded(
+                                              child: InkWell(
+                                                onTap: () {
+                                                  MyLeagueRequestBottomDilog(context,'${pendingLeagueslist[index]['league']['name']}','${pendingLeagueslist[index]['uuid']}','accept');
+                                                },
+                                                child: Container(
+                                                  height: 50,
+                                                  margin:
+                                                  const EdgeInsets.only(right: 5.0),
+                                                  decoration: BoxDecoration(
+                                                      color: MyAppTheme.MainColor,
+                                                      border: Border.all(
+                                                          color:
+                                                          MyAppTheme.MainColor,
+                                                          width: 1),
+                                                      borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5))),
+                                                  child: const Center(
+                                                    child: Text(
+                                                      'Accepted',
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w600,
+                                                        fontSize: 12,
+                                                        color:
+                                                        MyAppTheme.whiteColor,
+                                                        fontFamily: Fonts.nunito,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              )),
+                                          Expanded(
+                                              child: InkWell(
+                                                onTap: () {
+                                                  MyLeagueRequestBottomDilog(context,'${pendingLeagueslist[index]['league']['name']}','${pendingLeagueslist[index]['uuid']}','reject');
+                                                },
+                                                child: Container(
+                                                  height: 50,
+                                                  margin:
+                                                  const EdgeInsets.only(left: 5.0),
+                                                  decoration: BoxDecoration(
+                                                      color:
+                                                      MyAppTheme.AcceptBgColor,
+                                                      border: Border.all(
+                                                          color: MyAppTheme
+                                                              .AcceptBgColor,
+                                                          width: 1),
+                                                      borderRadius:
+                                                      const BorderRadius.all(
+                                                          Radius.circular(5))),
+                                                  child: const Center(
+                                                    child: Text(
+                                                      'Rejected',
+                                                      style: TextStyle(
+                                                        fontWeight: FontWeight.w600,
+                                                        fontSize: 12,
+                                                        color:
+                                                        MyAppTheme.whiteColor,
+                                                        fontFamily: Fonts.nunito,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ))
+                                        ],
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            )
+                            ;
+                          }),
+                      leagueslist.isNotEmpty ||
+                          pendingLeagueslist.isNotEmpty ?
+                      ListView.builder(
+                        // physics: const AlwaysScrollableScrollPhysics(),
+                        //  primary: false,
+                        // shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemCount: leagueslist.length,
+                          itemBuilder:
+                              (BuildContext context, int index) {
+                            return Card(
+                              elevation: 2,
+                              child: Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: const BoxDecoration(
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: MyAppTheme
+                                            .listBorderColor, //New
+                                        blurRadius: 5.0,
                                       )
                                     ],
-                                  ),
+                                    color: MyAppTheme.whiteColor,
+                                    borderRadius: BorderRadius.all(
+                                        Radius.circular(5))),
+                                child: Column(
+                                  crossAxisAlignment:
+                                  CrossAxisAlignment.start,
+                                  mainAxisAlignment:
+                                  MainAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .spaceBetween,
+                                      children: [
+                                        Text(
+                                          '${leagueslist[index]['name']}',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16,
+                                            color: MyAppTheme
+                                                .TitleBlackColor,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                        ),
+                                        PopupMenuButton(
+                                            child: SizedBox(
+                                              width: 20,
+                                              height: 20,
+                                              child: Image.asset(
+                                                  "assets/images/more.png"),
+                                            ),
+                                            itemBuilder: (context) {
+                                              return [
+                                                PopupMenuItem(
+                                                    height: leagueslist[index]['is_admin'] ==
+                                                        true
+                                                        ? 30
+                                                        : 0,
+                                                    value: 1,
+                                                    child: leagueslist[
+                                                    index]
+                                                    [
+                                                    'is_admin'] ==
+                                                        true
+                                                        ? InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                        Navigator.push(context, MaterialPageRoute(
+                                                            builder: (context) =>   EditLeague(leagueUUID: '${leagueslist[index]['uuid']}',leagueName: '${leagueslist[index]['name']}', leagueType: '${leagueslist[index]['type']}', leagueDesc: '${leagueslist[index]['description']}', leagueSets: leagueslist[index]['sets'], ))).then(
+                                                                (value) => {provider.getMyLeaguesList(context)});
+                                                      },
+                                                      child: Row(
+                                                        children: <
+                                                            Widget>[
+                                                          SvgPicture
+                                                              .asset(
+                                                            'assets/icons/edit_details.svg',
+                                                            allowDrawingOutsideViewBox:
+                                                            true,
+                                                            height:
+                                                            15,
+                                                            width:
+                                                            15,
+                                                          ),
+                                                          const Padding(
+                                                            padding:
+                                                            EdgeInsets.only(left: 10),
+                                                            child: Text(
+                                                                editDetails,
+                                                                style: TextStyle(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  fontSize: 13,
+                                                                  color: MyAppTheme.black_Color,
+                                                                  fontFamily: Fonts.nunito,
+                                                                )),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                        : SizedBox()),
+                                                PopupMenuItem(
+                                                    height: leagueslist[index]['is_admin'] ==
+                                                        true
+                                                        ? 30
+                                                        : 0,
+                                                    value: 2,
+                                                    child: leagueslist[index]['is_admin'] ==
+                                                        true
+                                                        ? InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                        Navigator.push(context,
+                                                          MaterialPageRoute(builder: (context) =>
+                                                              AddPlayer(
+                                                                league_uuid: leagueslist[index]['uuid'],
+                                                                league_name: '${leagueslist[index]['name']}',
+                                                              )),
+                                                        );
+                                                      },
+                                                      child: Row(
+                                                        children: <
+                                                            Widget>[
+                                                          SvgPicture
+                                                              .asset(
+                                                            'assets/icons/add_player.svg',
+                                                            allowDrawingOutsideViewBox:
+                                                            true,
+                                                            height:
+                                                            15,
+                                                            width:
+                                                            15,
+                                                          ),
+                                                          const Padding(
+                                                            padding:
+                                                            EdgeInsets.only(left: 10),
+                                                            child: Text(
+                                                                addPlayer,
+                                                                style: TextStyle(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  fontSize: 13,
+                                                                  color: MyAppTheme.black_Color,
+                                                                  fontFamily: Fonts.nunito,
+                                                                )),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                        : SizedBox()),
+                                                PopupMenuItem(
+                                                    height: 30,
+                                                    value: 3,
+                                                    child: InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                        Navigator.push(context,
+                                                          MaterialPageRoute(builder:
+                                                              (context) =>
+                                                              LeaguesDetails(league_name: '${leagueslist[index]['name']}', league_uuid: leagueslist[index]['uuid'], admin_email: '${leagueslist[index]['admin']['email']}', sets: leagueslist[index]['sets'], role: leagueslist[index]['is_admin'],)),
+                                                        ).then(
+                                                                (value) => {provider.getMyLeaguesList(context)});
+                                                      },
+                                                      child: Row(
+                                                        children: <
+                                                            Widget>[
+                                                          SvgPicture
+                                                              .asset(
+                                                            'assets/icons/league_details.svg',
+                                                            allowDrawingOutsideViewBox:
+                                                            true,
+                                                            height: 15,
+                                                            width: 15,
+                                                          ),
+                                                          const Padding(
+                                                            padding: EdgeInsets
+                                                                .only(
+                                                                left:
+                                                                10),
+                                                            child: Text(
+                                                                leagueDetails,
+                                                                style:
+                                                                TextStyle(
+                                                                  fontWeight:
+                                                                  FontWeight.w500,
+                                                                  fontSize:
+                                                                  13,
+                                                                  color:
+                                                                  MyAppTheme.black_Color,
+                                                                  fontFamily:
+                                                                  Fonts.nunito,
+                                                                )),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )),
+                                                PopupMenuItem(
+                                                    height: leagueslist[
+                                                    index]
+                                                    [
+                                                    'is_admin'] ==
+                                                        true
+                                                        ? 30
+                                                        : 0,
+                                                    value: 4,
+                                                    child: leagueslist[
+                                                    index]
+                                                    [
+                                                    'is_admin'] ==
+                                                        true
+                                                        ? InkWell(
+                                                      onTap: () {
+                                                        Navigator.pop(context);
+                                                        DeleteLeagueBottomDilog(context,'${leagueslist[index]['uuid']}','${leagueslist[index]['name']}');
+                                                      },
+                                                      child: Row(
+                                                        children: <
+                                                            Widget>[
+                                                          SvgPicture
+                                                              .asset(
+                                                            'assets/icons/delete_league.svg',
+                                                            allowDrawingOutsideViewBox:
+                                                            true,
+                                                            height:
+                                                            15,
+                                                            width:
+                                                            15,
+                                                          ),
+                                                          const Padding(
+                                                            padding:
+                                                            EdgeInsets.only(left: 10),
+                                                            child: Text(
+                                                                deleteLeague,
+                                                                style: TextStyle(
+                                                                  fontWeight: FontWeight.w500,
+                                                                  fontSize: 13,
+                                                                  color: MyAppTheme.CategoryBGSelectColor,
+                                                                  fontFamily: Fonts.nunito,
+                                                                )),
+                                                          )
+                                                        ],
+                                                      ),
+                                                    )
+                                                        : SizedBox()),
+                                              ];
+                                            })
+                                      ],
+                                    ),
+                                    Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${leagueslist[index]['members_count']} Members',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 12,
+                                            color: MyAppTheme
+                                                .DesBlackColor,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        provider.setNoSets(leagueslist[index]['sets']);
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  ViewRankingChallenge(
+                                                    name: '${leagueslist[index]['name']}', league_uuid: leagueslist[index]['uuid'],
+                                                  )),
+                                        );
+                                      },
+                                      child: Container(
+                                        height: 50,
+                                        width: width,
+                                        margin: const EdgeInsets.only(
+                                          right: 5.0,
+                                          top: 10.0,
+                                        ),
+                                        decoration: const BoxDecoration(
+                                            color: MyAppTheme.MainColor,
+                                            borderRadius:
+                                            BorderRadius.all(
+                                                Radius.circular(
+                                                    5))),
+                                        child: const Center(
+                                          child: Text(
+                                            'View Rankings / challenge',
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                color: MyAppTheme
+                                                    .whiteColor),
+                                          ),
+                                        ),
+                                      ),
+                                    )
+                                  ],
                                 ),
-                              )
-                                ;
-                            })) :
-                           Expanded(child: SvgPicture.asset(
-                    'assets/icons/empty_image.svg',
-                    allowDrawingOutsideViewBox: true,
-                  )),
-                    SizedBox(
-                      height: provider.userRequest == "null"
-                          ? 130
-                          : provider.userRole == AppConfig.USERROLE
-                          ? 0
-                          : 100,
-                    )
-                  ],
-                )),
+                              ),
+                            )
+                            ;
+                          }) :
+                      SvgPicture.asset(
+                        'assets/icons/empty_image.svg',
+                        allowDrawingOutsideViewBox: true,
+                      ),
+                      SizedBox(
+                        height: provider.userRequest == "null"
+                            ? 130
+                            : provider.userRole == AppConfig.USERROLE
+                            ? 0
+                            : 100,
+                      )
+                    ],
+                  ),
+                )
+                ),
             floatingActionButton: provider.userRole == AppConfig.USERROLE || userType == 'admin'
                 ? FloatingActionButton(
               onPressed: () {

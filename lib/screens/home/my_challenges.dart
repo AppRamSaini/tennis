@@ -72,7 +72,6 @@ class _MyChallengesState extends State<MyChallenges> {
                                   elevation: 2,
                                   child: Container(
                                     padding: const EdgeInsets.all(10),
-                                    margin: const EdgeInsets.only(top: 10.0),
                                     decoration: const BoxDecoration(
                                         color: MyAppTheme.whiteColor,
                                         borderRadius: BorderRadius.all(Radius.circular(5))

@@ -50,7 +50,7 @@ LogoutBottomDilog(BuildContext buildContext){
                   ),*/
                   const Padding(
                       padding:  EdgeInsets.only(top: 10.0,bottom: 10.0),
-                      child: Text('Are you sure you want to Logout?',
+                      child: Text('Are You Sure You Want to Logout?',
                           style: TextStyle(
                             fontWeight: FontWeight.w400,
                             fontSize: 14,
