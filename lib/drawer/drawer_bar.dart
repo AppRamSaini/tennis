@@ -14,13 +14,15 @@ import 'package:tennis/styles/my_app_theme.dart';
 import 'package:tennis/upcoming_tournament/upcoming_tournament.dart';
 
 class DrawerBar extends StatefulWidget {
-  const DrawerBar({Key? key}) : super(key: key);
+  BuildContext buildContext;
+  DrawerBar({Key? key,required this.buildContext}) : super(key: key);
 
   @override
   State<DrawerBar> createState() => _DrawerBarState();
 }
 
 class _DrawerBarState extends State<DrawerBar> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   String? user_profile;
   String? user_name;
   String? user_email;
@@ -376,25 +378,21 @@ class _DrawerBarState extends State<DrawerBar> {
 
               ),
             ) :const SizedBox(),
-            Expanded(child: Align(
-              alignment: FractionalOffset.bottomCenter,
-              child: Container(
-                height : 45,
-                alignment: Alignment.bottomLeft,
-                child: ListTile(
-                  title: const Text(logout,textAlign: TextAlign.left,style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 14,
-                    color: MyAppTheme.AcceptBgColor,
-                    fontFamily: Fonts.nunito,
-                  ),),
-                  onTap: () {
-                    Navigator.pop(context);
-                    LogoutBottomDilog(context);
-                  },
-                ),
+            Container(
+              height : 45,
+              alignment: Alignment.bottomLeft,
+              child: ListTile(
+                title: const Text(logout,textAlign: TextAlign.left,style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  color: MyAppTheme.AcceptBgColor,
+                  fontFamily: Fonts.nunito,
+                ),),
+                onTap: () {
+                  Navigator.pop(context);
+                  LogoutBottomDilog(widget.buildContext);
+                },
               ),
-            )
             ),
 
           ],

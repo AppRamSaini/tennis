@@ -42,7 +42,7 @@ class _DashBoardState extends State<DashBoard> {
         pre_backpress = DateTime.now();
         if (cantExit) {
           //show snackbar
-          final snack = const SnackBar(
+          const snack = SnackBar(
             content: Text('Press Back button again to Exit'),
             duration: Duration(seconds: 2),
           );

@@ -47,91 +47,94 @@ class _AllMatchesState extends State<AllMatches> {
               Container(
             width: width,
             height: height,
-            padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+            padding: const EdgeInsets.all(10),
             child: ListView.builder(
                 physics: const AlwaysScrollableScrollPhysics(),
                 primary: false,
                 shrinkWrap: true,
                 itemCount: leagueslist.length,
                 itemBuilder: (BuildContext context, int index) {
-                  return Container(
-                    padding: const EdgeInsets.all(10),
-                    margin: const EdgeInsets.only(top: 10.0),
-                    decoration: const BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: MyAppTheme.listBorderColor, //New
-                            blurRadius: 5.0,
-                          )
-                        ],
-                        color: MyAppTheme.whiteColor,
-                        borderRadius: BorderRadius.all(Radius.circular(5))
-                    ),
-                    child: InkWell(
-                      onTap: (){
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => LeagueWishResult(league_name: '${leagueslist[index]['name']}', league_uuid: '${leagueslist[index]['uuid']}')),
-                        ); 
-                      },
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            '${leagueslist[index]['name']}',
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16,
-                              color: MyAppTheme.black_Color,
-                              fontFamily: Fonts.nunito,
+                  return Card(
+                    elevation: 2,
+                    child: Container(
+                      padding: const EdgeInsets.all(10),
+                      decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: MyAppTheme.listBorderColor, //New
+                              blurRadius: 5.0,
+                            )
+                          ],
+                          color: MyAppTheme.whiteColor,
+                          borderRadius: BorderRadius.all(Radius.circular(5))
+                      ),
+                      child: InkWell(
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => LeagueWishResult(league_name: '${leagueslist[index]['name']}', league_uuid: '${leagueslist[index]['uuid']}')),
+                          );
+                        },
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              '${leagueslist[index]['name']}',
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                                fontSize: 16,
+                                color: MyAppTheme.black_Color,
+                                fontFamily: Fonts.nunito,
+                              ),
                             ),
-                          ),
-                          Row(
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Container(
-                                height: 35,
-                                width: 35,
-                                decoration: const BoxDecoration(
-                                    color: MyAppTheme.LineColor,
-                                    shape: BoxShape.circle
-                                ),
-                                child:  Center(
-                                  child: Padding(
-                                    padding: EdgeInsets.all(8.0),
-                                    child: Text(
-                                      '${leagueslist[index]['total_matches']}',
-                                      style: const TextStyle(
-                                        fontWeight: FontWeight.w700,
-                                        fontSize: 16,
-                                        color: MyAppTheme.black_Color,
-                                        fontFamily: Fonts.nunito,
+                            Row(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 35,
+                                  width: 35,
+                                  decoration: const BoxDecoration(
+                                      color: MyAppTheme.LineColor,
+                                      shape: BoxShape.circle
+                                  ),
+                                  child:  Center(
+                                    child: Padding(
+                                      padding: EdgeInsets.all(8.0),
+                                      child: Text(
+                                        '${leagueslist[index]['total_matches']}',
+                                        style: const TextStyle(
+                                          fontWeight: FontWeight.w700,
+                                          fontSize: 16,
+                                          color: MyAppTheme.black_Color,
+                                          fontFamily: Fonts.nunito,
+                                        ),
                                       ),
                                     ),
                                   ),
                                 ),
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(left: 10.0,right: 10.0),
-                                child: SvgPicture.asset(
-                                  'assets/icons/forword_arrow.svg',
-                                  allowDrawingOutsideViewBox: true,
-                                  height: 15,
-                                  width: 15,
-                                  color: MyAppTheme.DesBlackColor,
-                                ),
-                              )
-                            ],
-                          ),
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 10.0,right: 10.0),
+                                  child: SvgPicture.asset(
+                                    'assets/icons/forword_arrow.svg',
+                                    allowDrawingOutsideViewBox: true,
+                                    height: 15,
+                                    width: 15,
+                                    color: MyAppTheme.DesBlackColor,
+                                  ),
+                                )
+                              ],
+                            ),
 
-                        ],
-                      ),
-                    )
-                    ,
-                  );
+                          ],
+                        ),
+                      )
+                      ,
+                    ),
+                  )
+                    ;
                 }),
           ) : Container(
             width: width,

@@ -406,14 +406,20 @@ class ScoreCardProvider extends ChangeNotifier {
          if(int.parse(win) == 6 && int.parse(win) - int.parse(los) == 2){
            fVCheck = true;
            fWCount++;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            notifyListeners();
          }else if (int.parse(win) == 6){
            fVCheck = true;
            fWCount++;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            notifyListeners();
          }else if (int.parse(win) == 7 && int.parse(los) == 5){
            fVCheck = true;
            fWCount++;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            notifyListeners();
          }
          else {
@@ -424,14 +430,20 @@ class ScoreCardProvider extends ChangeNotifier {
          if(int.parse(los) == 6 && int.parse(los) - int.parse(win) == 2){
            fVCheck = true;
            fLCount++;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            notifyListeners();
          }else if (int.parse(los) == 6){
            fVCheck = true;
            fLCount++;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            notifyListeners();
          } else if (int.parse(win) == 5 && int.parse(los) == 7){
            fVCheck = true;
            fLCount++;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            notifyListeners();
          }
          else {
@@ -441,18 +453,24 @@ class ScoreCardProvider extends ChangeNotifier {
        }else if(int.parse(win) == 6 && int.parse(los) == 6){
            fWCount = 0;
            fLCount = 0;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            fVCheck = true;
            fTB = true;
          notifyListeners();
        }else if(int.parse(win) == int.parse(los)){
            fWCount = 0;
            fLCount = 0;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            fVCheck = false;
            notifyListeners();
          }
      }else {
        fWCount = 0;
        fLCount = 0;
+       winnerTotalCount = fWCount;
+       loserTotalCount = fLCount;
        fVCheck = false;
        fTB = false;
        notifyListeners();
@@ -465,22 +483,30 @@ class ScoreCardProvider extends ChangeNotifier {
          if(int.parse(win) >= 7 && int.parse(los) >= 5){
            if(int.parse(win) - int.parse(los) == 2){
              fWCount++;
+             winnerTotalCount = fWCount;
+             loserTotalCount = fLCount;
              fTBVCheck = true;
              notifyListeners();
            }else {
              fWCount = 0;
              fLCount = 0;
+             winnerTotalCount = fWCount;
+             loserTotalCount = fLCount;
              fTBVCheck = false;
              notifyListeners();
            }
          }else if (int.parse(win) == 7 && int.parse(los) <= 5){
            fWCount++;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            fTBVCheck = true;
            notifyListeners();
          }
          else {
            fWCount = 0;
            fLCount = 0;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            fTBVCheck = false;
            notifyListeners();
          }
@@ -489,22 +515,30 @@ class ScoreCardProvider extends ChangeNotifier {
          if(int.parse(win) >= 5 && int.parse(los) >= 7){
            if(int.parse(los) - int.parse(win) == 2){
              fLCount++;
+             winnerTotalCount = fWCount;
+             loserTotalCount = fLCount;
              fTBVCheck = true;
              notifyListeners();
            }else {
              fWCount = 0;
              fLCount = 0;
+             winnerTotalCount = fWCount;
+             loserTotalCount = fLCount;
              fTBVCheck = false;
              notifyListeners();
            }
          }else if (int.parse(win) <= 5 && int.parse(los) == 7){
            fLCount++;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            fTBVCheck = true;
            notifyListeners();
          }
          else {
            fWCount = 0;
            fLCount = 0;
+           winnerTotalCount = fWCount;
+           loserTotalCount = fLCount;
            fTBVCheck = false;
            notifyListeners();
          }
@@ -512,12 +546,16 @@ class ScoreCardProvider extends ChangeNotifier {
        }else if(int.parse(win) == int.parse(los)){
          fWCount = 0;
          fLCount = 0;
+         winnerTotalCount = fWCount;
+         loserTotalCount = fLCount;
          fTBVCheck = false;
          notifyListeners();
        }
      }else {
        fWCount = 0;
        fLCount = 0;
+       winnerTotalCount = fWCount;
+       loserTotalCount = fLCount;
        fTBVCheck = false;
        notifyListeners();
      }

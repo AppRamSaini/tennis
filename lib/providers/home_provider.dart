@@ -22,6 +22,9 @@ class HomeProvider extends ChangeNotifier {
               SharedPref.setUserDOB(json.decode(response.body)['data']['dob'].toString());
               SharedPref.setUserGender(json.decode(response.body)['data']['gender'].toString());
               SharedPref.setUserPhone(json.decode(response.body)['data']['phone'].toString());
+              if(json.decode(response.body)['data']['role'] == "admin"){
+                scorePendingReportsCount(context);
+              }
             } else if (json.decode(response.body)['status'] == false) {
               Helpers.createErrorSnackBar(context, json.decode(response.body)['message'].toString());
             }

@@ -27,11 +27,11 @@ class MyLeaguesProvider extends ChangeNotifier {
                 print(json.decode(response.body)['request']);
                 if(json.decode(response.body)['request'] == null){
                   userRequest = "null";
-                  userRole = json.decode(response.body)['role'];
+                  userRole = json.decode(response.body)['role'].toString();
                   print(json.decode(response.body)['request']);
                 }else{
-                  userRequest = json.decode(response.body)['request']['request_status'];
-                  userRole = json.decode(response.body)['role'];
+                  userRequest = json.decode(response.body)['request']['request_status'].toString();
+                  userRole = json.decode(response.body)['role'].toString();
                   print(json.decode(response.body)['request']['request_status']);
                 }
 
@@ -55,7 +55,7 @@ class MyLeaguesProvider extends ChangeNotifier {
           sendRequestLeaguePermission(context).then((response) {
             if (json.decode(response.body)['status'] == true) {
              // userRole = "player";
-              userRequest = json.decode(response.body)['request']['request_status'];
+              userRequest = json.decode(response.body)['request']['request_status'].toString();
              // Helpers.createSnackBar(context, json.decode(response.body)['message'].toString());
               notifyListeners();
             } else if (json.decode(response.body)['status'] == false) {

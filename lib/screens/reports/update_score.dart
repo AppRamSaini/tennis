@@ -301,92 +301,90 @@ class _UpdateScoreState extends State<UpdateScore> {
     matchsStatus = widget.status;
     dropdownValue = AppConfig.winnerName;
     AppConfig.Sets = int.parse(widget.sets);
-    setAllBoxValue(widget.score);
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      setAllBoxValue(widget.score);
+    });
     setNoValue();
     super.initState();
   }
   void setAllBoxValue(List score){
     for(int i = 0 ; i < score.length ; i++){
-      setState(() {
-        if(i == 0){
-          wSetF.text = score[i]['winner'];
-          lSetF.text = score[i]['loser'];
-          locator<ReportsProvider>().firstValueCheck(wSetF.text.toString(),lSetF.text.toString());
+      if(i == 0){
+        wSetF.text = score[i]['winner'];
+        lSetF.text = score[i]['loser'];
+        locator<ReportsProvider>().firstValueCheck(wSetF.text.toString(),lSetF.text.toString());
+        if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
+          wTBSetF.text = score[i]['tie_winner'];
+          lTBSetF.text = score[i]['tie_loser'];
 
-          if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
-            wTBSetF.text = score[i]['tie_winner'];
-            lTBSetF.text = score[i]['tie_loser'];
+          locator<ReportsProvider>().firstTieBreakValueCheck(wTBSetF.text.toString(),lTBSetF.text.toString());
+        }
+      }else if (i == 1){
+        wSetS.text = score[i]['winner'];
+        lSetS.text = score[i]['loser'];
+        locator<ReportsProvider>().secondValueCheck(wSetS.text.toString(),lSetS.text.toString());
 
-            locator<ReportsProvider>().firstTieBreakValueCheck(wTBSetF.text.toString(),lTBSetF.text.toString());
-          }
-        }else if (i == 1){
-          wSetS.text = score[i]['winner'];
-          lSetS.text = score[i]['loser'];
-          locator<ReportsProvider>().secondValueCheck(wSetS.text.toString(),lSetS.text.toString());
+        if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
 
-          if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
+          wTBSetS.text = score[i]['tie_winner'];
+          lTBSetS.text = score[i]['tie_loser'];
 
-            wTBSetS.text = score[i]['tie_winner'];
-            lTBSetS.text = score[i]['tie_loser'];
+          locator<ReportsProvider>().secondTieBreakValueCheck(wTBSetS.text.toString(),lTBSetS.text.toString());
+        }
+      }else if (i == 2){
+        if(widget.sets == "2"){
+          superTieBWSet.text = score[i]['winner'];
+          superTieBLSet.text = score[i]['loser'];
+          locator<ReportsProvider>().superTieBreakerValueCheck(superTieBWSet.text.toString(),superTieBLSet.text.toString());
+        }else {
+          wSetT.text = score[i]['winner'];
+          lSetT.text = score[i]['loser'];
 
-            locator<ReportsProvider>().secondTieBreakValueCheck(wTBSetS.text.toString(),lTBSetS.text.toString());
-          }
-        }else if (i == 2){
-          if(widget.sets == "2"){
-            superTieBWSet.text = score[i]['winner'];
-            superTieBLSet.text = score[i]['loser'];
-
-            locator<ReportsProvider>().superTieBreakerValueCheck(superTieBWSet.text.toString(),superTieBLSet.text.toString());
-          }else {
-            wSetT.text = score[i]['winner'];
-            lSetT.text = score[i]['loser'];
-
-            locator<ReportsProvider>().thirdValueCheck( wSetT.text.toString(),lSetT.text.toString());
-
-            if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
-
-              wTBSetT.text = score[i]['tie_winner'];
-              lTBSetT.text = score[i]['tie_loser'];
-
-              locator<ReportsProvider>().thirdTieBreakValueCheck(wTBSetT.text.toString(),lTBSetT.text.toString());
-            }
-          }
-        }else if (i == 3){
-          wSetFourth.text = score[i]['winner'];
-          lSetFourth.text = score[i]['loser'];
-
-          locator<ReportsProvider>().furthValueCheck(wSetFourth.text.toString(),lSetFourth.text.toString());
+          locator<ReportsProvider>().thirdValueCheck( wSetT.text.toString(),lSetT.text.toString());
 
           if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
 
-            wTBSetFourth.text = score[i]['tie_winner'];
-            lTBSetFourth.text = score[i]['tie_loser'];
+            wTBSetT.text = score[i]['tie_winner'];
+            lTBSetT.text = score[i]['tie_loser'];
 
-            locator<ReportsProvider>().furthTieBreakValueCheck(wTBSetFourth.text.toString(),lTBSetFourth.text.toString());
-          }
-        }else if (i == 4){
-          if(widget.sets == "4"){
-            secSuperTieBWSet.text = score[i]['winner'];
-            secSuperTieBLSet.text = score[i]['loser'];
-
-            locator<ReportsProvider>().superTieBreakerValueCheck(secSuperTieBWSet.text.toString(),secSuperTieBLSet.text.toString());
-
-          }else {
-            wSetFive.text = score[i]['winner'];
-            lSetFive.text = score[i]['loser'];
-
-            locator<ReportsProvider>().fiveValueCheck(wSetFive.text.toString(),lSetFive.text.toString());
-
-            if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
-
-              wTBSetFive.text = score[i]['tie_winner'];
-              lTBSetFive.text = score[i]['tie_loser'];
-
-              locator<ReportsProvider>().fiveTieBreakValueCheck(wTBSetFive.text.toString(),lTBSetFive.text.toString());
-            }
+            locator<ReportsProvider>().thirdTieBreakValueCheck(wTBSetT.text.toString(),lTBSetT.text.toString());
           }
         }
-      });
+      }else if (i == 3){
+        wSetFourth.text = score[i]['winner'];
+        lSetFourth.text = score[i]['loser'];
+
+        locator<ReportsProvider>().furthValueCheck(wSetFourth.text.toString(),lSetFourth.text.toString());
+
+        if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
+
+          wTBSetFourth.text = score[i]['tie_winner'];
+          lTBSetFourth.text = score[i]['tie_loser'];
+
+          locator<ReportsProvider>().furthTieBreakValueCheck(wTBSetFourth.text.toString(),lTBSetFourth.text.toString());
+        }
+      }else if (i == 4){
+        if(widget.sets == "4"){
+          secSuperTieBWSet.text = score[i]['winner'];
+          secSuperTieBLSet.text = score[i]['loser'];
+
+          locator<ReportsProvider>().superTieBreakerValueCheck(secSuperTieBWSet.text.toString(),secSuperTieBLSet.text.toString());
+
+        }else {
+          wSetFive.text = score[i]['winner'];
+          lSetFive.text = score[i]['loser'];
+
+          locator<ReportsProvider>().fiveValueCheck(wSetFive.text.toString(),lSetFive.text.toString());
+
+          if(score[i]['tie_winner'] != "" && score[i]['tie_loser'] != ""){
+
+            wTBSetFive.text = score[i]['tie_winner'];
+            lTBSetFive.text = score[i]['tie_loser'];
+
+            locator<ReportsProvider>().fiveTieBreakValueCheck(wTBSetFive.text.toString(),lTBSetFive.text.toString());
+          }
+        }
+      }
     }
   }
   void resetAllValueUpdate(String value){
@@ -2020,6 +2018,8 @@ class _UpdateScoreState extends State<UpdateScore> {
                                     provider.winnerTotalCount == provider.loserTotalCount
                                     || provider.winnerTotalCount == 1 && provider.loserTotalCount == 2
                                         || provider.winnerTotalCount == 2 && provider.loserTotalCount == 1
+                                        || provider.winnerTotalCount == 0 && provider.loserTotalCount == 1
+                                        || provider.winnerTotalCount == 1 && provider.loserTotalCount == 0
                                         ?
                                     Padding(
                                       padding: const EdgeInsets.only(top: 10.0),

@@ -81,8 +81,9 @@ class _EditLeagueState extends State<EditLeague> {
                     children: [
                       Container(
                         width: width,
-                        height: 50,
+                        height: 55,
                         margin: const EdgeInsets.only(top: 10.0),
+                        padding: const EdgeInsets.all(2.0),
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: MyAppTheme.MainColor,
@@ -123,7 +124,7 @@ class _EditLeagueState extends State<EditLeague> {
                       ),
                       Container(
                           width: width,
-                          height: 50,
+                          height: 55,
                           margin: const EdgeInsets.only(top: 10.0),
                           alignment: Alignment.centerLeft,
                           padding: const EdgeInsets.only(left: 5.0,right: 5.0),
@@ -165,6 +166,7 @@ class _EditLeagueState extends State<EditLeague> {
                         width: width,
                         height: maxLines * 25.0,
                         margin: const EdgeInsets.only(top: 10.0),
+                        padding: const EdgeInsets.all(2.0),
                         decoration: BoxDecoration(
                             border: Border.all(
                               color: MyAppTheme.MainColor,

@@ -102,7 +102,7 @@ ScoreEditRequestBottomDilog(BuildContext buildContext,String challengeUuid,Strin
                           color: MyAppTheme.DesBlackColor,
                           fontFamily: Fonts.nunito,
                         ),
-                        contentPadding: EdgeInsets.only(left: 10.0),),
+                        contentPadding: EdgeInsets.only(left: 5.0,right: 5.0),),
                     ),
                   ),
                   InkWell(

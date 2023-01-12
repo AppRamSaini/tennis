@@ -16,7 +16,6 @@ import 'package:tennis/locators.dart';
 import 'package:tennis/providers/home_provider.dart';
 import 'package:tennis/repository/home.dart';
 import 'package:tennis/screens/home/all_matches.dart';
-import 'package:tennis/screens/home/join_academy.dart';
 import 'package:tennis/screens/home/my_leagues.dart';
 import 'package:tennis/screens/home/my_challenges.dart';
 import 'package:tennis/screens/home/my_result.dart';
@@ -47,7 +46,7 @@ class _HomeState extends State<Home> {
     _controller = PageController(initialPage: 0);
     getHomeBannerData(context);
     locator<HomeProvider>().getHomeData(context);
-    locator<HomeProvider>().scorePendingReportsCount(context);
+   // locator<HomeProvider>().scorePendingReportsCount(context);
     locator<HomeProvider>().pendingCounts(context);
     WidgetsBinding.instance.addPostFrameCallback((_) => _animateSlider());
     super.initState();
@@ -112,7 +111,7 @@ class _HomeState extends State<Home> {
   Future<Null> refreshList() async {
     getHomeBannerData(context);
     locator<HomeProvider>().getHomeData(context);
-    locator<HomeProvider>().scorePendingReportsCount(context);
+   // locator<HomeProvider>().scorePendingReportsCount(context);
     locator<HomeProvider>().pendingCounts(context);
     return null;
   }
@@ -212,7 +211,7 @@ class _HomeState extends State<Home> {
                               context,
                               MaterialPageRoute(builder: (context) => MyLeagues()),
                             ).then((value) => {
-                              provider.scorePendingReportsCount(context),
+                              provider.getHomeData(context),
                               provider.pendingCounts(context)
                             });
                           },
@@ -330,7 +329,7 @@ class _HomeState extends State<Home> {
                               MaterialPageRoute(
                                   builder: (context) => MyChallenges()),
                             ).then((value) => {
-                              provider.scorePendingReportsCount(context),
+                              provider.getHomeData(context),
                               provider.pendingCounts(context)
                             });
                           },
@@ -720,7 +719,7 @@ class _HomeState extends State<Home> {
         )
         ,
       ),
-      drawer: const DrawerBar(),
+      drawer: DrawerBar(buildContext: context,),
     );
   }
 

@@ -62,34 +62,26 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
             Container(
               width: width,
               height: height,
-              padding: const EdgeInsets.only(left: 15.0, right: 15.0),
+              padding: const EdgeInsets.all(10),
               child: ListView.builder(
                   physics: const AlwaysScrollableScrollPhysics(),
                   primary: false,
                   shrinkWrap: true,
                   itemCount: allMResultlist.length,
                   itemBuilder: (BuildContext context, int index) {
-                    return Container(
-                      padding: const EdgeInsets.all(10),
-                      margin: const EdgeInsets.only(top: 10.0),
-                      decoration: const BoxDecoration(
-                          boxShadow: [
-                            BoxShadow(
-                              color: MyAppTheme.listBorderColor, //New
-                              blurRadius: 5.0,
-                            )
-                          ],
-                          color: MyAppTheme.whiteColor,
-                          borderRadius: BorderRadius.all(Radius.circular(5))
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding:
-                            const EdgeInsets.only(top: 0.0),
-                            child: Row(
+                    return Card(
+                      elevation: 2,
+                      child: Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: const BoxDecoration(
+                            color: MyAppTheme.whiteColor,
+                            borderRadius: BorderRadius.all(Radius.circular(5))
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.start,
                               children:  [
@@ -105,7 +97,7 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
                                     ),
                                   ),
                                 ),
-                                 Padding(
+                                Padding(
                                   padding: const EdgeInsets.only(left: 20.0),
                                   child: Text(
                                     Helpers.DateFormatString(DateTime.parse('${allMResultlist[index]['score']['created_at']}')).toUpperCase(),
@@ -119,212 +111,213 @@ class _LeagueWishResultState extends State<LeagueWishResult> {
                                 )
                               ],
                             ),
-                          ),
-                          Padding(
-                            padding:
-                            const EdgeInsets.only(top: 5.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children:  [
-                                Container(
-                                  width : 100,
-                                  child: const Text(
-                                    'Opponent : ',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      color: MyAppTheme.DesBlackColor,
-                                      fontFamily: Fonts.nunito,
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(top: 5.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children:  [
+                                  Container(
+                                    width : 100,
+                                    child: const Text(
+                                      'Opponent : ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14,
+                                        color: MyAppTheme.DesBlackColor,
+                                        fontFamily: Fonts.nunito,
+                                      ),
                                     ),
                                   ),
-                                ),
-                                 Padding(
-                                  padding: const EdgeInsets.only(left: 20.0),
-                                  child: Text(
-                                    '${allMResultlist[index]['score']['loser']['name']}',
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 20.0),
+                                    child: Text(
+                                      '${allMResultlist[index]['score']['loser']['name']}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w600,
+                                        fontSize: 14,
+                                        color: MyAppTheme.TitleBlackColor,
+                                        fontFamily: Fonts.nunito,
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding:
+                              const EdgeInsets.only(top: 5.0),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children:  [
+                                  Container(
+                                    width : 100,
+                                    child: const Text(
+                                      'Winner : ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14,
+                                        color: MyAppTheme.DesBlackColor,
+                                        fontFamily: Fonts.nunito,
+                                      ),
+                                    ),
+                                  ),
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      SvgPicture.asset(
+                                        'assets/icons/winner_icon.svg',
+                                        allowDrawingOutsideViewBox: true,
+                                        height: 15,
+                                        width: 15,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 5.0),
+                                        child: Text(
+                                          '${allMResultlist[index]['score']['winner']['name']}',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w600,
+                                            fontSize: 14,
+                                            color: MyAppTheme.TitleBlackColor,
+                                            fontFamily: Fonts.nunito,
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  )
+
+                                ],
+                              ),
+                            ),
+                            Container(
+                              padding: const EdgeInsets.only(top: 5.0),
+                              width: width,
+                              height: allMResultlist[index]['score']['score'].length == 0 || allMResultlist[index]['score']['score'].length == 1 || allMResultlist[index]['score']['score'].length == 2 || allMResultlist[index]['score']['score'].length == 3 ? lineFHeight : lineSHeight,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children:  [
+                                  Container(
+                                    width : 100,
+                                    child: const Text(
+                                      'Result : ',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 14,
+                                        color: MyAppTheme.DesBlackColor,
+                                        fontFamily: Fonts.nunito,
+                                      ),
+                                    ),
+                                  ),
+                                  allMResultlist[index]['score']['score'].length == 0 ? Text(
+                                    Helpers.showMatchStatus('${allMResultlist[index]['score']['status']}'),
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 14,
                                       color: MyAppTheme.TitleBlackColor,
                                       fontFamily: Fonts.nunito,
                                     ),
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          Padding(
-                            padding:
-                            const EdgeInsets.only(top: 5.0),
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children:  [
-                                Container(
-                                  width : 100,
-                                  child: const Text(
-                                    'Winner : ',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      color: MyAppTheme.DesBlackColor,
-                                      fontFamily: Fonts.nunito,
+                                  ):
+                                  Expanded(child: GridView.builder(
+                                    gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 3,
+                                      childAspectRatio: (itemWidth / itemHeight),
                                     ),
-                                  ),
-                                ),
-                                Row(
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    SvgPicture.asset(
-                                      'assets/icons/winner_icon.svg',
-                                      allowDrawingOutsideViewBox: true,
-                                      height: 15,
-                                      width: 15,
-                                    ),
-                                     Padding(
-                                      padding: const EdgeInsets.only(left: 5.0),
-                                      child: Text(
-                                        '${allMResultlist[index]['score']['winner']['name']}',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w600,
-                                          fontSize: 14,
-                                          color: MyAppTheme.TitleBlackColor,
-                                          fontFamily: Fonts.nunito,
+                                    itemCount: allMResultlist[index]['score']['score'].length,
+                                    itemBuilder: (BuildContext context, int index1) {
+                                      return Container(
+                                        margin: const EdgeInsets.all(5),
+                                        decoration:  BoxDecoration(
+                                            color: MyAppTheme.AcceptLightColor,
+                                            border: Border.all(
+                                                color: MyAppTheme.AcceptDarkColor,
+                                                width : 1
+                                            ),
+                                            borderRadius: const BorderRadius.all(
+                                                Radius.circular(5))),
+                                        child:  Center(
+                                            child: Row(
+                                              crossAxisAlignment: CrossAxisAlignment.center,
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                RichText(
+                                                  text: TextSpan(children: [
+                                                    TextSpan(
+                                                        text: '${allMResultlist[index]['score']['score'][index1]['winner']}',
+                                                        style: const TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 12,
+                                                          color: MyAppTheme.TitleBlackColor,
+                                                          fontFamily: Fonts.nunito,
+                                                        )),
+                                                    WidgetSpan(
+                                                      child: Transform.translate(
+                                                        offset: const Offset(2, -6),
+                                                        child:  Text(
+                                                          '${allMResultlist[index]['score']['score'][index1]['tie_winner']}',
+                                                          //superscript is usually smaller in size
+                                                          textScaleFactor: 0.7,
+                                                          style: const TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 12,
+                                                            color: MyAppTheme.TitleBlackColor,
+                                                            fontFamily: Fonts.nunito,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ]),
+                                                ),
+                                                const Text(" - ",style: TextStyle( color: MyAppTheme.DesBlackColor,),),
+                                                RichText(
+                                                  text: TextSpan(children: [
+                                                    TextSpan(
+                                                        text: '${allMResultlist[index]['score']['score'][index1]['loser']}',
+                                                        style: const TextStyle(
+                                                          fontWeight: FontWeight.w600,
+                                                          fontSize: 12,
+                                                          color: MyAppTheme.TitleBlackColor,
+                                                          fontFamily: Fonts.nunito,
+                                                        )),
+                                                    WidgetSpan(
+                                                      child: Transform.translate(
+                                                        offset: const Offset(2, -6),
+                                                        child:  Text(
+                                                          '${allMResultlist[index]['score']['score'][index1]['tie_loser']}',
+                                                          //superscript is usually smaller in size
+                                                          textScaleFactor: 0.7,
+                                                          style: const TextStyle(
+                                                            fontWeight: FontWeight.w600,
+                                                            fontSize: 12,
+                                                            color: MyAppTheme.TitleBlackColor,
+                                                            fontFamily: Fonts.nunito,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    )
+                                                  ]),
+                                                ),
+                                              ],
+                                            )
+
                                         ),
-                                      ),
-                                    )
-                                  ],
-                                )
+                                      )
+                                      ;
+                                    },
+                                  )
+                                  ),
 
-                              ],
+                                ],
+                              ),
                             ),
-                          ),
-                          Container(
-                            padding: const EdgeInsets.only(top: 5.0),
-                            width: width,
-                            height: allMResultlist[index]['score']['score'].length == 0 || allMResultlist[index]['score']['score'].length == 1 || allMResultlist[index]['score']['score'].length == 2 || allMResultlist[index]['score']['score'].length == 3 ? lineFHeight : lineSHeight,
-                            child: Row(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children:  [
-                                Container(
-                                  width : 100,
-                                  child: const Text(
-                                    'Result : ',
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.w400,
-                                      fontSize: 14,
-                                      color: MyAppTheme.DesBlackColor,
-                                      fontFamily: Fonts.nunito,
-                                    ),
-                                  ),
-                                ),
-                                allMResultlist[index]['score']['score'].length == 0 ? Text(
-                                  Helpers.showMatchStatus('${allMResultlist[index]['score']['status']}'),
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.w600,
-                                    fontSize: 14,
-                                    color: MyAppTheme.TitleBlackColor,
-                                    fontFamily: Fonts.nunito,
-                                  ),
-                                ):
-                                Expanded(child: GridView.builder(
-                                  gridDelegate:  SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 3,
-                                    childAspectRatio: (itemWidth / itemHeight),
-                                  ),
-                                  itemCount: allMResultlist[index]['score']['score'].length,
-                                  itemBuilder: (BuildContext context, int index1) {
-                                    return Container(
-                                      margin: const EdgeInsets.all(5),
-                                      decoration:  BoxDecoration(
-                                          color: MyAppTheme.AcceptLightColor,
-                                          border: Border.all(
-                                              color: MyAppTheme.AcceptDarkColor,
-                                              width : 1
-                                          ),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(5))),
-                                      child:  Center(
-                                          child: Row(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              RichText(
-                                                text: TextSpan(children: [
-                                                  TextSpan(
-                                                      text: '${allMResultlist[index]['score']['score'][index1]['winner']}',
-                                                      style: const TextStyle(
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: 12,
-                                                        color: MyAppTheme.TitleBlackColor,
-                                                        fontFamily: Fonts.nunito,
-                                                      )),
-                                                  WidgetSpan(
-                                                    child: Transform.translate(
-                                                      offset: const Offset(2, -6),
-                                                      child:  Text(
-                                                        '${allMResultlist[index]['score']['score'][index1]['tie_winner']}',
-                                                        //superscript is usually smaller in size
-                                                        textScaleFactor: 0.7,
-                                                        style: const TextStyle(
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 12,
-                                                          color: MyAppTheme.TitleBlackColor,
-                                                          fontFamily: Fonts.nunito,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ]),
-                                              ),
-                                              const Text(" - ",style: TextStyle( color: MyAppTheme.DesBlackColor,),),
-                                              RichText(
-                                                text: TextSpan(children: [
-                                                  TextSpan(
-                                                      text: '${allMResultlist[index]['score']['score'][index1]['loser']}',
-                                                      style: const TextStyle(
-                                                        fontWeight: FontWeight.w600,
-                                                        fontSize: 12,
-                                                        color: MyAppTheme.TitleBlackColor,
-                                                        fontFamily: Fonts.nunito,
-                                                      )),
-                                                  WidgetSpan(
-                                                    child: Transform.translate(
-                                                      offset: const Offset(2, -6),
-                                                      child:  Text(
-                                                        '${allMResultlist[index]['score']['score'][index1]['tie_loser']}',
-                                                        //superscript is usually smaller in size
-                                                        textScaleFactor: 0.7,
-                                                        style: const TextStyle(
-                                                          fontWeight: FontWeight.w600,
-                                                          fontSize: 12,
-                                                          color: MyAppTheme.TitleBlackColor,
-                                                          fontFamily: Fonts.nunito,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                ]),
-                                              ),
-                                            ],
-                                          )
-
-                                      ),
-                                    )
-                                    ;
-                                  },
-                                )
-                                ),
-
-                              ],
-                            ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    );
+                    )
+                      ;
                   }),
             ) : Container(
               width: width,

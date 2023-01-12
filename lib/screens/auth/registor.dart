@@ -52,7 +52,7 @@ class _RegistorState extends State<Registor> {
   @override
   void initState() {
     // TODO: implement initState
-    calender.text = "dd-MMMM-yyyy";
+    calender.text = "DD-MMMM-YYYY";
     super.initState();
   }
   @override

@@ -352,7 +352,7 @@ class _SettingState extends State<Setting> {
           )
 
       ),
-      drawer: const DrawerBar(),
+      drawer: DrawerBar(buildContext: context,),
     );
   }
   AppBar buildAppBar(BuildContext context) {

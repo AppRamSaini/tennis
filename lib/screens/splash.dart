@@ -42,6 +42,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin{
       SharedPreferences prefs = await SharedPreferences.getInstance();
       String userToken = prefs.getString('user_token') ?? '';
       String userExist = prefs.getString('user_exist') ?? '';
+      String userRole = prefs.getString('user_type') ?? '';
       print("user_token $userToken");
       SharedPreferences prefs1 = await SharedPreferences.getInstance();
       bool seen = prefs1.getBool('seen') ?? false;

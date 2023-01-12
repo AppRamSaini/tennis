@@ -316,7 +316,7 @@ class _UpcomingState extends State<Upcoming> {
               })*/
 
       ),
-      drawer: const DrawerBar(),
+      drawer: DrawerBar(buildContext: context,),
     );
   }
   AppBar buildAppBar(BuildContext context) {

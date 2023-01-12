@@ -61,231 +61,227 @@ class _MyChallengesState extends State<MyChallenges> {
                           width: width,
                           height: height,
                           padding:
-                              const EdgeInsets.only(left: 15.0, right: 15.0),
+                              const EdgeInsets.all(10),
                           child: ListView.builder(
                               physics: const AlwaysScrollableScrollPhysics(),
                               primary: false,
                               shrinkWrap: true,
                               itemCount: playerlist.length,
                               itemBuilder: (BuildContext context, int index) {
-                                return Container(
-                                  padding: const EdgeInsets.all(10),
-                                  margin: const EdgeInsets.only(top: 10.0),
-                                  decoration: const BoxDecoration(
-                                      boxShadow: [
-                                        BoxShadow(
-                                          color: MyAppTheme.listBorderColor, //New
-                                          blurRadius: 5.0,
-                                        )
-                                      ],
-                                      color: MyAppTheme.whiteColor,
-                                      borderRadius: BorderRadius.all(Radius.circular(5))
-                                  ),
-                                  child: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '${playerlist[index]['league']['name']}',
-                                        style: const TextStyle(
-                                          fontWeight: FontWeight.w700,
-                                          fontSize: 16,
-                                          color: MyAppTheme.TitleBlackColor,
-                                          fontFamily: Fonts.nunito,
+                                return Card(
+                                  elevation: 2,
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    margin: const EdgeInsets.only(top: 10.0),
+                                    decoration: const BoxDecoration(
+                                        color: MyAppTheme.whiteColor,
+                                        borderRadius: BorderRadius.all(Radius.circular(5))
+                                    ),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment.start,
+                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          '${playerlist[index]['league']['name']}',
+                                          style: const TextStyle(
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 16,
+                                            color: MyAppTheme.TitleBlackColor,
+                                            fontFamily: Fonts.nunito,
+                                          ),
                                         ),
-                                      ),
-                                      Padding(
-                                        padding:
-                                            const EdgeInsets.only(top: 5.0),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              width: 100,
-                                              child: const Text(
-                                                'Opponent : ',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 14,
-                                                  color:
-                                                      MyAppTheme.DesBlackColor,
-                                                  fontFamily: Fonts.nunito,
-                                                ),
-                                              ),
-                                            ),
-                                            Text(
-                                              '${playerlist[index]['opponent']['name']}',
-                                              style: const TextStyle(
-                                                fontWeight: FontWeight.w600,
-                                                fontSize: 14,
-                                                color:
-                                                    MyAppTheme.TitleBlackColor,
-                                                fontFamily: Fonts.nunito,
-                                              ),
-                                            )
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            top: 10.0, bottom: 10.0),
-                                        child: Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Container(
-                                              width: 100,
-                                              child: const Text(
-                                                'Status : ',
-                                                style: TextStyle(
-                                                  fontWeight: FontWeight.w400,
-                                                  fontSize: 14,
-                                                  color:
-                                                      MyAppTheme.DesBlackColor,
-                                                  fontFamily: Fonts.nunito,
-                                                ),
-                                              ),
-                                            ),
-                                            playerlist[index]
-                                                        ['challenge_status'] ==
-                                                    "pending"
-                                                ? Container(
-                                                    height: 30,
-                                                    width: 100,
-                                                    decoration: BoxDecoration(
-                                                        color: MyAppTheme
-                                                            .PendingLightColor,
-                                                        border: Border.all(
-                                                            color: MyAppTheme
-                                                                .PendingDarkColor,
-                                                            width: 1),
-                                                        borderRadius:
-                                                            const BorderRadius
-                                                                    .all(
-                                                                Radius.circular(
-                                                                    5))),
-                                                    child: const Center(
-                                                      child: Text(
-                                                        'Pending',
-                                                        style: TextStyle(
-                                                          fontWeight:
-                                                              FontWeight.w600,
-                                                          fontSize: 12,
-                                                          color: MyAppTheme
-                                                              .TitleBlackColor,
-                                                          fontFamily:
-                                                              Fonts.nunito,
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  )
-                                                : playerlist[index]['challenge_status'] == "accepted"
-                                                    ? Container(
-                                                        height: 30,
-                                                        width: 100,
-                                                        decoration: BoxDecoration(
-                                                            color: MyAppTheme
-                                                                .AcceptLightColor,
-                                                            border: Border.all(
-                                                                color: MyAppTheme
-                                                                    .AcceptDarkColor,
-                                                                width: 1),
-                                                            borderRadius:
-                                                                const BorderRadius
-                                                                        .all(
-                                                                    Radius
-                                                                        .circular(
-                                                                            5))),
-                                                        child: const Center(
-                                                          child: Text(
-                                                            'Accepted',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 12,
-                                                              color: MyAppTheme
-                                                                  .TitleBlackColor,
-                                                              fontFamily:
-                                                                  Fonts.nunito,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ) : playerlist[index]['challenge_status'] == "done"
-                                                ? Container(
-                                              height: 30,
-                                              width: 100,
-                                              decoration: BoxDecoration(
-                                                  color: MyAppTheme
-                                                      .DeniedLightColor,
-                                                  border: Border.all(
-                                                      color: MyAppTheme
-                                                          .DeniedDarkColor,
-                                                      width: 1),
-                                                  borderRadius:
-                                                  const BorderRadius
-                                                      .all(
-                                                      Radius
-                                                          .circular(
-                                                          5))),
-                                              child: const Center(
-                                                child: Text(
-                                                  'Done',
+                                        Padding(
+                                          padding:
+                                          const EdgeInsets.only(top: 5.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: 100,
+                                                child: const Text(
+                                                  'Opponent : ',
                                                   style: TextStyle(
-                                                    fontWeight:
-                                                    FontWeight
-                                                        .w600,
-                                                    fontSize: 12,
-                                                    color: MyAppTheme
-                                                        .TitleBlackColor,
-                                                    fontFamily:
-                                                    Fonts.nunito,
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 14,
+                                                    color:
+                                                    MyAppTheme.DesBlackColor,
+                                                    fontFamily: Fonts.nunito,
                                                   ),
                                                 ),
                                               ),
-                                            )
-                                                    : Container(
-                                                        height: 30,
-                                                        width: 100,
-                                                        decoration: BoxDecoration(
-                                                            color: MyAppTheme
-                                                                .DeniedLightColor,
-                                                            border: Border.all(
-                                                                color: MyAppTheme
-                                                                    .DeniedDarkColor,
-                                                                width: 1),
-                                                            borderRadius:
-                                                                const BorderRadius
-                                                                        .all(
-                                                                    Radius
-                                                                        .circular(
-                                                                            5))),
-                                                        child: const Center(
-                                                          child: Text(
-                                                            'Denied',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w600,
-                                                              fontSize: 12,
-                                                              color: MyAppTheme
-                                                                  .TitleBlackColor,
-                                                              fontFamily:
-                                                                  Fonts.nunito,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      )
-                                          ],
+                                              Text(
+                                                '${playerlist[index]['opponent']['name']}',
+                                                style: const TextStyle(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 14,
+                                                  color:
+                                                  MyAppTheme.TitleBlackColor,
+                                                  fontFamily: Fonts.nunito,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
-                                      ),
-                                      /*   Padding(
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                              top: 10.0, bottom: 10.0),
+                                          child: Row(
+                                            crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                            mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                            children: [
+                                              Container(
+                                                width: 100,
+                                                child: const Text(
+                                                  'Status : ',
+                                                  style: TextStyle(
+                                                    fontWeight: FontWeight.w400,
+                                                    fontSize: 14,
+                                                    color:
+                                                    MyAppTheme.DesBlackColor,
+                                                    fontFamily: Fonts.nunito,
+                                                  ),
+                                                ),
+                                              ),
+                                              playerlist[index]
+                                              ['challenge_status'] ==
+                                                  "pending"
+                                                  ? Container(
+                                                height: 30,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: MyAppTheme
+                                                        .PendingLightColor,
+                                                    border: Border.all(
+                                                        color: MyAppTheme
+                                                            .PendingDarkColor,
+                                                        width: 1),
+                                                    borderRadius:
+                                                    const BorderRadius
+                                                        .all(
+                                                        Radius.circular(
+                                                            5))),
+                                                child: const Center(
+                                                  child: Text(
+                                                    'Pending',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight.w600,
+                                                      fontSize: 12,
+                                                      color: MyAppTheme
+                                                          .TitleBlackColor,
+                                                      fontFamily:
+                                                      Fonts.nunito,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                                  : playerlist[index]['challenge_status'] == "accepted"
+                                                  ? Container(
+                                                height: 30,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: MyAppTheme
+                                                        .AcceptLightColor,
+                                                    border: Border.all(
+                                                        color: MyAppTheme
+                                                            .AcceptDarkColor,
+                                                        width: 1),
+                                                    borderRadius:
+                                                    const BorderRadius
+                                                        .all(
+                                                        Radius
+                                                            .circular(
+                                                            5))),
+                                                child: const Center(
+                                                  child: Text(
+                                                    'Accepted',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w600,
+                                                      fontSize: 12,
+                                                      color: MyAppTheme
+                                                          .TitleBlackColor,
+                                                      fontFamily:
+                                                      Fonts.nunito,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ) : playerlist[index]['challenge_status'] == "done"
+                                                  ? Container(
+                                                height: 30,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: MyAppTheme
+                                                        .DeniedLightColor,
+                                                    border: Border.all(
+                                                        color: MyAppTheme
+                                                            .DeniedDarkColor,
+                                                        width: 1),
+                                                    borderRadius:
+                                                    const BorderRadius
+                                                        .all(
+                                                        Radius
+                                                            .circular(
+                                                            5))),
+                                                child: const Center(
+                                                  child: Text(
+                                                    'Done',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w600,
+                                                      fontSize: 12,
+                                                      color: MyAppTheme
+                                                          .TitleBlackColor,
+                                                      fontFamily:
+                                                      Fonts.nunito,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                                  : Container(
+                                                height: 30,
+                                                width: 100,
+                                                decoration: BoxDecoration(
+                                                    color: MyAppTheme
+                                                        .DeniedLightColor,
+                                                    border: Border.all(
+                                                        color: MyAppTheme
+                                                            .DeniedDarkColor,
+                                                        width: 1),
+                                                    borderRadius:
+                                                    const BorderRadius
+                                                        .all(
+                                                        Radius
+                                                            .circular(
+                                                            5))),
+                                                child: const Center(
+                                                  child: Text(
+                                                    'Denied',
+                                                    style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight
+                                                          .w600,
+                                                      fontSize: 12,
+                                                      color: MyAppTheme
+                                                          .TitleBlackColor,
+                                                      fontFamily:
+                                                      Fonts.nunito,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        ),
+                                        /*   Padding(
                             padding:
                             const EdgeInsets.only(top: 5.0),
                             child: Row(
@@ -350,164 +346,166 @@ class _MyChallengesState extends State<MyChallenges> {
                               ],
                             ),
                           ),*/
-                                      playerlist[index]['challenge_status'] == "pending" &&
-                                              playerlist[index]['sender'] ==
-                                                  true
-                                          ? InkWell(
-                                              onTap: () {
-                                                provider.myChallengeWithdraw(
-                                                    context,
-                                                    playerlist[index]['uuid']
-                                                        .toString());
-                                              },
-                                              child: Container(
-                                                height: 40,
-                                                decoration: const BoxDecoration(
-                                                    color: MyAppTheme
-                                                        .DeniedBgColor,
-                                                    borderRadius:
-                                                        BorderRadius.all(
-                                                            Radius.circular(
-                                                                5))),
-                                                child: const Center(
-                                                  child: Text(
-                                                    'Withdraw',
-                                                    style: TextStyle(
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      fontSize: 12,
+                                        playerlist[index]['challenge_status'] == "pending" &&
+                                            playerlist[index]['sender'] ==
+                                                true
+                                            ? InkWell(
+                                          onTap: () {
+                                            provider.myChallengeWithdraw(
+                                                context,
+                                                playerlist[index]['uuid']
+                                                    .toString());
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            decoration: const BoxDecoration(
+                                                color: MyAppTheme
+                                                    .DeniedBgColor,
+                                                borderRadius:
+                                                BorderRadius.all(
+                                                    Radius.circular(
+                                                        5))),
+                                            child: const Center(
+                                              child: Text(
+                                                'Withdraw',
+                                                style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight.w700,
+                                                  fontSize: 12,
+                                                  color: MyAppTheme
+                                                      .TitleBlackColor,
+                                                  fontFamily: Fonts.nunito,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                            : playerlist[index]['challenge_status'] == "pending" &&
+                                            playerlist[index]['sender'] ==
+                                                false
+                                            ? Row(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .spaceBetween,
+                                          children: [
+                                            Expanded(
+                                              child: InkWell(
+                                                onTap: () {
+                                                  MyChallengeRequestBottomDilog(context,'${playerlist[index]['league']['name']}','${playerlist[index]['uuid']}','accept');
+                                                },
+                                                child: Container(
+                                                  height: 40,
+                                                  margin:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      right: 5.0),
+                                                  decoration: const BoxDecoration(
                                                       color: MyAppTheme
-                                                          .TitleBlackColor,
-                                                      fontFamily: Fonts.nunito,
+                                                          .AcceptBgColor,
+                                                      borderRadius: BorderRadius
+                                                          .all(Radius
+                                                          .circular(
+                                                          5))),
+                                                  child: const Center(
+                                                    child: Text(
+                                                      'Accept',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w700,
+                                                        fontSize: 12,
+                                                        color: MyAppTheme
+                                                            .whiteColor,
+                                                        fontFamily:
+                                                        Fonts
+                                                            .nunito,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: InkWell(
+                                                onTap: () {
+                                                  MyChallengeRequestBottomDilog(context,'${playerlist[index]['league']['name']}','${playerlist[index]['uuid']}','reject');
+                                                },
+                                                child: Container(
+                                                  height: 40,
+                                                  margin:
+                                                  const EdgeInsets
+                                                      .only(
+                                                      left: 5.0),
+                                                  decoration: const BoxDecoration(
+                                                      color: MyAppTheme
+                                                          .DeniedBgColor,
+                                                      borderRadius: BorderRadius
+                                                          .all(Radius
+                                                          .circular(
+                                                          5))),
+                                                  child: const Center(
+                                                    child: Text(
+                                                      'Deny',
+                                                      style: TextStyle(
+                                                        fontWeight:
+                                                        FontWeight
+                                                            .w700,
+                                                        fontSize: 12,
+                                                        color: MyAppTheme
+                                                            .TitleBlackColor,
+                                                        fontFamily:
+                                                        Fonts
+                                                            .nunito,
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
                                               ),
                                             )
-                                          : playerlist[index]['challenge_status'] == "pending" &&
-                                                  playerlist[index]['sender'] ==
-                                                      false
-                                              ? Row(
-                                                  crossAxisAlignment:
-                                                      CrossAxisAlignment.center,
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Expanded(
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          MyChallengeRequestBottomDilog(context,'${playerlist[index]['league']['name']}','${playerlist[index]['uuid']}','accept');
-                                                        },
-                                                        child: Container(
-                                                          height: 40,
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  right: 5.0),
-                                                          decoration: const BoxDecoration(
-                                                              color: MyAppTheme
-                                                                  .AcceptBgColor,
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          5))),
-                                                          child: const Center(
-                                                            child: Text(
-                                                              'Accept',
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                fontSize: 12,
-                                                                color: MyAppTheme
-                                                                    .whiteColor,
-                                                                fontFamily:
-                                                                    Fonts
-                                                                        .nunito,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                    Expanded(
-                                                      child: InkWell(
-                                                        onTap: () {
-                                                          MyChallengeRequestBottomDilog(context,'${playerlist[index]['league']['name']}','${playerlist[index]['uuid']}','reject');
-                                                        },
-                                                        child: Container(
-                                                          height: 40,
-                                                          margin:
-                                                              const EdgeInsets
-                                                                      .only(
-                                                                  left: 5.0),
-                                                          decoration: const BoxDecoration(
-                                                              color: MyAppTheme
-                                                                  .DeniedBgColor,
-                                                              borderRadius: BorderRadius
-                                                                  .all(Radius
-                                                                      .circular(
-                                                                          5))),
-                                                          child: const Center(
-                                                            child: Text(
-                                                              'Deny',
-                                                              style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .w700,
-                                                                fontSize: 12,
-                                                                color: MyAppTheme
-                                                                    .TitleBlackColor,
-                                                                fontFamily:
-                                                                    Fonts
-                                                                        .nunito,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                                  ],
-                                                )
-                                              : playerlist[index]['challenge_status'] == "rejected"
-                                                  ? SizedBox()
-                                                  : playerlist[index]['challenge_status'] == "done"  ? SizedBox() :  InkWell(
-                                                      onTap: () {
-                                                      provider.addScoreWithData(context, playerlist[index]['uuid'].toString(), playerlist[index]['challenger']['name'].toString(), playerlist[index]['challenger']['uuid'].toString(), playerlist[index]['accepter']['name'].toString(),playerlist[index]['accepter']['uuid'].toString(),playerlist[index]['league']['sets']);
-                                                      },
-                                                      child: Container(
-                                                        height: 40,
-                                                        margin: const EdgeInsets
-                                                            .only(right: 5.0),
-                                                        decoration: const BoxDecoration(
-                                                            color: MyAppTheme
-                                                                .ScoreBgColor,
-                                                            borderRadius:
-                                                                BorderRadius
-                                                                    .all(Radius
-                                                                        .circular(
-                                                                            5))),
-                                                        child: const Center(
-                                                          child: Text(
-                                                            'Add Score',
-                                                            style: TextStyle(
-                                                              fontWeight:
-                                                                  FontWeight
-                                                                      .w700,
-                                                              fontSize: 12,
-                                                              color: MyAppTheme
-                                                                  .whiteColor,
-                                                              fontFamily:
-                                                                  Fonts.nunito,
-                                                            ),
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    )
-                                    ],
+                                          ],
+                                        )
+                                            : playerlist[index]['challenge_status'] == "rejected"
+                                            ? SizedBox()
+                                            : playerlist[index]['challenge_status'] == "done"  ? SizedBox() :  InkWell(
+                                          onTap: () {
+                                            provider.addScoreWithData(context, playerlist[index]['uuid'].toString(), playerlist[index]['challenger']['name'].toString(), playerlist[index]['challenger']['uuid'].toString(), playerlist[index]['accepter']['name'].toString(),playerlist[index]['accepter']['uuid'].toString(),playerlist[index]['league']['sets']);
+                                          },
+                                          child: Container(
+                                            height: 40,
+                                            margin: const EdgeInsets
+                                                .only(right: 5.0),
+                                            decoration: const BoxDecoration(
+                                                color: MyAppTheme
+                                                    .ScoreBgColor,
+                                                borderRadius:
+                                                BorderRadius
+                                                    .all(Radius
+                                                    .circular(
+                                                    5))),
+                                            child: const Center(
+                                              child: Text(
+                                                'Add Score',
+                                                style: TextStyle(
+                                                  fontWeight:
+                                                  FontWeight
+                                                      .w700,
+                                                  fontSize: 12,
+                                                  color: MyAppTheme
+                                                      .whiteColor,
+                                                  fontFamily:
+                                                  Fonts.nunito,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
                                   ),
-                                );
+                                )
+                                  ;
                               }),
                         )
                       : Container(

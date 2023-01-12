@@ -321,7 +321,7 @@ class _NewsState extends State<News>{
             );
           },
         ),
-        drawer: const DrawerBar(),
+        drawer: DrawerBar(buildContext: context,),
       ),
     );
 

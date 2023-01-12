@@ -1929,7 +1929,8 @@ class _AddScoreState extends State<AddScore> {
                                     provider.winnerTotalCount == provider.loserTotalCount
                                         || provider.winnerTotalCount == 1 && provider.loserTotalCount == 2
                                         || provider.winnerTotalCount == 2 && provider.loserTotalCount == 1
-
+                                        || provider.winnerTotalCount == 0 && provider.loserTotalCount == 1
+                                        || provider.winnerTotalCount == 1 && provider.loserTotalCount == 0
                                         ?
                                     Padding(
                                       padding: const EdgeInsets.only(top: 10.0),
